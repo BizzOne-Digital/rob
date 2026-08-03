@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "crypto";
-import path from "path";
-import { mkdir, writeFile, unlink } from "fs/promises";
 import mongoose from "mongoose";
 import { requireAdmin } from "@/lib/admin-auth";
 import { connectDB } from "@/lib/db";
 import { logActivity } from "@/lib/activity";
-import {
-  deleteFromCloudinary,
-  isCloudinaryConfigured,
-  uploadToCloudinary,
-} from "@/lib/cloudinary";
+import { deleteUploadFile, saveUploadFile } from "@/lib/uploads";
 import { MediaAsset } from "@/models/MediaAsset";
 
 export async function GET(request: NextRequest) {
@@ -59,55 +52,20 @@ export async function POST(request: NextRequest) {
 
   const alt = String(form.get("alt") ?? "");
   const caption = String(form.get("caption") ?? "");
-  const category = String(form.get("category") ?? "general");
-  const folder = String(form.get("folder") ?? "rw-designs-canada");
+  const category = String(form.get("category") ?? "general") || "general";
+  const folder = String(form.get("folder") ?? category) || "general";
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const originalName = file.name || "upload";
-  const ext = path.extname(originalName) || "";
-  const safeBase = originalName
-    .replace(ext, "")
-    .replace(/[^a-zA-Z0-9_-]/g, "")
-    .slice(0, 40);
-  const filename = `${safeBase || "file"}-${randomUUID()}${ext}`;
-
-  let url: string;
-  let publicId: string | undefined;
-  let width: number | undefined;
-  let height: number | undefined;
-  let bytes: number | undefined = buffer.length;
-  let format: string | undefined = ext.replace(".", "") || undefined;
-
-  if (isCloudinaryConfigured()) {
-    const uploaded = await uploadToCloudinary(buffer, {
-      folder,
-      filename: `${safeBase || "file"}-${randomUUID()}`,
-      resourceType: "auto",
-    });
-    url = uploaded.url;
-    publicId = uploaded.publicId;
-    width = uploaded.width;
-    height = uploaded.height;
-    bytes = uploaded.bytes;
-    format = uploaded.format;
-  } else {
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadsDir, { recursive: true });
-    const diskPath = path.join(uploadsDir, filename);
-    await writeFile(diskPath, buffer);
-    url = `/uploads/${filename}`;
-  }
+  const uploaded = await saveUploadFile(buffer, originalName, { folder });
 
   await connectDB();
   const item = await MediaAsset.create({
-    url,
-    publicId,
+    url: uploaded.url,
     filename: originalName,
-    format,
-    resourceType: "image",
-    bytes,
-    width,
-    height,
+    format: uploaded.format,
+    resourceType: file.type.startsWith("video/") ? "video" : "image",
+    bytes: uploaded.bytes,
     alt,
     caption,
     category,
@@ -140,16 +98,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (item.publicId) {
-    await deleteFromCloudinary(item.publicId);
-  } else if (item.url.startsWith("/uploads/")) {
-    const diskPath = path.join(process.cwd(), "public", item.url);
-    try {
-      await unlink(diskPath);
-    } catch {
-      // ignore missing local file
-    }
-  }
+  await deleteUploadFile(item.url);
 
   await logActivity({
     session,

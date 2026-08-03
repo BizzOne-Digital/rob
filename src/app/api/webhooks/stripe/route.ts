@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { connectDB } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
-import { sendOrderConfirmation } from "@/lib/email";
-import { formatCurrency } from "@/lib/utils";
+import { sendOrderConfirmation, notifyAdminNewOrder, toOrderEmailData } from "@/lib/email";
 import { Order } from "@/models/Order";
 import { Customer } from "@/models/Customer";
 import { Discount } from "@/models/Discount";
+import { Cart } from "@/models/Cart";
 
 export const runtime = "nodejs";
+
+const CART_COOKIE = "rw_cart_sid";
 
 export async function POST(request: NextRequest) {
   const stripe = getStripe();
@@ -61,7 +63,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true, duplicate: true });
     }
 
-    if (order.paymentStatus !== "paid") {
+    const alreadyPaid = order.paymentStatus === "paid";
+
+    if (!alreadyPaid) {
       order.paymentStatus = "paid";
       order.fulfillmentStatus = "paid";
       order.paidAt = new Date();
@@ -82,28 +86,66 @@ export async function POST(request: NextRequest) {
     order.stripeEventIds = [...(order.stripeEventIds ?? []), event.id];
     await order.save();
 
-    if (order.discountCode) {
-      await Discount.updateOne(
-        { code: order.discountCode },
-        { $inc: { usedCount: 1 } },
-      );
+    if (!alreadyPaid) {
+      if (order.discountCode) {
+        await Discount.updateOne(
+          { code: order.discountCode },
+          { $inc: { usedCount: 1 } },
+        );
+      }
+
+      if (order.customerId) {
+        await Customer.updateOne(
+          { _id: order.customerId },
+          {
+            $inc: { orderCount: 1, totalSpent: order.total },
+            $set: {
+              name: order.shippingAddress?.fullName,
+              phone: order.phone,
+            },
+          },
+        );
+      }
+
+      const emailPayload = toOrderEmailData({
+        orderNumber: order.orderNumber,
+        email: order.email,
+        phone: order.phone,
+        currency: order.currency,
+        subtotal: order.subtotal,
+        discountAmount: order.discountAmount,
+        discountCode: order.discountCode,
+        shippingAmount: order.shippingAmount,
+        taxAmount: order.taxAmount,
+        total: order.total,
+        paymentStatus: order.paymentStatus,
+        fulfillmentStatus: order.fulfillmentStatus,
+        shippingMethod: order.shippingMethod,
+        shippingAddress: order.shippingAddress,
+        billingAddress: order.billingAddress,
+        customerNotes: order.customerNotes,
+        items: order.items.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          variantLabel: item.variantLabel,
+          sku: item.sku,
+          personalization: item.personalization,
+        })),
+        paidAt: order.paidAt,
+      });
+
+      await Promise.all([
+        sendOrderConfirmation(emailPayload),
+        notifyAdminNewOrder(emailPayload),
+      ]);
     }
 
-    if (order.customerId) {
-      await Customer.updateOne(
-        { _id: order.customerId },
-        {
-          $inc: { orderCount: 1, totalSpent: order.total },
-          $set: { name: order.shippingAddress?.fullName, phone: order.phone },
-        },
-      );
+    // Best-effort cart clear if cookie is present on webhook (usually not)
+    const cartSid = request.cookies.get(CART_COOKIE)?.value;
+    if (cartSid) {
+      await Cart.updateOne({ sessionId: cartSid }, { $set: { items: [] } });
     }
-
-    await sendOrderConfirmation({
-      email: order.email,
-      orderNumber: order.orderNumber,
-      total: formatCurrency(order.total, order.currency ?? "CAD"),
-    });
   }
 
   return NextResponse.json({ received: true });

@@ -1,25 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PLACEHOLDER_IMAGES } from "@/lib/constants";
 
 export function AboutPreview() {
   return (
-    <section className="bg-[#efeaf0] py-16 sm:py-20">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-5 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#dde5ef]">
+    <section className="overflow-x-clip bg-[#efeaf0] py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-4 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:px-10">
+        <div className="relative aspect-[4/3] min-w-0 overflow-hidden rounded-2xl bg-[#f0ebe7]">
           <Image
-            src={PLACEHOLDER_IMAGES.hands}
-            alt="Hands crafting handmade pieces at RW Designs Canada"
+            src="/images/brand/home-2.png"
+            alt="Handmade pieces crafted with care at RW Designs Canada"
             fill
             sizes="(max-width:1024px) 100vw, 50vw"
-            className="object-cover"
+            className="object-contain object-center p-3 sm:p-4"
           />
         </div>
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7f92]">
             Our Story
           </p>
-          <h2 className="mt-3 font-serif text-3xl leading-tight text-[#2f2c31] sm:text-4xl">
+          <h2 className="mt-3 font-serif text-[1.85rem] leading-tight text-[#2f2c31] sm:text-3xl lg:text-4xl">
             Made With Care,
             <br />
             Meant to be Kept

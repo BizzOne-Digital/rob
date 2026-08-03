@@ -1,19 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { CREATION_CATEGORIES, BRAND } from "@/lib/constants";
+import { BRAND } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
 
 const links = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "What We Create", href: "/what-we-create", children: true },
-  { label: "Shop", href: "/shop" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "FAQ", href: "/faq" },
+  { label: "What We Create", href: "/what-we-create" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -26,8 +23,6 @@ export function MobileMenu({
   onClose: () => void;
   showBlog?: boolean;
 }) {
-  const [createOpen, setCreateOpen] = useState(true);
-
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -62,59 +57,13 @@ export function MobileMenu({
               <ul className="space-y-1">
                 {links.map((link) => (
                   <li key={link.href}>
-                    {link.children ? (
-                      <div>
-                        <button
-                          type="button"
-                          className="flex w-full items-center justify-between py-3 font-serif text-3xl text-charcoal"
-                          onClick={() => setCreateOpen((v) => !v)}
-                        >
-                          {link.label}
-                          <span className="text-sm text-muted-mauve">
-                            {createOpen ? "−" : "+"}
-                          </span>
-                        </button>
-                        <AnimatePresence initial={false}>
-                          {createOpen ? (
-                            <motion.ul
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden pl-2"
-                            >
-                              <li>
-                                <Link
-                                  href="/what-we-create"
-                                  onClick={onClose}
-                                  className="block py-2 text-sm uppercase tracking-[0.14em] text-charcoal/60"
-                                >
-                                  Overview
-                                </Link>
-                              </li>
-                              {CREATION_CATEGORIES.map((cat) => (
-                                <li key={cat.slug}>
-                                  <Link
-                                    href={`/what-we-create/${cat.slug}`}
-                                    onClick={onClose}
-                                    className="block py-2 text-sm uppercase tracking-[0.14em] text-charcoal/60"
-                                  >
-                                    {cat.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </motion.ul>
-                          ) : null}
-                        </AnimatePresence>
-                      </div>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        onClick={onClose}
-                        className="block py-3 font-serif text-3xl text-charcoal"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="block py-3 font-serif text-3xl text-charcoal"
+                    >
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
                 {showBlog ? (
@@ -128,15 +77,6 @@ export function MobileMenu({
                     </Link>
                   </li>
                 ) : null}
-                <li>
-                  <Link
-                    href="/faq"
-                    onClick={onClose}
-                    className="block py-3 font-serif text-3xl text-charcoal"
-                  >
-                    FAQ
-                  </Link>
-                </li>
               </ul>
             </nav>
             <div className="border-t border-soft-beige p-5">

@@ -93,9 +93,9 @@ export default function AdminProductsPage() {
             setFeatured(e.target.value);
           }}
         >
-          <option value="">Featured: any</option>
-          <option value="true">Featured</option>
-          <option value="false">Not featured</option>
+          <option value="">Tags: any</option>
+          <option value="true">Best seller</option>
+          <option value="false">Not best seller</option>
         </select>
         <select
           className="admin-input max-w-[180px]"
@@ -141,6 +141,18 @@ export default function AdminProductsPage() {
                 key: "status",
                 header: "Status",
                 render: (row) => <StatusBadge status={row.status ?? "draft"} />,
+              },
+              {
+                key: "tags",
+                header: "Tags",
+                render: (row) => {
+                  const tags = [
+                    row.featured ? "Best" : null,
+                    row.newArrival ? "New" : null,
+                    row.badge || null,
+                  ].filter(Boolean);
+                  return tags.length ? tags.join(", ") : "—";
+                },
               },
               {
                 key: "price",

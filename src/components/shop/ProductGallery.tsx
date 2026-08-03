@@ -13,19 +13,21 @@ export function ProductGallery({
 }) {
   const list =
     images.length > 0
-      ? images
+      ? images.slice(0, 2)
       : [{ url: "/images/placeholders/sparkle.svg", alt: name }];
   const [active, setActive] = useState(0);
+  const current = list[Math.min(active, list.length - 1)] ?? list[0];
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-powder-blue/35">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#f0ebe7]">
         <ImageWithFallback
-          src={list[active]?.url}
-          alt={list[active]?.alt || name}
+          src={current?.url}
+          alt={current?.alt || name}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
+          className="object-contain object-center p-5 sm:p-7"
         />
       </div>
       {list.length > 1 ? (
@@ -35,12 +37,21 @@ export function ProductGallery({
               key={`${img.url}-${i}`}
               type="button"
               onClick={() => setActive(i)}
+              aria-label={`View photo ${i + 1}`}
               className={cn(
-                "relative h-20 w-16 shrink-0 overflow-hidden rounded-xl border-2",
-                i === active ? "border-muted-mauve" : "border-transparent",
+                "relative h-20 w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-[#f0ebe7] transition",
+                i === active
+                  ? "border-muted-mauve"
+                  : "border-transparent hover:border-soft-beige",
               )}
             >
-              <ImageWithFallback src={img.url} alt={img.alt || name} fill sizes="64px" />
+              <ImageWithFallback
+                src={img.url}
+                alt={img.alt || name}
+                fill
+                sizes="64px"
+                className="object-contain object-center p-1.5"
+              />
             </button>
           ))}
         </div>

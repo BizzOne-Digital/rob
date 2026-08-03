@@ -19,7 +19,7 @@ export default function CartPage() {
     <>
       <Container className="py-14 md:py-20">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-mauve">Your bag</p>
-        <h1 className="mt-2 font-serif text-4xl text-charcoal md:text-5xl">Shopping bag</h1>
+        <h1 className="mt-2 font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">Shopping bag</h1>
 
         {!hydrated || (loading && items.length === 0) ? (
           <p className="mt-10 text-sm text-charcoal/50">Loading your bag…</p>
@@ -29,12 +29,12 @@ export default function CartPage() {
               title="Your bag is empty"
               description="Discover handmade pieces made to gift and keep."
               actionLabel="Browse shop"
-              actionHref="/shop"
+              actionHref="/what-we-create"
             />
           </div>
         ) : (
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <ul className="space-y-4">
+          <div className="mt-10 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-10">
+            <ul className="min-w-0 space-y-4">
               {items.map((item) => (
                 <li
                   key={item._id}
@@ -45,7 +45,7 @@ export default function CartPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <Link
-                      href={item.slug ? `/shop/${item.slug}` : "/shop"}
+                      href={item.slug ? `/what-we-create/${item.slug}` : "/what-we-create"}
                       className="font-serif text-2xl text-charcoal hover:text-muted-mauve"
                     >
                       {item.name}
@@ -103,7 +103,7 @@ export default function CartPage() {
               <Button href="/checkout" className="mt-6 w-full">
                 Checkout
               </Button>
-              <Button href="/shop" variant="outline" className="mt-3 w-full">
+              <Button href="/what-we-create" variant="outline" className="mt-3 w-full">
                 Continue shopping
               </Button>
             </aside>

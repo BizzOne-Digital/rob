@@ -136,17 +136,16 @@ export async function POST(request: NextRequest) {
   }
 
   const cart = await getCart(sessionId);
+  const personalizationKey = JSON.stringify(parsed.data.personalization ?? []);
   const existing = cart.items.find(
     (item) =>
       String(item.productId) === parsed.data.productId &&
-      (item.variantId ?? "") === (parsed.data.variantId ?? ""),
+      (item.variantId ?? "") === (parsed.data.variantId ?? "") &&
+      JSON.stringify(item.personalization ?? []) === personalizationKey,
   );
 
   if (existing) {
     existing.quantity += parsed.data.quantity;
-    if (parsed.data.personalization) {
-      existing.personalization = parsed.data.personalization;
-    }
   } else {
     cart.items.push({
       productId: product._id,

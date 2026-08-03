@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
-import { CREATION_CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export function ProductFilters({
@@ -20,7 +19,7 @@ export function ProductFilters({
     else next.set(key, value);
     next.delete("page");
     startTransition(() => {
-      router.push(`/shop?${next.toString()}`);
+      router.push(`/what-we-create?${next.toString()}`);
     });
   };
 
@@ -37,21 +36,6 @@ export function ProductFilters({
             }
           }}
         />
-      </FilterBlock>
-
-      <FilterBlock title="Collection">
-        <select
-          className="h-11 w-full rounded-full border border-soft-beige bg-white px-4 text-sm outline-none"
-          value={params.get("category") ?? ""}
-          onChange={(e) => update("category", e.target.value)}
-        >
-          <option value="">All collections</option>
-          {CREATION_CATEGORIES.map((cat) => (
-            <option key={cat.slug} value={cat.slug}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
       </FilterBlock>
 
       <FilterBlock title="Price">

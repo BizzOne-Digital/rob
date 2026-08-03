@@ -29,7 +29,9 @@ export function CtaBanner({
             <p className="mx-auto mt-4 max-w-2xl text-base text-charcoal/65">{description}</p>
           ) : null}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button href={primaryHref}>{primaryLabel}</Button>
+            <Button href={primaryHref} variant="secondary" className="!text-white">
+              {primaryLabel}
+            </Button>
             {secondaryLabel && secondaryHref ? (
               <Button href={secondaryHref} variant="outline">
                 {secondaryLabel}

@@ -64,7 +64,7 @@ export default function RootLayout({
       lang="en-CA"
       className={`${cormorant.variable} ${outfit.variable} ${greatVibes.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans text-charcoal">
+      <body className="flex min-h-full w-full max-w-full flex-col overflow-x-clip font-sans text-charcoal">
         <Providers>
           {children}
           <Toaster

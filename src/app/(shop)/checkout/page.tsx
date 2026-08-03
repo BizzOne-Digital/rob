@@ -10,7 +10,7 @@ import { formatCurrency } from "@/lib/utils";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 export default function CheckoutPage() {
-  const { items, subtotal, hydrated } = useCartStore();
+  const { items, subtotal, hydrated, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
   const [shippingMethod, setShippingMethod] = useState<"pickup" | "shipping">(
@@ -90,11 +90,20 @@ export default function CheckoutPage() {
         setLoading(false);
         return;
       }
-      if (data.url) {
+
+      if (data.mode === "stripe" && data.url) {
         window.location.href = data.url;
         return;
       }
-      toast.error("No checkout URL returned");
+
+      if (data.mode === "manual" && data.redirectUrl) {
+        await clearCart();
+        toast.success("Order placed");
+        window.location.href = data.redirectUrl;
+        return;
+      }
+
+      toast.error("Checkout could not be completed");
     } catch {
       toast.error("Checkout failed");
     } finally {
@@ -108,8 +117,8 @@ export default function CheckoutPage() {
         <EmptyState
           title="Nothing to checkout"
           description="Add a creation with a set price to your bag first."
-          actionLabel="Browse shop"
-          actionHref="/shop"
+          actionLabel="What We Create"
+          actionHref="/what-we-create"
         />
       </Container>
     );
@@ -117,27 +126,45 @@ export default function CheckoutPage() {
 
   return (
     <Container className="py-14 md:py-20">
-      <h1 className="font-serif text-4xl text-charcoal md:text-5xl">Checkout</h1>
+      <h1 className="font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">Checkout</h1>
       <p className="mt-3 text-sm text-charcoal/60">
-        Secure payment is handled by Stripe. You’ll be redirected to complete payment.
+        Enter your details to place your order. You’ll receive a confirmation
+        email, and we’ll follow up about payment if needed.
       </p>
 
-      <form onSubmit={onSubmit} className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <form
+        onSubmit={onSubmit}
+        className="mt-10 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-10"
+      >
         <div className="space-y-8">
-          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-6">
+          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">
             <h2 className="font-serif text-2xl">Contact</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <Input name="email" type="email" label="Email" required />
-              <Input name="phone" type="tel" label="Phone" />
+              <Input name="phone" type="tel" label="Phone" required />
             </div>
           </section>
 
-          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-6">
+          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">
             <h2 className="font-serif text-2xl">Shipping / pickup details</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <Input name="shippingName" label="Full name" required className="sm:col-span-2" />
-              <Input name="shippingLine1" label="Address line 1" required className="sm:col-span-2" />
-              <Input name="shippingLine2" label="Address line 2" className="sm:col-span-2" />
+              <Input
+                name="shippingName"
+                label="Full name"
+                required
+                className="sm:col-span-2"
+              />
+              <Input
+                name="shippingLine1"
+                label="Address line 1"
+                required
+                className="sm:col-span-2"
+              />
+              <Input
+                name="shippingLine2"
+                label="Address line 2"
+                className="sm:col-span-2"
+              />
               <Input name="shippingCity" label="City" required />
               <Input name="shippingProvince" label="Province" required />
               <Input name="shippingPostal" label="Postal code" required />
@@ -159,12 +186,12 @@ export default function CheckoutPage() {
                   checked={shippingMethod === "shipping"}
                   onChange={() => setShippingMethod("shipping")}
                 />
-                Canada-wide shipping (rate confirmed if configured)
+                Canada-wide shipping (rate confirmed if needed)
               </label>
             </div>
           </section>
 
-          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-6">
+          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">
             <label className="flex items-center gap-3 text-sm">
               <input
                 type="checkbox"
@@ -175,9 +202,23 @@ export default function CheckoutPage() {
             </label>
             {!sameAsShipping ? (
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <Input name="billingName" label="Full name" required className="sm:col-span-2" />
-                <Input name="billingLine1" label="Address line 1" required className="sm:col-span-2" />
-                <Input name="billingLine2" label="Address line 2" className="sm:col-span-2" />
+                <Input
+                  name="billingName"
+                  label="Full name"
+                  required
+                  className="sm:col-span-2"
+                />
+                <Input
+                  name="billingLine1"
+                  label="Address line 1"
+                  required
+                  className="sm:col-span-2"
+                />
+                <Input
+                  name="billingLine2"
+                  label="Address line 2"
+                  className="sm:col-span-2"
+                />
                 <Input name="billingCity" label="City" required />
                 <Input name="billingProvince" label="Province" required />
                 <Input name="billingPostal" label="Postal code" required />
@@ -185,7 +226,7 @@ export default function CheckoutPage() {
             ) : null}
           </section>
 
-          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-6">
+          <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">
             <Input name="discountCode" label="Discount code" />
             <div className="mt-3">
               <label className="mb-2 block text-xs uppercase tracking-[0.14em] text-charcoal/45">
@@ -206,13 +247,27 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <li key={item._id} className="flex gap-3">
                 <div className="relative h-16 w-14 overflow-hidden rounded-lg bg-white/50">
-                  <ImageWithFallback src={item.image} alt={item.name} fill sizes="56px" />
+                  <ImageWithFallback
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    sizes="56px"
+                  />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{item.name}</p>
                   <p className="text-xs text-charcoal/50">Qty {item.quantity}</p>
+                  {item.personalization?.length ? (
+                    <p className="mt-0.5 line-clamp-2 text-[11px] text-charcoal/45">
+                      {item.personalization
+                        .map((p) => `${p.label}: ${p.value}`)
+                        .join(" · ")}
+                    </p>
+                  ) : null}
                 </div>
-                <p className="text-sm">{formatCurrency(item.price * item.quantity)}</p>
+                <p className="text-sm">
+                  {formatCurrency(item.price * item.quantity)}
+                </p>
               </li>
             ))}
           </ul>
@@ -233,10 +288,9 @@ export default function CheckoutPage() {
               <span>Total</span>
               <span>{formatCurrency(totals.total)}</span>
             </div>
-            <p className="text-xs text-charcoal/55">Tax calculated by Stripe / order settings.</p>
           </div>
-          <Button type="submit" className="mt-6 w-full" disabled={loading}>
-            {loading ? "Redirecting…" : "Pay with Stripe"}
+          <Button type="submit" className="mt-6 w-full !text-white" disabled={loading}>
+            {loading ? "Placing order…" : "Place order"}
           </Button>
         </aside>
       </form>

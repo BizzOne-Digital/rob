@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { CREATION_CATEGORIES, GIFT_OCCASIONS } from "@/lib/constants";
+import { GIFT_OCCASIONS } from "@/lib/constants";
 import {
   getPublishedPosts,
   getPublishedProducts,
@@ -17,9 +17,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "",
     "/about",
     "/what-we-create",
-    "/shop",
-    "/gallery",
-    "/testimonials",
     "/faq",
     "/blog",
     "/contact",
@@ -31,7 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/terms-and-conditions",
     "/shipping-and-returns",
     "/custom-order-policy",
-    ...CREATION_CATEGORIES.map((c) => `/what-we-create/${c.slug}`),
     ...GIFT_OCCASIONS.map((g) => `/collections/${g.slug}`),
   ];
 
@@ -44,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       getPublishedPosts(100),
     ]);
     productEntries = items.map((p) => ({
-      url: abs(`/shop/${p.slug}`),
+      url: abs(`/what-we-create/${p.slug}`),
       lastModified: p.updatedAt ? new Date(p.updatedAt as Date) : undefined,
       changeFrequency: "weekly" as const,
       priority: 0.8,

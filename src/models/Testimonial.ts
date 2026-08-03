@@ -9,6 +9,7 @@ const TestimonialSchema = new Schema(
     productName: String,
     image: MediaRefSchema,
     rating: { type: Number, min: 1, max: 5, default: 5 },
+    reviewDate: String,
     featured: { type: Boolean, default: false },
     approved: { type: Boolean, default: false, index: true },
     displayOrder: { type: Number, default: 0 },

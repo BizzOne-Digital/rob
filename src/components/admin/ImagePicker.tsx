@@ -113,7 +113,9 @@ export function ImagePicker({ open, onClose, onSelect }: ImagePickerProps) {
         <div className="flex items-center justify-between border-b border-admin-border px-4 py-3">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Media Library</h2>
-            <p className="text-xs text-admin-muted">Select an image or upload a new file</p>
+            <p className="text-xs text-admin-muted">
+              Uploads save to the local uploads folder
+            </p>
           </div>
           <button type="button" className="admin-btn-ghost" onClick={onClose}>
             <X className="h-4 w-4" />

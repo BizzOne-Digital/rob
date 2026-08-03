@@ -77,7 +77,7 @@ export default async function CollectionPage({ params }: Props) {
         primaryLabel="Contact us"
         primaryHref="/contact"
         secondaryLabel="Shop all"
-        secondaryHref="/shop"
+        secondaryHref="/what-we-create"
       />
     </>
   );

@@ -676,7 +676,7 @@ async function main() {
       status: "published" as const,
       inventory: 50,
       trackInventory: true,
-      images: item.images,
+      images: item.images.slice(0, 2),
       material: item.material,
       dimensions: item.dimensions,
       waxType: item.waxType,
@@ -692,9 +692,9 @@ async function main() {
       personalizable:
         (item.personalizationFields?.length ?? 0) > 0 ||
         (item.variants?.length ?? 0) > 0,
-      featured: item.featured ?? false,
-      newArrival: item.newArrival ?? false,
-      badge: item.badge,
+      featured: false,
+      newArrival: false,
+      badge: null,
       careInstructions: item.careInstructions,
       shippingInformation: item.shippingInformation,
       seo: {

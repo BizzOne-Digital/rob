@@ -2,7 +2,6 @@ import { TestimonialCard } from "@/components/shared/TestimonialCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Container } from "@/components/ui/Container";
 import { MotionSection } from "@/components/shared/MotionSection";
-import { Button } from "@/components/ui/Button";
 
 export function TestimonialsPreview({
   testimonials,
@@ -33,11 +32,6 @@ export function TestimonialsPreview({
               productName={t.productName}
             />
           ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Button href="/testimonials" variant="ghost">
-            Read more
-          </Button>
         </div>
       </Container>
     </MotionSection>

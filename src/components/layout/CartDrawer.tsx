@@ -55,7 +55,7 @@ export function CartDrawer() {
                     Discover handmade pieces made to gift and keep.
                   </p>
                   <Button
-                    href="/shop"
+                    href="/what-we-create"
                     className="mt-6"
                     onClick={() => setOpen(false)}
                   >
@@ -79,7 +79,7 @@ export function CartDrawer() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <Link
-                          href={item.slug ? `/shop/${item.slug}` : "/shop"}
+                          href={item.slug ? `/what-we-create/${item.slug}` : "/what-we-create"}
                           onClick={() => setOpen(false)}
                           className="font-serif text-lg leading-tight text-charcoal hover:text-muted-mauve"
                         >

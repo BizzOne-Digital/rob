@@ -61,6 +61,9 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -73,6 +76,22 @@ body {
   font-weight: 400;
   line-height: 1.6;
   min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-wrap: break-word;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Next/Image fill containers stay clipped */
+.relative img {
+  max-width: none;
 }
 
 body::before {

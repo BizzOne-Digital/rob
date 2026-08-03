@@ -58,7 +58,7 @@ export function WhatWeCreateGrid({
             return (
               <Link
                 key={cat.slug}
-                href={`/what-we-create/${cat.slug}`}
+                href={`/what-we-create?category=${cat.slug}`}
                 className="group relative aspect-square overflow-hidden rounded-xl bg-[#eef2f7]"
               >
                 <Image

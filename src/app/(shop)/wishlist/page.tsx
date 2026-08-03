@@ -50,7 +50,7 @@ export default function WishlistPage() {
             title="Your wishlist is empty"
             description="Browse the shop and save pieces you love."
             actionLabel="Browse shop"
-            actionHref="/shop"
+            actionHref="/what-we-create"
           />
         </div>
       ) : (
@@ -60,7 +60,7 @@ export default function WishlistPage() {
             return (
               <Link
                 key={item._id}
-                href={`/shop/${item.slug}`}
+                href={`/what-we-create/${item.slug}`}
                 className="overflow-hidden rounded-[1.35rem] bg-white/70 shadow-[var(--shadow-soft)]"
               >
                 <div className="relative aspect-[4/5] bg-powder-blue/40">
@@ -82,7 +82,7 @@ export default function WishlistPage() {
       )}
 
       <div className="mt-10">
-        <Button href="/shop" variant="outline">
+        <Button href="/what-we-create" variant="outline">
           Continue browsing
         </Button>
       </div>

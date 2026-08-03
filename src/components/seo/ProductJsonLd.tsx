@@ -29,7 +29,7 @@ export function ProductJsonLd({
       "@type": "Brand",
       name: BRAND.name,
     },
-    url: absoluteUrl(`/shop/${product.slug}`),
+    url: absoluteUrl(`/what-we-create/${product.slug}`),
   };
 
   if (hasPrice) {
@@ -38,7 +38,7 @@ export function ProductJsonLd({
       priceCurrency: "CAD",
       price: product.price,
       availability: "https://schema.org/InStock",
-      url: absoluteUrl(`/shop/${product.slug}`),
+      url: absoluteUrl(`/what-we-create/${product.slug}`),
     };
   }
 

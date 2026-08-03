@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { BRAND, PLACEHOLDER_IMAGES } from "@/lib/constants";
+import { BRAND } from "@/lib/constants";
 import { PageHero } from "@/components/shared/PageHero";
 import { Container } from "@/components/ui/Container";
 import { ContactForm } from "@/components/contact/ContactForm";
-import { ImageGrid } from "@/components/shared/ImageGrid";
 import { MotionSection } from "@/components/shared/MotionSection";
 
 export const metadata: Metadata = {
@@ -25,10 +24,10 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
+        align="center"
         eyebrow="Contact"
         title="Let’s create something beautiful"
         description="Questions about a piece, a custom idea, or an existing order — we’re here to help."
-        image={PLACEHOLDER_IMAGES.hands}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Contact" },
@@ -76,17 +75,6 @@ export default async function ContactPage({
             Beautifully handmade. Thoughtfully designed.
           </p>
         </MotionSection>
-      </Container>
-      <Container className="pb-16">
-        <ImageGrid
-          images={[
-            { src: PLACEHOLDER_IMAGES.workspace, alt: "Studio" },
-            { src: PLACEHOLDER_IMAGES.gift, alt: "Gift" },
-            { src: PLACEHOLDER_IMAGES.candle, alt: "Candle" },
-            { src: PLACEHOLDER_IMAGES.packaging, alt: "Packaging" },
-            { src: PLACEHOLDER_IMAGES.process, alt: "Process" },
-          ]}
-        />
       </Container>
     </>
   );

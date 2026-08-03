@@ -3,6 +3,11 @@ import { z } from "zod";
 import { connectDB } from "@/lib/db";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
 import {
+  notifyAdminNewOrder,
+  sendOrderConfirmation,
+  toOrderEmailData,
+} from "@/lib/email";
+import {
   absoluteUrl,
   formatCurrency,
   generateOrderNumber,
@@ -46,21 +51,6 @@ const checkoutSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  if (!isStripeConfigured()) {
-    return NextResponse.json(
-      { error: "Checkout is not available right now" },
-      { status: 503 },
-    );
-  }
-
-  const stripe = getStripe();
-  if (!stripe) {
-    return NextResponse.json(
-      { error: "Checkout is not available right now" },
-      { status: 503 },
-    );
-  }
-
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
@@ -90,9 +80,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
   }
 
-  // Re-validate each line against live product pricing
   const orderItems: Array<{
-    productId: typeof cart.items[0]["productId"];
+    productId: (typeof cart.items)[0]["productId"];
     variantId?: string;
     name: string;
     slug?: string;
@@ -101,7 +90,7 @@ export async function POST(request: NextRequest) {
     price: number;
     quantity: number;
     variantLabel?: string;
-    personalization?: typeof cart.items[0]["personalization"];
+    personalization?: (typeof cart.items)[0]["personalization"];
   }> = [];
 
   for (const line of cart.items) {
@@ -126,7 +115,9 @@ export async function POST(request: NextRequest) {
       const variant = product.variants.find(
         (v) => String(v._id) === line.variantId,
       );
-      unitPrice = isValidPrice(variant?.price) ? (variant!.price as number) : null;
+      unitPrice = isValidPrice(variant?.price)
+        ? (variant!.price as number)
+        : null;
     } else {
       unitPrice = isValidPrice(product.price) ? (product.price as number) : null;
     }
@@ -177,6 +168,11 @@ export async function POST(request: NextRequest) {
           ? Math.min(subtotal, (subtotal * discount.value) / 100)
           : Math.min(subtotal, discount.value);
       discountCode = discount.code;
+    } else if (parsed.data.discountCode.trim()) {
+      return NextResponse.json(
+        { error: "Discount code is invalid or expired" },
+        { status: 400 },
+      );
     }
   }
 
@@ -204,9 +200,15 @@ export async function POST(request: NextRequest) {
       name: parsed.data.shippingAddress.fullName,
       phone: parsed.data.phone,
     });
+  } else {
+    customer.name = parsed.data.shippingAddress.fullName || customer.name;
+    if (parsed.data.phone) customer.phone = parsed.data.phone;
+    await customer.save();
   }
 
+  const useStripe = isStripeConfigured();
   const orderNumber = generateOrderNumber();
+
   const order = await Order.create({
     orderNumber,
     customerId: customer._id,
@@ -221,103 +223,179 @@ export async function POST(request: NextRequest) {
     total,
     currency: settings?.currency ?? "CAD",
     paymentStatus: "pending",
-    fulfillmentStatus: "pending_payment",
+    fulfillmentStatus: useStripe ? "pending_payment" : "confirmed",
     billingAddress: parsed.data.billingAddress,
     shippingAddress: parsed.data.shippingAddress,
     shippingMethod: parsed.data.shippingMethod,
     customerNotes: parsed.data.customerNotes,
     timeline: [
       {
-        status: "pending_payment",
-        note: "Checkout started",
-        visibleToCustomer: false,
+        status: useStripe ? "pending_payment" : "confirmed",
+        note: useStripe
+          ? "Checkout started — awaiting Stripe payment"
+          : "Order placed — awaiting payment confirmation",
+        visibleToCustomer: true,
         createdAt: new Date(),
         createdBy: "system",
       },
     ],
   });
 
-  const lineItems = orderItems.map((item) => ({
-    quantity: item.quantity,
-    price_data: {
-      currency: (settings?.currency ?? "CAD").toLowerCase(),
-      unit_amount: Math.round(item.price * 100),
-      product_data: {
-        name: item.variantLabel
-          ? `${item.name} (${item.variantLabel})`
-          : item.name,
-        images: item.image ? [absoluteUrl(item.image)] : undefined,
-      },
-    },
-  }));
+  const emailPayload = toOrderEmailData({
+    orderNumber: order.orderNumber,
+    email: order.email,
+    phone: order.phone,
+    currency: order.currency,
+    subtotal: order.subtotal,
+    discountAmount: order.discountAmount,
+    discountCode: order.discountCode,
+    shippingAmount: order.shippingAmount,
+    taxAmount: order.taxAmount,
+    total: order.total,
+    paymentStatus: order.paymentStatus,
+    fulfillmentStatus: order.fulfillmentStatus,
+    shippingMethod: order.shippingMethod,
+    shippingAddress: order.shippingAddress,
+    billingAddress: order.billingAddress,
+    customerNotes: order.customerNotes,
+    items: order.items.map((item) => ({
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+      variantLabel: item.variantLabel,
+      sku: item.sku,
+      personalization: item.personalization,
+    })),
+  });
 
-  if (shippingAmount > 0) {
-    lineItems.push({
-      quantity: 1,
+  // Stripe path
+  if (useStripe) {
+    const stripe = getStripe();
+    if (!stripe) {
+      return NextResponse.json(
+        { error: "Checkout is not available right now" },
+        { status: 503 },
+      );
+    }
+
+    const lineItems = orderItems.map((item) => ({
+      quantity: item.quantity,
       price_data: {
         currency: (settings?.currency ?? "CAD").toLowerCase(),
-        unit_amount: Math.round(shippingAmount * 100),
+        unit_amount: Math.round(item.price * 100),
         product_data: {
-          name: parsed.data.shippingMethod.name || "Shipping",
-          images: undefined,
+          name: item.variantLabel
+            ? `${item.name} (${item.variantLabel})`
+            : item.name,
+          images: item.image?.startsWith("http")
+            ? [item.image]
+            : item.image
+              ? [absoluteUrl(item.image)]
+              : undefined,
         },
       },
-    });
-  }
+    }));
 
-  if (taxAmount > 0) {
-    lineItems.push({
-      quantity: 1,
-      price_data: {
+    if (shippingAmount > 0) {
+      lineItems.push({
+        quantity: 1,
+        price_data: {
+          currency: (settings?.currency ?? "CAD").toLowerCase(),
+          unit_amount: Math.round(shippingAmount * 100),
+          product_data: {
+            name: parsed.data.shippingMethod.name || "Shipping",
+            images: undefined,
+          },
+        },
+      });
+    }
+
+    if (taxAmount > 0) {
+      lineItems.push({
+        quantity: 1,
+        price_data: {
+          currency: (settings?.currency ?? "CAD").toLowerCase(),
+          unit_amount: Math.round(taxAmount * 100),
+          product_data: {
+            name: settings?.tax?.label || "Tax",
+            images: undefined,
+          },
+        },
+      });
+    }
+
+    let stripeCouponId: string | undefined;
+    if (discountAmount > 0) {
+      const coupon = await stripe.coupons.create({
+        amount_off: Math.round(discountAmount * 100),
         currency: (settings?.currency ?? "CAD").toLowerCase(),
-        unit_amount: Math.round(taxAmount * 100),
-        product_data: {
-          name: settings?.tax?.label || "Tax",
-          images: undefined,
-        },
-      },
-    });
-  }
+        duration: "once",
+        name: discountCode ? `Discount ${discountCode}` : "Order discount",
+      });
+      stripeCouponId = coupon.id;
+    }
 
-  let stripeCouponId: string | undefined;
-  if (discountAmount > 0) {
-    const coupon = await stripe.coupons.create({
-      amount_off: Math.round(discountAmount * 100),
-      currency: (settings?.currency ?? "CAD").toLowerCase(),
-      duration: "once",
-      name: discountCode ? `Discount ${discountCode}` : "Order discount",
-    });
-    stripeCouponId = coupon.id;
-  }
-
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: email,
-    line_items: lineItems,
-    discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
-    success_url: absoluteUrl(
-      `/order-confirmation?order=${encodeURIComponent(orderNumber)}&session_id={CHECKOUT_SESSION_ID}`,
-    ),
-    cancel_url: absoluteUrl("/checkout?cancelled=1"),
-    metadata: {
-      orderId: String(order._id),
-      orderNumber,
-    },
-    payment_intent_data: {
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer_email: email,
+      line_items: lineItems,
+      discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
+      success_url: absoluteUrl(
+        `/order-confirmation?order=${encodeURIComponent(orderNumber)}&session_id={CHECKOUT_SESSION_ID}`,
+      ),
+      cancel_url: absoluteUrl("/checkout?cancelled=1"),
       metadata: {
         orderId: String(order._id),
         orderNumber,
       },
-    },
-  });
+      payment_intent_data: {
+        metadata: {
+          orderId: String(order._id),
+          orderNumber,
+        },
+      },
+    });
 
-  order.stripeSessionId = checkoutSession.id;
-  await order.save();
+    order.stripeSessionId = checkoutSession.id;
+    await order.save();
+
+    return NextResponse.json({
+      mode: "stripe",
+      url: checkoutSession.url,
+      sessionId: checkoutSession.id,
+      orderNumber,
+      total: formatCurrency(total, settings?.currency ?? "CAD"),
+    });
+  }
+
+  // Manual / local checkout (no Stripe) — order is saved for admin + emails sent
+  if (discountCode) {
+    await Discount.updateOne({ code: discountCode }, { $inc: { usedCount: 1 } });
+  }
+
+  await Customer.updateOne(
+    { _id: customer._id },
+    {
+      $inc: { orderCount: 1, totalSpent: total },
+      $set: {
+        name: parsed.data.shippingAddress.fullName,
+        phone: parsed.data.phone,
+      },
+    },
+  );
+
+  cart.items.splice(0, cart.items.length);
+  await cart.save();
+
+  await Promise.all([
+    sendOrderConfirmation(emailPayload),
+    notifyAdminNewOrder(emailPayload),
+  ]);
 
   return NextResponse.json({
-    url: checkoutSession.url,
-    sessionId: checkoutSession.id,
+    mode: "manual",
     orderNumber,
     total: formatCurrency(total, settings?.currency ?? "CAD"),
+    redirectUrl: `/order-success?order=${encodeURIComponent(orderNumber)}`,
   });
 }

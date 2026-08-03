@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Heart, Menu, Search, ShoppingBag } from "lucide-react";
-import { CREATION_CATEGORIES, BRAND } from "@/lib/constants";
+import { BRAND } from "@/lib/constants";
 import { useCartStore } from "@/store/cart";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "./MobileMenu";
@@ -14,7 +14,6 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [createOpen, setCreateOpen] = useState(false);
   const itemCount = useCartStore((s) => s.itemCount);
   const setCartOpen = useCartStore((s) => s.setOpen);
 
@@ -33,7 +32,7 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           scrolled && "shadow-[0_8px_30px_rgba(20,20,20,0.06)]",
         )}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6 lg:h-[78px] lg:px-8">
+        <div className="relative mx-auto grid h-[64px] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[72px] sm:gap-3 sm:px-6 lg:h-[78px] lg:gap-4 lg:px-8">
           {/* Mobile menu */}
           <button
             type="button"
@@ -45,13 +44,16 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="relative z-10 shrink-0">
+          <Link
+            href="/"
+            className="relative z-10 min-w-0 justify-self-center lg:col-start-1 lg:justify-self-start"
+          >
             <Image
               src="/images/brand/rw-designs-canada-logo.png"
               alt={BRAND.name}
               width={160}
               height={52}
-              className="h-[42px] w-auto object-contain sm:h-[48px]"
+              className="h-9 w-auto max-w-[min(148px,42vw)] object-contain sm:h-[42px] sm:max-w-[160px] lg:h-[48px]"
               priority
             />
           </Link>
@@ -60,48 +62,13 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
             <NavLink href="/">Home</NavLink>
             <NavLink href="/about">About Us</NavLink>
-            <div
-              className="relative"
-              onMouseEnter={() => setCreateOpen(true)}
-              onMouseLeave={() => setCreateOpen(false)}
-            >
-              <Link
-                href="/what-we-create"
-                className="inline-flex items-center px-3 py-2 text-[14px] font-medium text-[#3d3a40] transition hover:text-[#9a7f92]"
-              >
-                What We Create
-              </Link>
-              {createOpen ? (
-                <div className="absolute left-1/2 top-full z-50 w-[300px] -translate-x-1/2 pt-2">
-                  <div className="overflow-hidden rounded-2xl border border-[#e8e4ea] bg-white p-2 shadow-[0_16px_40px_rgba(20,20,20,0.08)]">
-                    <Link
-                      href="/what-we-create"
-                      className="block rounded-xl px-4 py-2.5 text-sm text-[#3d3a40]/70 transition hover:bg-[#f6f1f6]"
-                    >
-                      Overview
-                    </Link>
-                    {CREATION_CATEGORIES.map((cat) => (
-                      <Link
-                        key={cat.slug}
-                        href={`/what-we-create/${cat.slug}`}
-                        className="block rounded-xl px-4 py-2.5 text-sm text-[#3d3a40] transition hover:bg-[#f6f1f6]"
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            <NavLink href="/shop">Shop</NavLink>
-            <NavLink href="/gallery">Gallery</NavLink>
+            <NavLink href="/what-we-create">What We Create</NavLink>
             {showBlog ? <NavLink href="/blog">Journal</NavLink> : null}
-            <NavLink href="/faq">FAQ</NavLink>
             <NavLink href="/contact">Contact</NavLink>
           </nav>
 
           {/* Right actions */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-2 lg:col-start-3">
             <IconButton label="Search" onClick={() => setSearchOpen(true)}>
               <Search className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </IconButton>
@@ -126,8 +93,8 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
               ) : null}
             </button>
             <Link
-              href="/shop"
-              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b08d9e] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#9f7d8e] sm:inline-flex"
+              href="/what-we-create"
+              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b08d9e] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#9f7d8e] md:inline-flex"
             >
               Shop Now
             </Link>

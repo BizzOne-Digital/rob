@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Sparkle } from "lucide-react";
-import { BRAND, CREATION_CATEGORIES } from "@/lib/constants";
-import { NewsletterBand } from "@/components/layout/NewsletterBand";
+import { BRAND } from "@/lib/constants";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -59,23 +58,22 @@ export function Footer({
   const year = new Date().getFullYear();
 
   return (
-    <div className="mt-auto">
-      <NewsletterBand />
-
-      <footer className="relative bg-[#1a1a1a] text-white">
+    <footer className="relative mt-auto overflow-x-clip bg-[#1a1a1a] text-white">
         <Sparkle className="pointer-events-none absolute bottom-28 left-1/2 h-3 w-3 -translate-x-1/2 text-white/50" />
 
-        <div className="mx-auto max-w-[1200px] px-5 pb-8 pt-10 sm:px-8 lg:px-10 lg:pt-12">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-0">
+        <div className="mx-auto w-full max-w-[1200px] px-4 pb-8 pt-10 sm:px-8 lg:px-10 lg:pt-12">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
             {/* Brand */}
-            <div className="lg:border-r lg:border-white/15 lg:pr-8">
-              <Image
-                src="/images/brand/rw-designs-canada-logo.png"
-                alt={BRAND.name}
-                width={150}
-                height={50}
-                className="h-11 w-auto object-contain brightness-0 invert"
-              />
+            <div className="min-w-0 lg:border-r lg:border-white/15 lg:pr-8">
+              <Link href="/" className="inline-block max-w-full">
+                <Image
+                  src="/images/brand/rw-designs-canada-logo.png"
+                  alt={BRAND.name}
+                  width={120}
+                  height={120}
+                  className="h-16 w-16 rounded-xl object-contain sm:h-20 sm:w-20"
+                />
+              </Link>
               <p className="mt-4 max-w-[220px] text-[13px] leading-relaxed text-white/70">
                 Thoughtfully handmade gifts and home goods made in Canada with
                 care.
@@ -106,18 +104,23 @@ export function Footer({
               </div>
             </div>
 
-            {/* Shop */}
+            {/* What We Create */}
             <div className="lg:border-r lg:border-white/15 lg:px-8">
-              <h3 className="font-serif text-[18px] text-[#c9a8bb]">Shop</h3>
+              <h3 className="font-serif text-[18px] text-[#c9a8bb]">
+                What We Create
+              </h3>
               <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
                 <li>
-                  <Link href="/shop" className="transition hover:text-white">
-                    Shop All
+                  <Link
+                    href="/what-we-create"
+                    className="transition hover:text-white"
+                  >
+                    View All
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/shop?sort=newest"
+                    href="/what-we-create?sort=newest"
                     className="transition hover:text-white"
                   >
                     New Arrivals
@@ -125,7 +128,7 @@ export function Footer({
                 </li>
                 <li>
                   <Link
-                    href="/shop?featured=1"
+                    href="/what-we-create?featured=1"
                     className="transition hover:text-white"
                   >
                     Best Sellers
@@ -133,28 +136,9 @@ export function Footer({
                 </li>
                 <li>
                   <Link href="/contact" className="transition hover:text-white">
-                    Gift Cards
+                    Custom Orders
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* What We Create */}
-            <div className="lg:border-r lg:border-white/15 lg:px-8">
-              <h3 className="font-serif text-[18px] text-[#c9a8bb]">
-                What We Create
-              </h3>
-              <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
-                {CREATION_CATEGORIES.map((cat) => (
-                  <li key={cat.slug}>
-                    <Link
-                      href={`/what-we-create/${cat.slug}`}
-                      className="transition hover:text-white"
-                    >
-                      {cat.name.replace(" & ", " & ")}
-                    </Link>
-                  </li>
-                ))}
               </ul>
             </div>
 
@@ -255,7 +239,6 @@ export function Footer({
             </div>
           </div>
         </div>
-      </footer>
-    </div>
+    </footer>
   );
 }

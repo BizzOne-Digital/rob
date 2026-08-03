@@ -18,6 +18,20 @@ const nextConfig: NextConfig = {
     // run `npm run typecheck` with elevated heap separately when validating.
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/shop",
+        destination: "/what-we-create",
+        permanent: true,
+      },
+      {
+        source: "/shop/:slug",
+        destination: "/what-we-create/:slug",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -16,14 +16,14 @@ export function AnnouncementBar({
     "Thoughtfully handmade in Canada • Custom creations available ✨";
 
   const content = (
-    <p className="text-center text-[13px] leading-none tracking-[0.01em] text-[#5c5660]">
+    <p className="px-1 text-center text-[11px] leading-snug tracking-[0.01em] text-[#5c5660] sm:text-[13px] sm:leading-none">
       {display}
     </p>
   );
 
   return (
-    <div className="border-b border-[#d7e2ef]/60 bg-[#e8eef6]">
-      <div className="mx-auto max-w-[1280px] px-4 py-[11px] sm:px-6 lg:px-8">
+    <div className="overflow-x-clip border-b border-[#d7e2ef]/60 bg-[#e8eef6]">
+      <div className="mx-auto max-w-[1280px] px-3 py-2.5 sm:px-6 sm:py-[11px] lg:px-8">
         {link ? (
           <Link href={link} className="block transition hover:opacity-80">
             {content}

@@ -105,7 +105,7 @@ export function SearchOverlay({
                   return (
                     <li key={item._id}>
                       <Link
-                        href={`/shop/${item.slug}`}
+                        href={`/what-we-create/${item.slug}`}
                         onClick={onClose}
                         className="flex items-center gap-4 rounded-xl p-3 transition hover:bg-powder-blue/40"
                       >
@@ -132,7 +132,7 @@ export function SearchOverlay({
               </ul>
               {q ? (
                 <Link
-                  href={`/shop?search=${encodeURIComponent(q)}`}
+                  href={`/what-we-create?search=${encodeURIComponent(q)}`}
                   onClick={onClose}
                   className="mt-2 block rounded-xl px-3 py-3 text-center text-xs font-medium uppercase tracking-[0.16em] text-muted-mauve hover:bg-powder-blue/30"
                 >

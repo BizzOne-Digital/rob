@@ -37,7 +37,7 @@ export function ImageWithFallback({
       fill={fill}
       width={fill ? undefined : width}
       height={fill ? undefined : height}
-      className={cn("object-cover", className)}
+      className={cn("object-contain object-center", className)}
       sizes={sizes}
       priority={priority}
       unoptimized={isSvg}

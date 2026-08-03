@@ -7,13 +7,13 @@ export function revalidateSite() {
 }
 
 export function revalidateShop() {
-  revalidatePath("/shop");
+  revalidatePath("/what-we-create");
   revalidatePath("/collections", "layout");
   revalidateTag("products");
 }
 
 export function revalidateProduct(slug: string) {
-  revalidatePath(`/shop/${slug}`);
+  revalidatePath(`/what-we-create/${slug}`);
   revalidateShop();
 }
 
@@ -24,12 +24,12 @@ export function revalidateCategories() {
 }
 
 export function revalidateGallery() {
-  revalidatePath("/gallery");
+  revalidatePath("/");
   revalidateTag("gallery");
 }
 
 export function revalidateTestimonials() {
-  revalidatePath("/testimonials");
+  revalidatePath("/");
   revalidateTag("testimonials");
 }
 

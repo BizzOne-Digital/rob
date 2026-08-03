@@ -328,7 +328,7 @@ export function ProductForm({ productId }: ProductFormProps) {
         </Link>
         {loadedSlug ? (
           <a
-            href={`/shop/${loadedSlug}`}
+            href={`/what-we-create/${loadedSlug}`}
             target="_blank"
             rel="noreferrer"
             className="admin-btn-secondary"
@@ -432,29 +432,51 @@ export function ProductForm({ productId }: ProductFormProps) {
               onChange={(e) => patch("fullDescription", e.target.value)}
             />
           </div>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={form.featured}
-              onChange={(e) => patch("featured", e.target.checked)}
-            />
-            Featured
-          </label>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={form.newArrival}
-              onChange={(e) => patch("newArrival", e.target.checked)}
-            />
-            New arrival
-          </label>
-          <div>
-            <label className="admin-label">Badge</label>
-            <input
-              className="admin-input"
-              value={form.badge}
-              onChange={(e) => patch("badge", e.target.value)}
-            />
+          <div className="md:col-span-2 rounded-lg border border-slate-200 bg-slate-50/80 p-4">
+            <h3 className="text-sm font-semibold text-slate-900">Storefront tags</h3>
+            <p className="mt-1 text-xs text-slate-500">
+              Leave these off unless you want this product marked as New or Best Seller.
+              The client can enable them anytime.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <label className="flex items-start gap-2.5 rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm">
+                <input
+                  type="checkbox"
+                  className="mt-0.5"
+                  checked={form.featured}
+                  onChange={(e) => patch("featured", e.target.checked)}
+                />
+                <span>
+                  <span className="font-medium text-slate-900">Best seller</span>
+                  <span className="mt-0.5 block text-xs text-slate-500">
+                    Shows a Best badge and can appear in Thoughtful Favorites / Best Sellers.
+                  </span>
+                </span>
+              </label>
+              <label className="flex items-start gap-2.5 rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm">
+                <input
+                  type="checkbox"
+                  className="mt-0.5"
+                  checked={form.newArrival}
+                  onChange={(e) => patch("newArrival", e.target.checked)}
+                />
+                <span>
+                  <span className="font-medium text-slate-900">New arrival</span>
+                  <span className="mt-0.5 block text-xs text-slate-500">
+                    Shows a New badge on the product card and product page.
+                  </span>
+                </span>
+              </label>
+            </div>
+            <div className="mt-3">
+              <label className="admin-label">Custom badge (optional)</label>
+              <input
+                className="admin-input"
+                value={form.badge}
+                onChange={(e) => patch("badge", e.target.value)}
+                placeholder="e.g. Limited, Gift favorite"
+              />
+            </div>
           </div>
         </section>
 

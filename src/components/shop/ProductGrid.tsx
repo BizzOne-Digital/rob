@@ -1,4 +1,7 @@
+"use client";
+
 import { ProductCard, type ProductCardData } from "./ProductCard";
+import { QuickView, useQuickView } from "./QuickView";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export function ProductGrid({
@@ -6,22 +9,31 @@ export function ProductGrid({
 }: {
   products: ProductCardData[];
 }) {
+  const { product, open, openQuickView, closeQuickView } = useQuickView();
+
   if (!products.length) {
     return (
       <EmptyState
         title="No creations found"
-        description="Try adjusting your filters or browse What We Create for inspiration."
-        actionLabel="What We Create"
+        description="Try adjusting your filters, or clear them to see all creations."
+        actionLabel="View all"
         actionHref="/what-we-create"
       />
     );
   }
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {products.map((product) => (
-        <ProductCard key={product._id} product={product} />
-      ))}
-    </div>
+    <>
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        {products.map((item) => (
+          <ProductCard
+            key={item._id}
+            product={item}
+            onQuickView={openQuickView}
+          />
+        ))}
+      </div>
+      <QuickView product={product} open={open} onClose={closeQuickView} />
+    </>
   );
 }

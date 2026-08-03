@@ -11,6 +11,7 @@ export function PageHero({
   imageAlt,
   breadcrumbs,
   className,
+  align = "split",
 }: {
   eyebrow?: string;
   title: string;
@@ -19,7 +20,11 @@ export function PageHero({
   imageAlt?: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
   className?: string;
+  /** `split` = text + image; `center` = text only, centered */
+  align?: "split" | "center";
 }) {
+  const centered = align === "center" || !image;
+
   return (
     <section
       className={cn(
@@ -27,12 +32,33 @@ export function PageHero({
         className,
       )}
     >
-      <Container className="relative z-10 grid items-center gap-10 py-14 md:grid-cols-[1.1fr_0.9fr] md:py-20 lg:py-24">
-        <div className="self-start md:self-center md:pt-2">
+      <Container
+        className={cn(
+          "relative z-10 py-14 md:py-20 lg:py-22",
+          centered
+            ? "flex flex-col items-center text-center"
+            : "grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr] lg:py-24",
+        )}
+      >
+        <div
+          className={cn(
+            centered
+              ? "flex w-full max-w-3xl flex-col items-center"
+              : "self-start md:self-center md:pt-2",
+          )}
+        >
           {breadcrumbs?.length ? (
-            <nav className="mb-5 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-charcoal/50">
+            <nav
+              className={cn(
+                "mb-5 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.14em] text-charcoal/50",
+                centered && "justify-center",
+              )}
+            >
               {breadcrumbs.map((crumb, i) => (
-                <span key={`${crumb.label}-${i}`} className="flex items-center gap-2">
+                <span
+                  key={`${crumb.label}-${i}`}
+                  className="flex items-center gap-2"
+                >
                   {i > 0 ? <span>/</span> : null}
                   {crumb.href ? (
                     <Link href={crumb.href} className="hover:text-muted-mauve">
@@ -50,25 +76,38 @@ export function PageHero({
               {eyebrow}
             </p>
           ) : null}
-          <h1 className="max-w-2xl font-serif text-4xl leading-[1.1] text-charcoal sm:text-5xl md:text-6xl">
+          <h1
+            className={cn(
+              "font-serif text-[1.85rem] leading-[1.12] text-charcoal sm:text-4xl md:text-5xl lg:text-6xl",
+              centered ? "max-w-3xl" : "max-w-2xl",
+            )}
+          >
             {title}
           </h1>
           {description ? (
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal/65 sm:text-lg">
+            <p
+              className={cn(
+                "mt-4 text-[15px] leading-relaxed text-charcoal/65 sm:mt-5 sm:text-base md:text-lg",
+                centered ? "max-w-2xl" : "max-w-xl",
+              )}
+            >
               {description}
             </p>
           ) : null}
         </div>
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-powder-blue/40 md:aspect-[5/6] md:max-h-[520px]">
-          <ImageWithFallback
-            src={image}
-            alt={imageAlt ?? title}
-            fill
-            sizes="(max-width: 768px) 100vw, 40vw"
-            className="object-cover object-center"
-            priority
-          />
-        </div>
+
+        {!centered && image ? (
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-powder-blue/40 md:aspect-[5/6] md:max-h-[520px]">
+            <ImageWithFallback
+              src={image}
+              alt={imageAlt ?? title}
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover object-center"
+              priority
+            />
+          </div>
+        ) : null}
       </Container>
     </section>
   );

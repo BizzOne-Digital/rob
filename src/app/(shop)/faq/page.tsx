@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { PLACEHOLDER_IMAGES } from "@/lib/constants";
 import { getPublishedFaqs, serialize } from "@/lib/data";
 import { PageHero } from "@/components/shared/PageHero";
 import { Container } from "@/components/ui/Container";
 import { FaqBrowser } from "@/components/faq/FaqBrowser";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
-import { ImageGrid } from "@/components/shared/ImageGrid";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export const metadata: Metadata = {
@@ -21,10 +19,10 @@ export default async function FaqPage() {
     <>
       <FaqJsonLd faqs={faqs} />
       <PageHero
+        align="center"
         eyebrow="Help"
         title="Frequently asked questions"
         description="Search by topic or keyword — from custom orders to candle care."
-        image={PLACEHOLDER_IMAGES.sparkle}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "FAQ" },
@@ -41,17 +39,6 @@ export default async function FaqPage() {
         ) : (
           <FaqBrowser faqs={faqs as never} />
         )}
-      </Container>
-      <Container className="pb-16">
-        <ImageGrid
-          images={[
-            { src: PLACEHOLDER_IMAGES.candle, alt: "Candle care" },
-            { src: PLACEHOLDER_IMAGES.packaging, alt: "Packaging" },
-            { src: PLACEHOLDER_IMAGES.gift, alt: "Gifting" },
-            { src: PLACEHOLDER_IMAGES.workspace, alt: "Studio" },
-            { src: PLACEHOLDER_IMAGES.process, alt: "Process" },
-          ]}
-        />
       </Container>
     </>
   );

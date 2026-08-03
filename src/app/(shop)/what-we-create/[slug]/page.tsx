@@ -1,262 +1,239 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import {
-  CREATION_CATEGORIES,
-  PLACEHOLDER_IMAGES,
-} from "@/lib/constants";
-import {
-  getCategoryBySlug,
-  getPublishedFaqs,
+  getProductBySlug,
   getPublishedProducts,
   serialize,
 } from "@/lib/data";
-import { PageHero } from "@/components/shared/PageHero";
+import { ProductGallery } from "@/components/shop/ProductGallery";
+import { AddToCartForm } from "@/components/shop/AddToCartForm";
 import { ProductGrid } from "@/components/shop/ProductGrid";
-import { ProcessSteps } from "@/components/shared/ProcessSteps";
-import { FaqSection } from "@/components/shared/FaqSection";
-import { ImageGrid } from "@/components/shared/ImageGrid";
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { CtaBanner } from "@/components/shared/CtaBanner";
+import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RichContent } from "@/components/shared/RichContent";
-import { MotionSection } from "@/components/shared/MotionSection";
+import { Badge } from "@/components/ui/Badge";
+import { ProductDetailsAccordion } from "@/components/shop/ProductDetailsAccordion";
+import { ProductJsonLd } from "@/components/seo/ProductJsonLd";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
-
-const imageMap: Record<string, string[]> = {
-  freshies: [
-    PLACEHOLDER_IMAGES.freshie,
-    PLACEHOLDER_IMAGES.home,
-    PLACEHOLDER_IMAGES.packaging,
-    PLACEHOLDER_IMAGES.gift,
-    PLACEHOLDER_IMAGES.sparkle,
-  ],
-  "wax-melts-and-candles": [
-    PLACEHOLDER_IMAGES.candle,
-    PLACEHOLDER_IMAGES.waxMelts,
-    PLACEHOLDER_IMAGES.home,
-    PLACEHOLDER_IMAGES.hands,
-    PLACEHOLDER_IMAGES.packaging,
-  ],
-  "beaded-keychains": [
-    PLACEHOLDER_IMAGES.keychain,
-    PLACEHOLDER_IMAGES.gift,
-    PLACEHOLDER_IMAGES.sparkle,
-    PLACEHOLDER_IMAGES.packaging,
-    PLACEHOLDER_IMAGES.hands,
-  ],
-  "laser-engraved-items": [
-    PLACEHOLDER_IMAGES.engraved,
-    PLACEHOLDER_IMAGES.gift,
-    PLACEHOLDER_IMAGES.workspace,
-    PLACEHOLDER_IMAGES.process,
-    PLACEHOLDER_IMAGES.packaging,
-  ],
-  "wood-signs": [
-    PLACEHOLDER_IMAGES.woodSign,
-    PLACEHOLDER_IMAGES.home,
-    PLACEHOLDER_IMAGES.workspace,
-    PLACEHOLDER_IMAGES.process,
-    PLACEHOLDER_IMAGES.gift,
-  ],
-  "custom-creations": [
-    PLACEHOLDER_IMAGES.gift,
-    PLACEHOLDER_IMAGES.workspace,
-    PLACEHOLDER_IMAGES.hands,
-    PLACEHOLDER_IMAGES.process,
-    PLACEHOLDER_IMAGES.packaging,
-  ],
-};
+import { PLACEHOLDER_IMAGES } from "@/lib/constants";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return CREATION_CATEGORIES.map((c) => ({ slug: c.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = serialize(await getCategoryBySlug(slug));
-  const fallback = CREATION_CATEGORIES.find((c) => c.slug === slug);
-  if (!category && !fallback) return { title: "Not found" };
+  const product = serialize(await getProductBySlug(slug));
+  if (!product) return { title: "Product not found" };
   return {
-    title: category?.seo?.title || category?.name || fallback?.name,
+    title: product.seo?.title || product.name,
     description:
-      category?.seo?.description ||
-      category?.summary ||
-      fallback?.summary,
+      product.seo?.description ||
+      product.shortDescription ||
+      `${product.name} by RW Designs Canada`,
   };
 }
 
-export default async function CreationCategoryPage({ params }: Props) {
-  const { slug } = await params;
-  const fallback = CREATION_CATEGORIES.find((c) => c.slug === slug);
-  if (!fallback) notFound();
-
-  const [categoryDoc, productsResult, faqs] = await Promise.all([
-    getCategoryBySlug(slug),
-    getPublishedProducts({ categorySlug: slug, limit: 24 }),
-    getPublishedFaqs({ limit: 40 }),
-  ]);
-
-  const category = categoryDoc ? serialize(categoryDoc) : null;
-  const products = serialize(productsResult.items);
-  const name = category?.name || fallback.name;
-  const summary = category?.summary || fallback.summary;
-  const heroImage =
-    category?.heroImage?.url || imageMap[slug]?.[0] || PLACEHOLDER_IMAGES.hero;
-  const processSteps =
-    category?.creationProcess?.filter((s) => s?.title && s?.description).map((s) => ({
-      title: s.title!,
-      description: s.description!,
-    })) || undefined;
-
-  const serializedFaqs = serialize(faqs);
-  const keyword = name.split(" ")[0].toLowerCase();
-  const sourceFaqs = category?.faqs?.length
-    ? category.faqs.map((f, i) => ({
-        _id: String(i),
-        question: f.question || "",
-        answer: f.answer || "",
-      }))
-    : serializedFaqs
-        .filter(
-          (f) =>
-            f.category?.toLowerCase().includes(keyword) ||
-            f.category === "Products",
-        )
-        .slice(0, 6)
-        .map((f) => ({
-          _id: String(f._id),
-          question: f.question,
-          answer: f.answer,
-        }));
-  const categoryFaqs = sourceFaqs.filter((f) => f.question && f.answer);
-
-  const related = CREATION_CATEGORIES.filter((c) => c.slug !== slug).slice(0, 3);
-  const galleryImages = (imageMap[slug] || Object.values(PLACEHOLDER_IMAGES).slice(0, 5)).map(
-    (src, i) => ({ src, alt: `${name} detail ${i + 1}` }),
+function plainTextBlock(text: string) {
+  return (
+    <p className="whitespace-pre-line">{text}</p>
   );
+}
+
+export default async function ProductDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const productDoc = await getProductBySlug(slug);
+  if (!productDoc) notFound();
+  const product = serialize(productDoc);
+
+  const relatedRaw = (
+    await getPublishedProducts({
+      categorySlug: product.categorySlug || undefined,
+      limit: 8,
+    })
+  ).items.filter((p) => String(p._id) !== String(product._id));
+
+  const relatedPool =
+    relatedRaw.length > 0
+      ? relatedRaw
+      : (
+          await getPublishedProducts({ limit: 8 })
+        ).items.filter((p) => String(p._id) !== String(product._id));
+
+  const related = serialize(relatedPool.slice(0, 4));
+
+  const images =
+    product.images?.length
+      ? product.images.map((img) => ({
+          url: img.url,
+          alt: img.alt || product.name,
+        }))
+      : [{ url: PLACEHOLDER_IMAGES.sparkle, alt: product.name }];
+
+  const featureRows = [
+    product.scent ? ["Scent", product.scent] : null,
+    product.colour ? ["Colour", product.colour] : null,
+    product.size ? ["Size", product.size] : null,
+    product.dimensions ? ["Dimensions", product.dimensions] : null,
+    product.waxType ? ["Wax", product.waxType] : null,
+    product.wickType ? ["Wick", product.wickType] : null,
+    product.vessel ? ["Vessel", product.vessel] : null,
+    product.burnTime ? ["Burn time", product.burnTime] : null,
+    product.productionTime ? ["Production time", product.productionTime] : null,
+  ].filter(Boolean) as Array<[string, string]>;
+
+  const accordionItems = [
+    product.fullDescription
+      ? {
+          id: "description",
+          title: "Product description",
+          content: (
+            <div className="prose prose-invert max-w-none prose-p:text-white/70 prose-headings:font-serif prose-headings:text-[#f3efe8]">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: product.fullDescription.includes("<")
+                    ? product.fullDescription
+                    : product.fullDescription.replace(/\n/g, "<br/>"),
+                }}
+              />
+            </div>
+          ),
+        }
+      : product.shortDescription
+        ? {
+            id: "description",
+            title: "Product description",
+            content: plainTextBlock(product.shortDescription),
+          }
+        : null,
+    featureRows.length
+      ? {
+          id: "features",
+          title: "Features",
+          content: (
+            <ul className="space-y-2">
+              {featureRows.map(([label, value]) => (
+                <li key={label}>
+                  <span className="text-white/45">{label}: </span>
+                  {value}
+                </li>
+              ))}
+            </ul>
+          ),
+        }
+      : null,
+    product.material
+      ? {
+          id: "materials",
+          title: "Materials",
+          content: plainTextBlock(product.material),
+        }
+      : null,
+    product.careInstructions
+      ? {
+          id: "care",
+          title: "Care instructions",
+          content: plainTextBlock(product.careInstructions),
+        }
+      : null,
+    product.safetyInformation || product.shippingInformation
+      ? {
+          id: "details",
+          title: "Safety & shipping",
+          content: (
+            <div className="space-y-4">
+              {product.safetyInformation
+                ? plainTextBlock(product.safetyInformation)
+                : null}
+              {product.shippingInformation
+                ? plainTextBlock(product.shippingInformation)
+                : null}
+            </div>
+          ),
+        }
+      : null,
+  ].filter(Boolean) as Array<{
+    id: string;
+    title: string;
+    content: ReactNode;
+  }>;
 
   return (
     <>
+      <ProductJsonLd product={product} />
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: "/" },
           { name: "What We Create", path: "/what-we-create" },
-          { name, path: `/what-we-create/${slug}` },
-        ]}
-      />
-      <FaqJsonLd faqs={categoryFaqs} />
-      <PageHero
-        eyebrow={category?.heroEyebrow || "What We Create"}
-        title={category?.heroHeading || name}
-        description={category?.heroSubheading || summary}
-        image={heroImage}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "What We Create", href: "/what-we-create" },
-          { label: name },
+          { name: product.name, path: `/what-we-create/${product.slug}` },
         ]}
       />
 
-      <MotionSection className="py-16">
-        <Container className="max-w-3xl">
-          {category?.fullDescription ? (
-            <RichContent html={category.fullDescription} />
-          ) : (
-            <p className="text-lg leading-relaxed text-charcoal/70">{summary}</p>
-          )}
-        </Container>
-      </MotionSection>
+      <Container className="py-10 md:py-16">
+        <Breadcrumbs
+          className="mb-8"
+          items={[
+            { label: "Home", href: "/" },
+            { label: "What We Create", href: "/what-we-create" },
+            ...(product.categorySlug
+              ? [
+                  {
+                    label: product.categorySlug.replace(/-/g, " "),
+                    href: `/what-we-create?category=${product.categorySlug}`,
+                  },
+                ]
+              : []),
+            { label: product.name },
+          ]}
+        />
 
-      <Container className="pb-12">
-        <ImageGrid images={galleryImages} />
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+          <ProductGallery images={images} name={product.name} />
+          <div>
+            <div className="mb-4 flex flex-wrap gap-2">
+              {product.newArrival ? <Badge tone="blue">New</Badge> : null}
+              {product.featured ? <Badge tone="mauve">Best</Badge> : null}
+              {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
+              {product.personalizable ? (
+                <Badge tone="mauve">Personalizable</Badge>
+              ) : null}
+            </div>
+            <h1 className="break-words font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">
+              {product.name}
+            </h1>
+            {product.shortDescription ? (
+              <p className="mt-4 text-base leading-relaxed text-charcoal/65">
+                {product.shortDescription}
+              </p>
+            ) : null}
+
+            <div className="mt-8">
+              <AddToCartForm product={product as never} />
+            </div>
+          </div>
+        </div>
       </Container>
 
-      {(category?.options?.length ?? 0) > 0 ? (
-        <MotionSection className="py-12">
-          <Container>
-            <SectionHeading title="Options & details" align="left" />
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {category!.options!.map((opt) => (
-                <li
-                  key={opt}
-                  className="rounded-2xl border border-soft-beige bg-white/70 px-5 py-4 text-sm text-charcoal/70"
-                >
-                  {opt}
-                </li>
-              ))}
-            </ul>
-          </Container>
-        </MotionSection>
+      {accordionItems.length > 0 ? (
+        <ProductDetailsAccordion items={accordionItems} className="mt-4" />
       ) : null}
 
-      <MotionSection className="py-16">
-        <Container>
-          <SectionHeading
-            eyebrow="Shop this collection"
-            title={`${name} in the shop`}
-            description="Browse published pieces from this collection."
-          />
-          <div className="mt-12">
-            <ProductGrid products={products as never} />
+      {related.length > 0 ? (
+        <Container className="py-16 md:py-20">
+          <SectionHeading title="You may also like" />
+          <div className="mt-10">
+            <ProductGrid products={related as never} />
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/what-we-create"
+              className="text-xs font-medium uppercase tracking-[0.16em] text-muted-mauve hover:underline"
+            >
+              Back to What We Create
+            </Link>
           </div>
         </Container>
-      </MotionSection>
-
-      {category?.careInformation ? (
-        <MotionSection className="py-12">
-          <Container className="max-w-3xl">
-            <SectionHeading title="Care" align="left" />
-            <p className="mt-6 whitespace-pre-line text-charcoal/70">
-              {category.careInformation}
-            </p>
-            {category.safetyInformation ? (
-              <>
-                <h3 className="mt-10 font-serif text-2xl">Safety</h3>
-                <p className="mt-4 whitespace-pre-line text-charcoal/70">
-                  {category.safetyInformation}
-                </p>
-              </>
-            ) : null}
-          </Container>
-        </MotionSection>
       ) : null}
-
-      <ProcessSteps
-        steps={processSteps}
-        title={`How we craft ${name.toLowerCase()}`}
-      />
-
-      <FaqSection faqs={categoryFaqs} title={`${name} FAQs`} />
-
-      <MotionSection className="py-16">
-        <Container>
-          <SectionHeading title="You may also love" />
-          <div className="mt-10 grid gap-5 sm:grid-cols-3">
-            {related.map((cat) => (
-              <CategoryCard
-                key={cat.slug}
-                name={cat.name}
-                summary={cat.summary}
-                href={`/what-we-create/${cat.slug}`}
-                image={imageMap[cat.slug]?.[0]}
-              />
-            ))}
-          </div>
-        </Container>
-      </MotionSection>
-
-      <CtaBanner
-        title={category?.customOrderCta || "Request a custom piece"}
-        description="Share colours, wording, scent, and the feeling you want to create."
-        primaryLabel="Start a custom request"
-        primaryHref="/contact?type=custom_order"
-        secondaryLabel={category?.ctaLabel || "Shop collection"}
-        secondaryHref={category?.ctaLink || `/shop?category=${slug}`}
-      />
     </>
   );
 }

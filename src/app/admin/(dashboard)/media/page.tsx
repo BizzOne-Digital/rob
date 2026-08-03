@@ -92,7 +92,7 @@ export default function AdminMediaPage() {
     <>
       <AdminHeader
         title="Media Library"
-        description="Upload, search, copy URL, and delete media assets"
+        description="Upload images to public/uploads for products, pages, and sections"
         actions={
           <label className="admin-btn-primary cursor-pointer">
             <Upload className="h-4 w-4" />

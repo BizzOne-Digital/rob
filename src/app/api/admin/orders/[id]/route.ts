@@ -7,8 +7,8 @@ import { logActivity } from "@/lib/activity";
 import {
   sendOrderConfirmation,
   sendShippingEmail,
+  toOrderEmailData,
 } from "@/lib/email";
-import { formatCurrency } from "@/lib/utils";
 import { Order } from "@/models/Order";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -135,11 +135,35 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
   }
 
   if (data.sendConfirmation && order.email) {
-    await sendOrderConfirmation({
-      email: order.email,
-      orderNumber: order.orderNumber,
-      total: formatCurrency(order.total, order.currency ?? "CAD"),
-    });
+    await sendOrderConfirmation(
+      toOrderEmailData({
+        orderNumber: order.orderNumber,
+        email: order.email,
+        phone: order.phone,
+        currency: order.currency,
+        subtotal: order.subtotal,
+        discountAmount: order.discountAmount,
+        discountCode: order.discountCode,
+        shippingAmount: order.shippingAmount,
+        taxAmount: order.taxAmount,
+        total: order.total,
+        paymentStatus: order.paymentStatus,
+        fulfillmentStatus: order.fulfillmentStatus,
+        shippingMethod: order.shippingMethod,
+        shippingAddress: order.shippingAddress,
+        billingAddress: order.billingAddress,
+        customerNotes: order.customerNotes,
+        items: order.items.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          variantLabel: item.variantLabel,
+          sku: item.sku,
+          personalization: item.personalization,
+        })),
+        paidAt: order.paidAt,
+      }),
+    );
   }
 
   await logActivity({
