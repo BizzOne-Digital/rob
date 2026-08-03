@@ -13,6 +13,16 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    files: [
+      "src/app/admin/**/*.{ts,tsx}",
+      "src/components/admin/**/*.{ts,tsx}",
+    ],
+    rules: {
+      // Admin screens intentionally load API data in effects.
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;
