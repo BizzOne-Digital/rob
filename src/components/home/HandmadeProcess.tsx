@@ -26,7 +26,7 @@ export function HandmadeProcess() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {PROCESS_STEPS.map((step, index) => (
             <div key={step.title} className="text-center">
-              <div className="mx-auto mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#b08d9e] text-[12px] font-semibold text-white">
+              <div className="mx-auto mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#b1a18a] text-[12px] font-semibold text-white">
                 {index + 1}
               </div>
               <div className="relative mx-auto mb-4 aspect-square w-full max-w-[160px] overflow-hidden rounded-xl bg-[#eef2f7]">

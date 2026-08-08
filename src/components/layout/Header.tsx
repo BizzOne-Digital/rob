@@ -32,11 +32,11 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           scrolled && "shadow-[0_8px_30px_rgba(20,20,20,0.06)]",
         )}
       >
-        <div className="relative mx-auto grid h-[64px] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[72px] sm:gap-3 sm:px-6 lg:h-[78px] lg:gap-4 lg:px-8">
+        <div className="relative mx-auto grid h-[76px] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[88px] sm:gap-3 sm:px-6 lg:h-[96px] lg:gap-4 lg:px-8">
           {/* Mobile menu */}
           <button
             type="button"
-            className="rounded-lg p-2 text-[#3d3a40] hover:bg-[#f3eef3] lg:hidden"
+            className="rounded-lg p-2 text-[#2a2420] hover:bg-[#efe6da] lg:hidden"
             aria-label="Open menu"
             onClick={() => setMenuOpen(true)}
           >
@@ -51,10 +51,11 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             <Image
               src="/images/brand/rw-designs-canada-logo.png"
               alt={BRAND.name}
-              width={160}
-              height={52}
-              className="h-9 w-auto max-w-[min(148px,42vw)] object-contain sm:h-[42px] sm:max-w-[160px] lg:h-[48px]"
+              width={112}
+              height={112}
+              className="h-14 w-14 rounded-2xl object-cover shadow-sm ring-1 ring-[#d5baa5]/70 transition duration-500 sm:h-[68px] sm:w-[68px] lg:h-[76px] lg:w-[76px]"
               priority
+              quality={95}
             />
           </Link>
 
@@ -87,14 +88,14 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             >
               <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.75} />
               {itemCount > 0 ? (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b08d9e] px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b1a18a] px-1 text-[10px] font-semibold text-white">
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
             </button>
             <Link
               href="/what-we-create"
-              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b08d9e] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#9f7d8e] md:inline-flex"
+              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b1a18a] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#7f6e57] md:inline-flex"
             >
               Shop Now
             </Link>
@@ -122,7 +123,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="px-3 py-2 text-[14px] font-medium text-[#3d3a40] transition hover:text-[#9a7f92]"
+      className="px-3 py-2 text-[14px] font-medium text-[#2a2420] transition hover:text-[#9a876e]"
     >
       {children}
     </Link>

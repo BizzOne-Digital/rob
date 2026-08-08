@@ -709,14 +709,14 @@ export function ProductForm({ productId }: ProductFormProps) {
         <section className="admin-card space-y-4 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-semibold text-slate-900">Personalization</h2>
+              <h2 className="text-sm font-semibold text-slate-900">Customization</h2>
               <label className="mt-2 flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={form.personalizable}
                   onChange={(e) => patch("personalizable", e.target.checked)}
                 />
-                Enable personalization fields
+                Show Customization badge (name/engraving only)
               </label>
             </div>
             <button

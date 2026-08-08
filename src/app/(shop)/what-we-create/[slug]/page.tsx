@@ -195,7 +195,7 @@ export default async function ProductDetailPage({ params }: Props) {
               {product.featured ? <Badge tone="mauve">Best</Badge> : null}
               {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
               {product.personalizable ? (
-                <Badge tone="mauve">Personalizable</Badge>
+                <Badge tone="mauve">Customization</Badge>
               ) : null}
             </div>
             <h1 className="break-words font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">

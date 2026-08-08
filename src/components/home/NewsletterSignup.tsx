@@ -70,7 +70,7 @@ export function NewsletterSignup() {
           <button
             type="submit"
             disabled={loading}
-            className="h-12 shrink-0 bg-[#b08d9e] px-5 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e] disabled:opacity-60"
+            className="h-12 shrink-0 bg-[#b1a18a] px-5 text-[13px] font-semibold text-white transition hover:bg-[#7f6e57] disabled:opacity-60"
           >
             {loading ? "…" : "Subscribe"}
           </button>

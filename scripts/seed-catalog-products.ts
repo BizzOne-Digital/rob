@@ -148,7 +148,7 @@ const products: CatalogProduct[] = [
     name: "Sunflower Car Mirror Air Freshener",
     slug: "sunflower-car-mirror-air-freshener",
     categorySlug: "freshies",
-    price: 11.91,
+    price: 11.99,
     badge: "Freshie",
     featured: true,
     newArrival: true,
@@ -180,7 +180,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Silicone Keychain Charm | Bee Focal Bead",
     slug: "silicone-keychain-charm-bee-focal-bead",
     categorySlug: "beaded-keychains",
-    price: 9.64,
+    price: 9.71,
     badge: "Keychain",
     featured: true,
     shortDescription:
@@ -202,7 +202,7 @@ Approximately 6" including key ring.`,
     name: "Mama Car Mirror Air Freshener",
     slug: "mama-car-mirror-air-freshener",
     categorySlug: "freshies",
-    price: 11.91,
+    price: 11.99,
     badge: "Freshie",
     featured: true,
     shortDescription:
@@ -237,7 +237,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Soy Wax Melts | Strong Long-Lasting Fragrance",
     slug: "soy-wax-melts-strong-long-lasting-fragrance",
     categorySlug: "wax-melts-and-candles",
-    price: 5.96,
+    price: 6.0,
     badge: "Wax Melts",
     featured: true,
     newArrival: true,
@@ -275,7 +275,7 @@ Transform your space with natural fragrance — one melt at a time.`,
     name: "Dripping Cherries Car Mirror Air Freshener",
     slug: "dripping-cherries-car-mirror-air-freshener",
     categorySlug: "freshies",
-    price: 11.91,
+    price: 11.99,
     badge: "Freshie",
     featured: true,
     shortDescription:
@@ -306,7 +306,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Butterfly Car Vent Clip Freshie",
     slug: "butterfly-car-vent-clip-freshie",
     categorySlug: "freshies",
-    price: 8.93,
+    price: 8.99,
     badge: "Vent Clip",
     featured: true,
     shortDescription:
@@ -336,7 +336,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Highland Cow Car Vent Clip Air Freshener",
     slug: "highland-cow-car-vent-clip-air-freshener",
     categorySlug: "freshies",
-    price: 7.44,
+    price: 7.49,
     badge: "Vent Clip",
     newArrival: true,
     shortDescription:
@@ -366,7 +366,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Dog Mom Keychain | Retro Beaded Charm",
     slug: "dog-mom-keychain-retro-beaded-charm",
     categorySlug: "beaded-keychains",
-    price: 9.64,
+    price: 9.71,
     badge: "Keychain",
     featured: true,
     shortDescription:
@@ -392,7 +392,7 @@ Local delivery can be arranged for Hamilton, Ontario and surrounding area. Pleas
     name: "Silicone Wristlet Keychain | Purple",
     slug: "silicone-wristlet-keychain-purple",
     categorySlug: "beaded-keychains",
-    price: 14.1,
+    price: 14.2,
     badge: "Wristlet",
     featured: true,
     shortDescription:
@@ -416,7 +416,7 @@ Local delivery can be arranged for Hamilton, Ontario and surrounding area. Pleas
     name: "Silicone Wristlet Keychain with Leaf Beads",
     slug: "silicone-wristlet-keychain-leaf-beads",
     categorySlug: "beaded-keychains",
-    price: 14.1,
+    price: 14.2,
     badge: "Wristlet",
     newArrival: true,
     shortDescription:
@@ -439,7 +439,7 @@ Local delivery can be arranged for Hamilton, Ontario and surrounding area. Pleas
     name: "Soy Wax Melts | 1 oz Cube",
     slug: "soy-wax-melts-1-oz-cube",
     categorySlug: "wax-melts-and-candles",
-    price: 2.98,
+    price: 3.0,
     badge: "Wax Melts",
     featured: true,
     shortDescription:
@@ -476,8 +476,8 @@ Transform your space with natural fragrance — one melt at a time.`,
     name: "Engraved Birth Month Flower Keychain",
     slug: "engraved-birth-month-flower-keychain",
     categorySlug: "laser-engraved-items",
-    price: 7.44,
-    badge: "Personalized",
+    price: 7.49,
+    badge: "Customization",
     featured: true,
     newArrival: true,
     shortDescription:
@@ -506,13 +506,13 @@ See our other listing for January to June months.`,
     variants: [
       {
         name: "No thank you",
-        price: 7.44,
+        price: 7.49,
         available: true,
         inventory: 50,
       },
       {
         name: "Yes please",
-        price: 9.68,
+        price: 9.71,
         available: true,
         inventory: 50,
       },
@@ -542,7 +542,7 @@ See our other listing for January to June months.`,
     name: "Humorous Car Vent Clip Freshie | My Driving Scares Me Too",
     slug: "humorous-car-vent-clip-freshie-my-driving-scares-me-too",
     categorySlug: "freshies",
-    price: 7.44,
+    price: 7.49,
     badge: "Vent Clip",
     featured: true,
     shortDescription:
@@ -572,7 +572,7 @@ Each Freshie comes sealed in a scent-proof holographic plastic bag, labeled with
     name: "Sunflower Car Vent Clip Air Freshener",
     slug: "sunflower-car-vent-clip-air-freshener",
     categorySlug: "freshies",
-    price: 7.44,
+    price: 7.49,
     badge: "Vent Clip",
     newArrival: true,
     shortDescription:
@@ -689,9 +689,14 @@ async function main() {
         inventory: v.inventory ?? 50,
         trackInventory: true,
       })),
-      personalizable:
-        (item.personalizationFields?.length ?? 0) > 0 ||
-        (item.variants?.length ?? 0) > 0,
+      // Badge only for true name/engraving customization — not scent/colour picks
+      personalizable: Boolean(
+        item.personalizationFields?.some(
+          (f) =>
+            f.type === "textarea" ||
+            /engrav|name/i.test(`${f.id} ${f.label}`),
+        ),
+      ),
       featured: false,
       newArrival: false,
       badge: null,

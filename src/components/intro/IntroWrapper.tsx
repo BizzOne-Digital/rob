@@ -4,8 +4,6 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/constants";
-import { Sparkle } from "@/components/ui/Sparkle";
-
 const STORAGE_KEY = "rw-intro-seen";
 
 export function IntroWrapper({
@@ -45,11 +43,11 @@ export function IntroWrapper({
   useEffect(() => {
     if (!visible) return;
     const timers = [
-      window.setTimeout(() => setPhase(1), 400),
-      window.setTimeout(() => setPhase(2), 1100),
-      window.setTimeout(() => setPhase(3), 1900),
-      window.setTimeout(() => setPhase(4), 2600),
-      window.setTimeout(() => finish(), duration),
+      window.setTimeout(() => setPhase(1), 200),
+      window.setTimeout(() => setPhase(2), 700),
+      window.setTimeout(() => setPhase(3), 1200),
+      window.setTimeout(() => setPhase(4), 1900),
+      window.setTimeout(() => finish(), Math.min(duration, 2800)),
     ];
     return () => timers.forEach(clearTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +66,7 @@ export function IntroWrapper({
     <AnimatePresence>
       {visible ? (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-icy-blue via-warm-ivory to-dusty-lavender/40"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#efe6da] via-[#f7f1e9] to-[#d5baa5]/50"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.55 } }}
         >
@@ -117,35 +115,24 @@ export function IntroWrapper({
 
             {phase >= 2 ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="mt-6 flex items-center gap-3"
-              >
-                <span className="font-serif text-5xl tracking-[0.2em] text-charcoal md:text-6xl">
-                  RW
-                </span>
-                <Sparkle className="h-3 w-3" />
-              </motion.div>
-            ) : null}
-
-            {phase >= 3 ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.88, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-8"
               >
                 <Image
                   src="/images/brand/rw-designs-canada-logo.png"
                   alt={BRAND.name}
-                  width={220}
-                  height={72}
-                  className="mx-auto h-16 w-auto object-contain md:h-20"
+                  width={160}
+                  height={160}
+                  className="mx-auto h-28 w-28 rounded-[1.75rem] object-cover shadow-[0_16px_40px_rgba(42,36,32,0.18)] ring-1 ring-[#d5baa5]/80 md:h-36 md:w-36"
                   priority
+                  quality={95}
                 />
               </motion.div>
             ) : null}
 
-            {phase >= 4 ? (
+            {phase >= 3 ? (
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

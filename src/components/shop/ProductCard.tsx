@@ -90,14 +90,15 @@ export function ProductCard({
       whileHover={reduce ? undefined : { y: -4 }}
       transition={{ duration: 0.3 }}
     >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem] bg-[#f0ebe7]">
+        <div className="relative aspect-square overflow-hidden rounded-[1.35rem] bg-[#e6d9c8]">
         <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
           <ImageWithFallback
             src={product.images?.[0]?.url}
             alt={product.images?.[0]?.alt || product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain object-center p-4 transition duration-700 group-hover:scale-[1.02]"
+            quality={90}
+            className="object-cover object-center transition duration-700 group-hover:scale-[1.03]"
           />
         </Link>
 
@@ -106,7 +107,7 @@ export function ProductCard({
           {product.featured ? <Badge tone="mauve">Best</Badge> : null}
           {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
           {product.personalizable ? (
-            <Badge tone="mauve">Personalizable</Badge>
+            <Badge tone="mauve">Customization</Badge>
           ) : null}
         </div>
 
@@ -125,7 +126,7 @@ export function ProductCard({
             type="button"
             onClick={(e) => void handleQuickAdd(e)}
             disabled={adding}
-            className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-[#b08d9e] px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-white shadow-sm transition hover:bg-[#9f7d8e] disabled:opacity-60 sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
+            className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-[#b1a18a] px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-white shadow-sm transition hover:bg-[#7f6e57] disabled:opacity-60 sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
           >
             <ShoppingBag className="h-3.5 w-3.5" strokeWidth={1.75} />
             {adding ? "…" : complex ? "Options" : "Add"}

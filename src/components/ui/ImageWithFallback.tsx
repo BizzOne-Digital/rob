@@ -14,6 +14,7 @@ export function ImageWithFallback({
   className,
   sizes,
   priority,
+  quality,
   fallback = PLACEHOLDER_IMAGES.sparkle,
 }: {
   src?: string | null;
@@ -24,6 +25,7 @@ export function ImageWithFallback({
   className?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: number;
   fallback?: string;
 }) {
   const [failed, setFailed] = useState(false);
@@ -37,9 +39,10 @@ export function ImageWithFallback({
       fill={fill}
       width={fill ? undefined : width}
       height={fill ? undefined : height}
-      className={cn("object-contain object-center", className)}
+      className={cn("object-center", className)}
       sizes={sizes}
       priority={priority}
+      quality={quality}
       unoptimized={isSvg}
       onError={() => setFailed(true)}
     />

@@ -1,33 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --powder-blue: #dce8f7;
-  --icy-blue: #edf4fc;
-  --muted-mauve: #b6a4b5;
-  --dusty-lavender: #cabdcc;
-  --warm-ivory: #faf8f4;
-  --soft-beige: #ede6dd;
-  --charcoal: #141414;
+  /* Sandstone palette — stronger contrast / pop */
+  --sandstone-deep: #b1a18a;
+  --sandstone-sage: #c5beac;
+  --sandstone-cream: #e6d9c8;
+  --sandstone-sand: #d5baa5;
+  --sandstone-rose: #c1aaa2;
+  --sandstone-ink: #2a2420;
+  --sandstone-accent: #9a876e;
+  --sandstone-accent-hover: #7f6e57;
+
+  --powder-blue: #c5beac;
+  --icy-blue: #efe6da;
+  --muted-mauve: #b1a18a;
+  --dusty-lavender: #c1aaa2;
+  --warm-ivory: #f7f1e9;
+  --soft-beige: #d5baa5;
+  --charcoal: #2a2420;
   --white: #ffffff;
-  --silver: #cdd2da;
+  --silver: #c5beac;
 
   --background: var(--warm-ivory);
   --foreground: var(--charcoal);
-  --muted: color-mix(in srgb, var(--charcoal) 55%, transparent);
-  --border: color-mix(in srgb, var(--silver) 70%, var(--soft-beige));
-  --accent: var(--muted-mauve);
-  --accent-soft: var(--dusty-lavender);
+  --muted: color-mix(in srgb, var(--charcoal) 58%, transparent);
+  --border: color-mix(in srgb, var(--sandstone-sand) 70%, var(--sandstone-sage));
+  --accent: var(--sandstone-deep);
+  --accent-soft: var(--sandstone-rose);
   --surface: var(--white);
-  --surface-soft: var(--icy-blue);
-  --ring: color-mix(in srgb, var(--muted-mauve) 45%, transparent);
+  --surface-soft: var(--sandstone-cream);
+  --ring: color-mix(in srgb, var(--sandstone-deep) 40%, transparent);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.25rem;
   --radius-xl: 1.75rem;
 
-  --shadow-soft: 0 10px 40px color-mix(in srgb, var(--charcoal) 6%, transparent);
-  --shadow-glass: 0 8px 32px color-mix(in srgb, var(--muted-mauve) 12%, transparent);
+  --shadow-soft: 0 10px 40px color-mix(in srgb, var(--charcoal) 8%, transparent);
+  --shadow-glass: 0 8px 32px color-mix(in srgb, var(--sandstone-deep) 14%, transparent);
 
   --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-outfit), "Outfit", system-ui, sans-serif;
@@ -68,8 +78,8 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse 80% 50% at 10% -10%, var(--powder-blue), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 90% 0%, var(--icy-blue), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 8% -8%, var(--sandstone-cream), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 92% 0%, var(--sandstone-sand), transparent 48%),
     var(--warm-ivory);
   color: var(--foreground);
   font-family: var(--font-sans);

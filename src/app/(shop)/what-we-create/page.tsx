@@ -26,31 +26,20 @@ export default async function WhatWeCreatePage({
   searchParams: SearchParams;
 }) {
   const sp = await searchParams;
-  const search = typeof sp.search === "string" ? sp.search : undefined;
   const category = typeof sp.category === "string" ? sp.category : undefined;
   const sort = typeof sp.sort === "string" ? sp.sort : "newest";
   const personalizable = sp.personalizable === "1";
   const featured = sp.featured === "1";
-  const availability =
-    sp.availability === "in_stock" || sp.availability === "contact"
-      ? sp.availability
-      : undefined;
-  const minPrice = sp.minPrice ? Number(sp.minPrice) : undefined;
-  const maxPrice = sp.maxPrice ? Number(sp.maxPrice) : undefined;
   const page = Math.max(1, Number(sp.page ?? 1) || 1);
   const limit = 24;
   const skip = (page - 1) * limit;
 
   const [{ items, total }, categories] = await Promise.all([
     getPublishedProducts({
-      search,
       categorySlug: category,
       sort,
       featured: featured || undefined,
       personalizable: personalizable || undefined,
-      availability,
-      minPrice: Number.isFinite(minPrice) ? minPrice : undefined,
-      maxPrice: Number.isFinite(maxPrice) ? maxPrice : undefined,
       limit,
       skip,
     }),

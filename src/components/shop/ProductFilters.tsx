@@ -18,6 +18,11 @@ export function ProductFilters({
     if (!value) next.delete(key);
     else next.set(key, value);
     next.delete("page");
+    // Drop removed filters if present in the URL
+    next.delete("search");
+    next.delete("minPrice");
+    next.delete("maxPrice");
+    next.delete("availability");
     startTransition(() => {
       router.push(`/what-we-create?${next.toString()}`);
     });
@@ -25,53 +30,7 @@ export function ProductFilters({
 
   return (
     <aside className={cn("space-y-6", pending && "opacity-70", className)}>
-      <FilterBlock title="Search">
-        <input
-          defaultValue={params.get("search") ?? ""}
-          placeholder="Search creations"
-          className="h-11 w-full rounded-full border border-soft-beige bg-white px-4 text-sm outline-none focus:border-muted-mauve"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              update("search", (e.target as HTMLInputElement).value.trim());
-            }
-          }}
-        />
-      </FilterBlock>
-
-      <FilterBlock title="Price">
-        <div className="grid grid-cols-2 gap-2">
-          <input
-            type="number"
-            min={0}
-            placeholder="Min"
-            defaultValue={params.get("minPrice") ?? ""}
-            className="h-11 rounded-full border border-soft-beige bg-white px-4 text-sm outline-none"
-            onBlur={(e) => update("minPrice", e.target.value)}
-          />
-          <input
-            type="number"
-            min={0}
-            placeholder="Max"
-            defaultValue={params.get("maxPrice") ?? ""}
-            className="h-11 rounded-full border border-soft-beige bg-white px-4 text-sm outline-none"
-            onBlur={(e) => update("maxPrice", e.target.value)}
-          />
-        </div>
-      </FilterBlock>
-
-      <FilterBlock title="Availability">
-        <select
-          className="h-11 w-full rounded-full border border-soft-beige bg-white px-4 text-sm outline-none"
-          value={params.get("availability") ?? ""}
-          onChange={(e) => update("availability", e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="in_stock">Ready to purchase</option>
-          <option value="contact">Contact for price</option>
-        </select>
-      </FilterBlock>
-
-      <FilterBlock title="Personalizable">
+      <FilterBlock title="Customization">
         <label className="flex items-center gap-3 text-sm text-charcoal/70">
           <input
             type="checkbox"
@@ -80,13 +39,13 @@ export function ProductFilters({
               update("personalizable", e.target.checked ? "1" : "")
             }
           />
-          Show personalizable only
+          Show customization only
         </label>
       </FilterBlock>
 
       <FilterBlock title="Sort">
         <select
-          className="h-11 w-full rounded-full border border-soft-beige bg-white px-4 text-sm outline-none"
+          className="h-11 w-full rounded-full border border-soft-beige bg-white px-4 text-sm outline-none focus:border-muted-mauve"
           value={params.get("sort") ?? "newest"}
           onChange={(e) => update("sort", e.target.value)}
         >
