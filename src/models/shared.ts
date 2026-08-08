@@ -1,4 +1,4 @@
-import { Schema, models, model, type InferSchemaType, type Model } from "mongoose";
+import { Schema, models, model, type Model } from "mongoose";
 import type { MediaRef, SeoFields } from "@/types";
 
 export const MediaRefSchema = new Schema<MediaRef>(

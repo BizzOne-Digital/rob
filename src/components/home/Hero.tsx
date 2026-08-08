@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Gift, HeartHandshake } from "lucide-react";
-import { BRAND } from "@/lib/constants";
-
 function SproutIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -22,11 +20,12 @@ function SproutIcon({ className }: { className?: string }) {
   );
 }
 
-export function Hero({ headline }: { headline?: string | null }) {
-  const title = headline || BRAND.headline;
-
+export function Hero({ headline }: { headline?: string | null } = {}) {
   return (
-    <section className="relative isolate overflow-hidden bg-[#efe6da]">
+    <section
+      className="relative isolate overflow-hidden bg-[#efe6da]"
+      data-headline={headline || undefined}
+    >
       <div className="absolute inset-0">
         <Image
           src="/images/brand/hero-lifestyle.png"

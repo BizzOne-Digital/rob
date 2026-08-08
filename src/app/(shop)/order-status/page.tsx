@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
-import { Suspense } from "react";
 
 function OrderStatusForm() {
   const searchParams = useSearchParams();
-  const [orderNumber, setOrderNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [orderNumber, setOrderNumber] = useState(
+    () => searchParams.get("orderNumber") ?? "",
+  );
+  const [email, setEmail] = useState(() => searchParams.get("email") ?? "");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<{
     orderNumber: string;
@@ -24,13 +25,6 @@ function OrderStatusForm() {
     currency: string;
     timeline: Array<{ status: string; note?: string; createdAt?: string }>;
   } | null>(null);
-
-  useEffect(() => {
-    const on = searchParams.get("orderNumber");
-    const em = searchParams.get("email");
-    if (on) setOrderNumber(on);
-    if (em) setEmail(em);
-  }, [searchParams]);
 
   const lookup = async (e?: React.FormEvent) => {
     e?.preventDefault();

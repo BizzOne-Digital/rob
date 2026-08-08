@@ -1,10 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/constants";
+
 const STORAGE_KEY = "rw-intro-seen";
+
+function readIntroSeen() {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 export function IntroWrapper({
   enabled = true,
@@ -30,14 +39,19 @@ export function IntroWrapper({
     [],
   );
 
-  useEffect(() => {
-    if (!enabled || reduce) return;
+  const finish = useCallback(() => {
     try {
-      if (sessionStorage.getItem(STORAGE_KEY) === "1") return;
+      sessionStorage.setItem(STORAGE_KEY, "1");
     } catch {
       /* ignore */
     }
-    setVisible(true);
+    setVisible(false);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled || reduce || readIntroSeen()) return;
+    const id = window.setTimeout(() => setVisible(true), 0);
+    return () => window.clearTimeout(id);
   }, [enabled, reduce]);
 
   useEffect(() => {
@@ -50,17 +64,7 @@ export function IntroWrapper({
       window.setTimeout(() => finish(), Math.min(duration, 2800)),
     ];
     return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, duration]);
-
-  const finish = () => {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      /* ignore */
-    }
-    setVisible(false);
-  };
+  }, [visible, duration, finish]);
 
   return (
     <AnimatePresence>

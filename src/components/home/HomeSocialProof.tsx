@@ -32,7 +32,6 @@ export function HomeSocialProof({
   const [paused, setPaused] = useState(false);
   const visibleFaqs = faqs.slice(0, 5);
   const visibleTestimonials = testimonials.slice(0, 8);
-  const current = visibleTestimonials[active];
 
   useEffect(() => {
     if (visibleTestimonials.length <= 1 || paused) return;
