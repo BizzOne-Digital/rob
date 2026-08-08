@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Gift, HeartHandshake } from "lucide-react";
+
 function SproutIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -23,7 +24,7 @@ function SproutIcon({ className }: { className?: string }) {
 export function Hero({ headline }: { headline?: string | null } = {}) {
   return (
     <section
-      className="relative isolate overflow-hidden bg-[#efe6da]"
+      className="relative isolate overflow-hidden bg-[#faf8f4]"
       data-headline={headline || undefined}
     >
       <div className="absolute inset-0">
@@ -35,22 +36,22 @@ export function Hero({ headline }: { headline?: string | null } = {}) {
           sizes="100vw"
           className="object-cover object-[70%_center] lg:object-right"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f7f1e9] via-[#f7f1e9]/92 to-transparent lg:via-[#f7f1e9]/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#faf8f4] via-[#faf8f4]/92 to-transparent lg:via-[#faf8f4]/55" />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[480px] w-full max-w-[1200px] items-center px-4 py-12 sm:min-h-[560px] sm:px-8 sm:py-16 lg:min-h-[620px] lg:px-10 lg:py-20">
         <div className="w-full min-w-0 max-w-[540px]">
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9a876e] sm:mb-4 sm:text-[11px] sm:tracking-[0.2em]">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9a7f92] sm:mb-4 sm:text-[11px] sm:tracking-[0.2em]">
             Handmade | Personalized | Canada
           </p>
 
-          <h1 className="font-serif text-[2rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2a2420] sm:text-[3.2rem] lg:text-[3.5rem]">
+          <h1 className="font-serif text-[2rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2f2c31] sm:text-[3.2rem] lg:text-[3.5rem]">
             Beautifully handmade.
             <br />
             Thoughtfully designed.
           </h1>
 
-          <p className="mt-4 max-w-[460px] text-[14px] leading-relaxed text-[#4a4038] sm:mt-5 sm:text-[15px]">
+          <p className="mt-4 max-w-[460px] text-[14px] leading-relaxed text-[#5c5660] sm:mt-5 sm:text-[15px]">
             Discover handcrafted, all-natural soy wax candles, car air
             fresheners, personalized gifts, custom laser-engraved creations,
             beaded keychains and accessories—made with quality, creativity, and
@@ -60,13 +61,13 @@ export function Hero({ headline }: { headline?: string | null } = {}) {
           <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
             <Link
               href="/what-we-create"
-              className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-[#b1a18a] px-5 text-[13px] font-semibold text-white transition hover:bg-[#7f6e57] sm:flex-none sm:px-6"
+              className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-[#b08d9e] px-5 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e] sm:flex-none sm:px-6"
             >
               Shop the collection
             </Link>
             <Link
               href="/what-we-create"
-              className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-[#b1a18a] bg-white/80 px-5 text-[13px] font-semibold text-[#7f6e57] transition hover:bg-white sm:flex-none sm:px-6"
+              className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-[#b08d9e]/80 bg-white/80 px-5 text-[13px] font-semibold text-[#9a7f92] transition hover:bg-white sm:flex-none sm:px-6"
             >
               View All Items
             </Link>

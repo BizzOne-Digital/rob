@@ -33,7 +33,7 @@ export function WhatWeCreateGrid({
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a876e]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7f92]">
               Explore
             </p>
             <h2 className="mt-2 font-serif text-3xl text-[#2f2c31] sm:text-4xl">
@@ -42,7 +42,7 @@ export function WhatWeCreateGrid({
           </div>
           <Link
             href="/what-we-create"
-            className="hidden text-[13px] font-semibold text-[#9a876e] underline-offset-4 hover:underline sm:inline"
+            className="hidden text-[13px] font-semibold text-[#9a7f92] underline-offset-4 hover:underline sm:inline"
           >
             View all
           </Link>
@@ -73,7 +73,7 @@ export function WhatWeCreateGrid({
                   <p className="font-serif text-[15px] text-white sm:text-base">
                     {cat.name}
                   </p>
-                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/90 text-[#6B5B5B] transition group-hover:bg-[#b1a18a] group-hover:text-white">
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/90 text-[#6B5B5B] transition group-hover:bg-[#b08d9e] group-hover:text-white">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
                 </div>

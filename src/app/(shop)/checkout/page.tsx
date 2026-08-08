@@ -241,7 +241,7 @@ export default function CheckoutPage() {
           </section>
         </div>
 
-        <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-icy-blue to-powder-blue/40 p-6">
+        <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-[#f7f5f8] to-[#ede6dd]/70 p-6">
           <h2 className="font-serif text-2xl">Order summary</h2>
           <ul className="mt-4 space-y-3">
             {items.map((item) => (

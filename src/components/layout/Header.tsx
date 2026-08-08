@@ -28,15 +28,15 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 border-b border-[#e8e4ea]/80 bg-white transition-shadow duration-300",
+          "sticky top-0 z-50 border-b border-[#e8e4ea]/80 bg-[#faf8f4] transition-shadow duration-300",
           scrolled && "shadow-[0_8px_30px_rgba(20,20,20,0.06)]",
         )}
       >
-        <div className="relative mx-auto grid h-[76px] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[88px] sm:gap-3 sm:px-6 lg:h-[96px] lg:gap-4 lg:px-8">
+        <div className="relative mx-auto grid h-[84px] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:h-[96px] sm:gap-3 sm:px-6 lg:h-[104px] lg:gap-4 lg:px-8">
           {/* Mobile menu */}
           <button
             type="button"
-            className="rounded-lg p-2 text-[#2a2420] hover:bg-[#efe6da] lg:hidden"
+            className="rounded-lg p-2 text-[#3d3a40] hover:bg-[#f3eef3] lg:hidden"
             aria-label="Open menu"
             onClick={() => setMenuOpen(true)}
           >
@@ -49,13 +49,13 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             className="relative z-10 min-w-0 justify-self-center lg:col-start-1 lg:justify-self-start"
           >
             <Image
-              src="/images/brand/rw-designs-canada-logo.png"
+              src="/images/brand/rw-designs-canada-logo-clean.png"
               alt={BRAND.name}
-              width={112}
-              height={112}
-              className="h-14 w-14 rounded-2xl object-cover shadow-sm ring-1 ring-[#d5baa5]/70 transition duration-500 sm:h-[68px] sm:w-[68px] lg:h-[76px] lg:w-[76px]"
+              width={200}
+              height={200}
+              className="h-[68px] w-[68px] object-contain transition duration-500 sm:h-[80px] sm:w-[80px] lg:h-[92px] lg:w-[92px]"
               priority
-              quality={95}
+              quality={100}
             />
           </Link>
 
@@ -88,14 +88,14 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             >
               <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.75} />
               {itemCount > 0 ? (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b1a18a] px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b08d9e] px-1 text-[10px] font-semibold text-white">
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
             </button>
             <Link
               href="/what-we-create"
-              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b1a18a] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#7f6e57] md:inline-flex"
+              className="ml-1 hidden h-10 items-center justify-center rounded-xl bg-[#b08d9e] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#9f7d8e] md:inline-flex"
             >
               Shop Now
             </Link>
@@ -123,7 +123,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="px-3 py-2 text-[14px] font-medium text-[#2a2420] transition hover:text-[#9a876e]"
+      className="px-3 py-2 text-[14px] font-medium text-[#2f2c31] transition hover:text-[#9a7f92]"
     >
       {children}
     </Link>

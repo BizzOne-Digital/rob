@@ -20,8 +20,8 @@ export default async function ShopLayout({
     <>
       <OrganizationJsonLd />
       <IntroWrapper
-        enabled={settings.introWrapper?.enabled}
-        durationMs={settings.introWrapper?.durationMs}
+        enabled={settings.introWrapper?.enabled !== false}
+        durationMs={settings.introWrapper?.durationMs ?? 3500}
       />
       <div className="flex min-h-full w-full max-w-full flex-col overflow-x-clip">
         <AnnouncementBar

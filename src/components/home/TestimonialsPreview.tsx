@@ -16,7 +16,7 @@ export function TestimonialsPreview({
   if (!testimonials.length) return null;
 
   return (
-    <MotionSection className="bg-gradient-to-b from-transparent via-powder-blue/30 to-transparent py-20 md:py-28">
+    <MotionSection className="bg-gradient-to-b from-transparent via-[#ede6dd]/45 to-transparent py-20 md:py-28">
       <Container>
         <SectionHeading
           eyebrow="Kind words"

@@ -10,9 +10,9 @@ export function Badge({
   tone?: "mauve" | "blue" | "ivory" | "charcoal";
 }) {
   const tones = {
-    mauve: "bg-[#b1a18a] text-white",
-    blue: "bg-[#c5beac] text-[#2a2420]",
-    ivory: "bg-[#e6d9c8] text-[#2a2420]",
+    mauve: "bg-[#b08d9e] text-white",
+    blue: "bg-[#dce8f7] text-[#2f2c31]",
+    ivory: "bg-[#ede6dd] text-[#2f2c31]",
     charcoal: "bg-charcoal text-white",
   };
 

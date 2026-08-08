@@ -5,12 +5,13 @@ type Variant = "primary" | "secondary" | "ghost" | "outline" | "soft";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-charcoal text-white hover:bg-charcoal/90 shadow-sm",
-  secondary: "bg-muted-mauve text-white hover:bg-muted-mauve/90",
-  ghost: "bg-transparent text-charcoal hover:bg-powder-blue/60",
+  // !text-* so global `a { color: inherit }` cannot hide labels on Link buttons
+  primary: "bg-charcoal !text-white hover:bg-charcoal/90 shadow-sm",
+  secondary: "bg-muted-mauve !text-white hover:bg-muted-mauve/90",
+  ghost: "bg-transparent !text-charcoal hover:bg-powder-blue/60",
   outline:
-    "border border-charcoal/15 bg-transparent text-charcoal hover:border-muted-mauve hover:bg-white/70",
-  soft: "bg-powder-blue text-charcoal hover:bg-icy-blue",
+    "border border-charcoal/15 bg-transparent !text-charcoal hover:border-muted-mauve hover:bg-white/70",
+  soft: "bg-powder-blue !text-charcoal hover:bg-icy-blue",
 };
 
 const sizes: Record<Size, string> = {

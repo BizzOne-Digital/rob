@@ -58,31 +58,23 @@ export function Footer({
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto overflow-x-clip border-t border-[#d5baa5]/40 bg-[#2a2420] text-[#f7f1e9]">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 15% 0%, rgba(177,161,138,0.35), transparent 55%), radial-gradient(ellipse 50% 40% at 90% 100%, rgba(193,170,162,0.22), transparent 50%)",
-        }}
-      />
-      <Sparkle className="pointer-events-none absolute bottom-28 left-1/2 h-3 w-3 -translate-x-1/2 text-[#d5baa5]/70" />
+    <footer className="relative mt-auto overflow-x-clip bg-[#1a1a1a] text-white">
+      <Sparkle className="pointer-events-none absolute bottom-28 left-1/2 h-3 w-3 -translate-x-1/2 text-white/50" />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-8 pt-10 sm:px-8 lg:px-10 lg:pt-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
-          {/* Brand */}
-          <div className="min-w-0 lg:border-r lg:border-[#c5beac]/25 lg:pr-8">
+          <div className="min-w-0 lg:border-r lg:border-white/15 lg:pr-8">
             <Link href="/" className="inline-block max-w-full">
               <Image
-                src="/images/brand/rw-designs-canada-logo.png"
+                src="/images/brand/rw-designs-canada-logo-clean.png"
                 alt={BRAND.name}
-                width={140}
-                height={140}
-                className="h-[4.5rem] w-[4.5rem] rounded-2xl object-cover shadow-[0_10px_28px_rgba(0,0,0,0.25)] ring-1 ring-[#d5baa5]/45 sm:h-24 sm:w-24"
-                quality={95}
+                width={200}
+                height={200}
+                className="h-24 w-24 object-contain sm:h-28 sm:w-28"
+                quality={100}
               />
             </Link>
-            <p className="mt-4 max-w-[220px] text-[13px] leading-relaxed text-[#e6d9c8]/80">
+            <p className="mt-4 max-w-[220px] text-[13px] leading-relaxed text-white/70">
               Thoughtfully handmade gifts and home goods made in Canada with
               care.
             </p>
@@ -93,7 +85,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#c5beac]/35 text-[#e6d9c8] transition hover:border-[#b1a18a] hover:bg-[#b1a18a] hover:text-white"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-[#b08d9e] hover:text-[#b08d9e]"
                 >
                   <InstagramIcon className="h-4 w-4" />
                 </a>
@@ -104,7 +96,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#c5beac]/35 text-[#e6d9c8] transition hover:border-[#b1a18a] hover:bg-[#b1a18a] hover:text-white"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-[#b08d9e] hover:text-[#b08d9e]"
                 >
                   <FacebookIcon className="h-4 w-4" />
                 </a>
@@ -112,17 +104,13 @@ export function Footer({
             </div>
           </div>
 
-          {/* What We Create */}
-          <div className="lg:border-r lg:border-[#c5beac]/25 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#d5baa5]">
+          <div className="lg:border-r lg:border-white/15 lg:px-8">
+            <h3 className="font-serif text-[18px] text-[#c9a8bb]">
               What We Create
             </h3>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-[#e6d9c8]/85">
+            <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
               <li>
-                <Link
-                  href="/what-we-create"
-                  className="transition hover:text-white"
-                >
+                <Link href="/what-we-create" className="transition hover:text-white">
                   View All
                 </Link>
               </li>
@@ -150,10 +138,9 @@ export function Footer({
             </ul>
           </div>
 
-          {/* Help */}
-          <div className="lg:border-r lg:border-[#c5beac]/25 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#d5baa5]">Help</h3>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-[#e6d9c8]/85">
+          <div className="lg:border-r lg:border-white/15 lg:px-8">
+            <h3 className="font-serif text-[18px] text-[#c9a8bb]">Help</h3>
+            <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
               <li>
                 <Link href="/faq" className="transition hover:text-white">
                   FAQ
@@ -180,18 +167,17 @@ export function Footer({
             </ul>
           </div>
 
-          {/* Let's Connect */}
           <div className="lg:pl-8">
-            <h3 className="font-serif text-[18px] text-[#d5baa5]">
+            <h3 className="font-serif text-[18px] text-[#c9a8bb]">
               Let’s Connect
             </h3>
-            <ul className="mt-4 space-y-3.5 text-[13px] text-[#e6d9c8]/85">
+            <ul className="mt-4 space-y-3.5 text-[13px] text-white/80">
               <li>
                 <a
                   href={`mailto:${displayEmail}`}
                   className="inline-flex items-start gap-2.5 transition hover:text-white"
                 >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#b1a18a]" strokeWidth={1.6} />
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#b08d9e]" strokeWidth={1.6} />
                   <span className="break-all">{displayEmail}</span>
                 </a>
               </li>
@@ -200,7 +186,7 @@ export function Footer({
                   href={phoneHref || BRAND.phoneHref}
                   className="inline-flex items-center gap-2.5 transition hover:text-white"
                 >
-                  <Phone className="h-4 w-4 shrink-0 text-[#b1a18a]" strokeWidth={1.6} />
+                  <Phone className="h-4 w-4 shrink-0 text-[#b08d9e]" strokeWidth={1.6} />
                   {displayPhone}
                 </a>
               </li>
@@ -211,7 +197,7 @@ export function Footer({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 transition hover:text-white"
                 >
-                  <InstagramIcon className="h-4 w-4 shrink-0 text-[#b1a18a]" />
+                  <InstagramIcon className="h-4 w-4 shrink-0 text-[#b08d9e]" />
                   {BRAND.instagram}
                 </a>
               </li>
@@ -219,27 +205,24 @@ export function Footer({
           </div>
         </div>
 
-        <div className="mt-10 border-t border-[#c5beac]/25 pt-5">
-          <div className="flex flex-col gap-3 text-[12px] text-[#c5beac]/80 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 border-t border-white/15 pt-5">
+          <div className="flex flex-col gap-3 text-[12px] text-white/45 sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {year} {BRAND.name}. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link
-                href="/privacy-policy"
-                className="transition hover:text-[#e6d9c8]"
-              >
+              <Link href="/privacy-policy" className="transition hover:text-white/80">
                 Privacy Policy
               </Link>
               <Link
                 href="/terms-and-conditions"
-                className="transition hover:text-[#e6d9c8]"
+                className="transition hover:text-white/80"
               >
                 Terms of Service
               </Link>
               <Link
                 href="/shipping-and-returns"
-                className="transition hover:text-[#e6d9c8]"
+                className="transition hover:text-white/80"
               >
                 Shipping & Returns
               </Link>

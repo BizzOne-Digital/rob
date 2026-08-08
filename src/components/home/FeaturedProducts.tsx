@@ -38,7 +38,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
   };
 
   return (
-    <section className="overflow-x-clip bg-[#f7f1e9] py-12 sm:py-16 lg:py-20">
+    <section className="overflow-x-clip bg-[#faf8f4] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-8 lg:px-10">
         <div className="mb-8 text-center sm:mb-10">
           <h2 className="font-serif text-[1.85rem] text-[#2f2c31] sm:text-3xl lg:text-4xl">
@@ -62,7 +62,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                   key={item._id}
                   className="group min-w-0 overflow-hidden rounded-xl border border-[#ebe6eb] bg-white shadow-[0_8px_24px_rgba(20,20,20,0.04)]"
                 >
-                  <div className="relative aspect-square bg-[#e6d9c8]">
+                  <div className="relative aspect-square bg-[#ede6dd]">
                     <Link href={`/what-we-create/${item.slug}`}>
                       <Image
                         src={img}
@@ -76,7 +76,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                     <button
                       type="button"
                       aria-label="Add to wishlist"
-                      className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#9a876e]"
+                      className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#9a7f92]"
                     >
                       <Heart className="h-4 w-4" strokeWidth={1.6} />
                     </button>
@@ -84,7 +84,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                       <button
                         type="button"
                         onClick={() => openQuickView(item)}
-                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-white/95 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#4a4038]"
+                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-white/95 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5c5660]"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         View
@@ -93,7 +93,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                         type="button"
                         onClick={() => void quickAdd(item)}
                         disabled={addingId === item._id}
-                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-[#b1a18a] text-[11px] font-semibold uppercase tracking-[0.06em] text-white disabled:opacity-60"
+                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-[#b08d9e] text-[11px] font-semibold uppercase tracking-[0.06em] text-white disabled:opacity-60"
                       >
                         <ShoppingBag className="h-3.5 w-3.5" />
                         {addingId === item._id ? "…" : "Add"}
@@ -101,17 +101,17 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                     </div>
                   </div>
                   <div className="space-y-3 p-4">
-                    <h3 className="line-clamp-2 min-h-[2.6em] font-serif text-[17px] leading-snug text-[#2a2420]">
+                    <h3 className="line-clamp-2 min-h-[2.6em] font-serif text-[17px] leading-snug text-[#2f2c31]">
                       {item.name}
                     </h3>
-                    <p className="text-[13px] font-semibold text-[#2a2420]">
+                    <p className="text-[13px] font-semibold text-[#2f2c31]">
                       {price.hasPrice
                         ? formatCurrency(item.price)
                         : "Contact for Price"}
                     </p>
                     <Link
                       href={`/what-we-create/${item.slug}`}
-                      className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-[#d5baa5] text-[12px] font-semibold uppercase tracking-[0.08em] text-[#4a4038] transition hover:border-[#b1a18a] hover:text-[#7f6e57]"
+                      className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-[#e8e4ea] text-[12px] font-semibold uppercase tracking-[0.08em] text-[#5c5660] transition hover:border-[#b08d9e] hover:text-[#9f7d8e]"
                     >
                       View Product
                     </Link>
@@ -125,7 +125,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
         <div className="mt-10 text-center">
           <Link
             href="/what-we-create"
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-[#b1a18a] px-7 text-[13px] font-semibold text-white transition hover:bg-[#7f6e57]"
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-[#b08d9e] px-7 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e]"
           >
             Shop all favorites
           </Link>

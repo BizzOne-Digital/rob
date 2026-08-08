@@ -22,7 +22,7 @@ export function AnnouncementBar({
   );
 
   return (
-    <div className="overflow-x-clip border-b border-[#d5baa5]/50 bg-[#e6d9c8]">
+    <div className="overflow-x-clip border-b border-[#e8e4ea]/70 bg-[#f3eef3]">
       <div className="mx-auto max-w-[1280px] px-3 py-2.5 sm:px-6 sm:py-[11px] lg:px-8">
         {link ? (
           <Link href={link} className="block transition hover:opacity-80">

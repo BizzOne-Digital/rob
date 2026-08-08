@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function CustomCreationsTeaser() {
   return (
-    <section className="overflow-x-clip bg-[#b1a18a]">
+    <section className="overflow-x-clip bg-[#b08d9e]">
       <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-4 py-10 sm:px-8 sm:py-12 lg:grid-cols-2 lg:gap-10 lg:px-10 lg:py-14">
         <div className="min-w-0 text-white">
           <h2 className="font-serif text-[1.85rem] leading-tight sm:text-3xl lg:text-4xl">
@@ -15,12 +15,12 @@ export function CustomCreationsTeaser() {
           </p>
           <Link
             href="/what-we-create"
-            className="mt-7 inline-flex h-11 items-center justify-center rounded-lg bg-white px-6 text-[13px] font-semibold !text-[#7f6e57] transition hover:bg-[#f7f1e9] hover:!text-[#2a2420]"
+            className="mt-7 inline-flex h-11 items-center justify-center rounded-lg bg-white px-6 text-[13px] font-semibold !text-[#9f7d8e] transition hover:bg-[#faf8f4] hover:!text-[#2f2c31]"
           >
             Shop All Collections
           </Link>
         </div>
-        <div className="relative aspect-[16/10] min-w-0 overflow-hidden rounded-2xl bg-[#e6d9c8]">
+        <div className="relative aspect-[16/10] min-w-0 overflow-hidden rounded-2xl bg-[#ede6dd]">
           <Image
             src="/images/brand/home-1.png"
             alt="Personalized handmade gifts by RW Designs Canada"

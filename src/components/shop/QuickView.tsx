@@ -77,7 +77,7 @@ export function QuickView({
             className="grid max-h-[90vh] w-full max-w-3xl overflow-hidden overflow-y-auto rounded-[1.25rem] bg-warm-ivory sm:rounded-[1.75rem] md:grid-cols-2"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-square bg-[#e6d9c8] md:aspect-auto md:min-h-[420px]">
+            <div className="relative aspect-square bg-[#ede6dd] md:aspect-auto md:min-h-[420px]">
               <ImageWithFallback
                 src={product.images?.[0]?.url}
                 alt={product.name}

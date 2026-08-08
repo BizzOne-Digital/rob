@@ -56,6 +56,7 @@ export function CartDrawer() {
                   </p>
                   <Button
                     href="/what-we-create"
+                    variant="secondary"
                     className="mt-6"
                     onClick={() => setOpen(false)}
                   >

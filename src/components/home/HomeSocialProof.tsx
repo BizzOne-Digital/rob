@@ -42,7 +42,7 @@ export function HomeSocialProof({
   }, [visibleTestimonials.length, paused]);
 
   return (
-    <section className="overflow-x-clip bg-[#efe6da] py-12 sm:py-16 lg:py-20">
+    <section className="overflow-x-clip bg-[#f7f5f8] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-8 lg:grid-cols-2 lg:gap-14 lg:px-10">
         {/* Testimonials */}
         <div className="min-w-0">
@@ -80,7 +80,7 @@ export function HomeSocialProof({
                   aria-hidden={i !== active}
                 >
                   <Quote className="h-6 w-6 text-[#c9b4c4]" />
-                  <div className="mt-3 flex gap-1 text-[#b1a18a]">
+                  <div className="mt-3 flex gap-1 text-[#b08d9e]">
                     {Array.from({ length: t.rating || 5 }).map((_, star) => (
                       <Star key={star} className="h-3.5 w-3.5 fill-current" />
                     ))}
@@ -115,7 +115,7 @@ export function HomeSocialProof({
                       onClick={() => setActive(i)}
                       className={cn(
                         "h-2 w-2 rounded-full transition",
-                        i === active ? "bg-[#b1a18a]" : "bg-[#c5beac]",
+                        i === active ? "bg-[#b08d9e]" : "bg-[#cabdcc]",
                       )}
                     />
                   ))}
@@ -176,7 +176,7 @@ export function HomeSocialProof({
 
           <Link
             href="/faq"
-            className="mt-5 inline-block text-[13px] font-semibold text-[#9a876e] underline-offset-4 hover:underline"
+            className="mt-5 inline-block text-[13px] font-semibold text-[#9a7f92] underline-offset-4 hover:underline"
           >
             View all FAQs
           </Link>

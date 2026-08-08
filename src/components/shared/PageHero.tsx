@@ -28,7 +28,7 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative overflow-hidden border-b border-soft-beige/70 bg-gradient-to-br from-icy-blue via-warm-ivory to-powder-blue grain-panel",
+        "relative overflow-hidden border-b border-soft-beige/70 bg-gradient-to-br from-[#faf8f4] via-[#f3eef3] to-[#edf4fc]/70 grain-panel",
         className,
       )}
     >
