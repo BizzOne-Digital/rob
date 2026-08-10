@@ -27,16 +27,15 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 border-b border-[#e8e0d6]/80 bg-[#f7f3ee] transition-shadow duration-300",
-          scrolled && "shadow-[0_8px_30px_rgba(47,42,38,0.06)]",
+          "sticky top-0 z-50 border-b border-[#aeb6a6]/60 bg-sage transition-shadow duration-300",
+          scrolled && "shadow-[0_8px_30px_rgba(47,42,38,0.08)]",
         )}
       >
-        <div className="mx-auto flex w-full max-w-[1280px] items-stretch">
-          {/* Sage logo panel — matches reference */}
-          <div className="flex shrink-0 items-center bg-sage px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
+        <div className="relative mx-auto flex h-[92px] w-full max-w-[1280px] items-center justify-between gap-3 px-3 sm:h-[108px] sm:px-6 lg:h-[116px] lg:px-8">
+          <div className="flex min-w-0 items-center gap-1">
             <button
               type="button"
-              className="mr-2 rounded-lg p-2 text-[#2f2a26] hover:bg-white/25 lg:hidden"
+              className="rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 lg:hidden"
               aria-label="Open menu"
               onClick={() => setMenuOpen(true)}
             >
@@ -45,46 +44,44 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             <BrandLogo size="md" />
           </div>
 
-          <div className="flex min-w-0 flex-1 items-center justify-end gap-1 px-3 sm:gap-2 sm:px-6 lg:justify-between lg:px-8">
-            <nav className="hidden items-center gap-0.5 lg:flex">
-              <NavLink href="/">Home</NavLink>
-              <NavLink href="/about">About Us</NavLink>
-              <NavLink href="/what-we-create">What We Create</NavLink>
-              {showBlog ? <NavLink href="/blog">Journal</NavLink> : null}
-              <NavLink href="/contact">Contact</NavLink>
-            </nav>
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/about">About Us</NavLink>
+            <NavLink href="/what-we-create">What We Create</NavLink>
+            {showBlog ? <NavLink href="/blog">Journal</NavLink> : null}
+            <NavLink href="/contact">Contact</NavLink>
+          </nav>
 
-            <div className="flex shrink-0 items-center gap-0.5 sm:gap-1.5">
-              <IconButton label="Search" onClick={() => setSearchOpen(true)}>
-                <Search className="h-[18px] w-[18px]" strokeWidth={1.75} />
-              </IconButton>
-              <Link
-                href="/wishlist"
-                aria-label="Wishlist"
-                className="hidden rounded-lg p-2 text-[#3d342c] transition hover:bg-[#efe8df] sm:inline-flex"
-              >
-                <Heart className="h-[18px] w-[18px]" strokeWidth={1.75} />
-              </Link>
-              <button
-                type="button"
-                aria-label="Open cart"
-                className="relative rounded-lg p-2 text-[#3d342c] transition hover:bg-[#efe8df]"
-                onClick={() => setCartOpen(true)}
-              >
-                <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.75} />
-                {itemCount > 0 ? (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-taupe px-1 text-[10px] font-semibold text-white">
-                    {itemCount > 99 ? "99+" : itemCount}
-                  </span>
-                ) : null}
-              </button>
-              <Link
-                href="/what-we-create"
-                className="ml-1 hidden h-10 items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white shadow-sm transition hover:bg-taupe-deep md:inline-flex"
-              >
-                Shop Now
-              </Link>
-            </div>
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1.5">
+            <IconButton label="Search" onClick={() => setSearchOpen(true)}>
+              <Search className="h-[18px] w-[18px]" strokeWidth={1.75} />
+            </IconButton>
+            <Link
+              href="/wishlist"
+              aria-label="Wishlist"
+              className="hidden rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 sm:inline-flex"
+            >
+              <Heart className="h-[18px] w-[18px]" strokeWidth={1.75} />
+            </Link>
+            <button
+              type="button"
+              aria-label="Open cart"
+              className="relative rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              {itemCount > 0 ? (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-taupe px-1 text-[10px] font-semibold text-white">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              ) : null}
+            </button>
+            <Link
+              href="/what-we-create"
+              className="ml-1 hidden h-10 items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white shadow-sm transition hover:bg-taupe-deep md:inline-flex"
+            >
+              Shop Now
+            </Link>
           </div>
         </div>
       </header>
@@ -130,7 +127,7 @@ function IconButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="rounded-lg p-2 text-[#3d342c] transition hover:bg-[#efe8df]"
+      className="rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
     >
       {children}
     </button>

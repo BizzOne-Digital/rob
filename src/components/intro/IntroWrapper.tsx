@@ -145,7 +145,7 @@ export function IntroWrapper({
                     initial={{ opacity: 0, scale: 0.88, y: 12 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8 rounded-2xl bg-sage px-8 py-6 sm:px-10 sm:py-8"
+                    className="mt-8 rounded-2xl bg-white/35 px-8 py-6 sm:px-10 sm:py-8"
                   >
                     <BrandLogo href={false} size="lg" />
                   </motion.div>
