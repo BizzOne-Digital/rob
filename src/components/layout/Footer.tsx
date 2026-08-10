@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Sparkle } from "lucide-react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/constants";
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -58,23 +58,14 @@ export function Footer({
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto overflow-x-clip bg-[#1a1a1a] text-white">
+    <footer className="relative mt-auto overflow-x-clip bg-[#2a2622] text-white">
       <Sparkle className="pointer-events-none absolute bottom-28 left-1/2 h-3 w-3 -translate-x-1/2 text-white/50" />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-8 pt-10 sm:px-8 lg:px-10 lg:pt-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
           <div className="min-w-0 lg:border-r lg:border-white/15 lg:pr-8">
-            <Link href="/" className="inline-block max-w-full">
-              <Image
-                src="/images/brand/rw-designs-canada-logo-clean.png"
-                alt={BRAND.name}
-                width={200}
-                height={200}
-                className="h-24 w-24 object-contain sm:h-28 sm:w-28"
-                quality={100}
-              />
-            </Link>
-            <p className="mt-4 max-w-[220px] text-[13px] leading-relaxed text-white/70">
+            <BrandLogo href="/" tone="light" size="md" />
+            <p className="mt-5 max-w-[220px] text-[13px] leading-relaxed text-white/70">
               Thoughtfully handmade gifts and home goods made in Canada with
               care.
             </p>
@@ -85,7 +76,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-[#b08d9e] hover:text-[#b08d9e]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-taupe hover:text-[#d4c0b2]"
                 >
                   <InstagramIcon className="h-4 w-4" />
                 </a>
@@ -96,7 +87,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-[#b08d9e] hover:text-[#b08d9e]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-taupe hover:text-[#d4c0b2]"
                 >
                   <FacebookIcon className="h-4 w-4" />
                 </a>
@@ -105,7 +96,7 @@ export function Footer({
           </div>
 
           <div className="lg:border-r lg:border-white/15 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#c9a8bb]">
+            <h3 className="font-serif text-[18px] text-[#d4c0b2]">
               What We Create
             </h3>
             <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
@@ -139,7 +130,7 @@ export function Footer({
           </div>
 
           <div className="lg:border-r lg:border-white/15 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#c9a8bb]">Help</h3>
+            <h3 className="font-serif text-[18px] text-[#d4c0b2]">Help</h3>
             <ul className="mt-4 space-y-2.5 text-[13px] text-white/80">
               <li>
                 <Link href="/faq" className="transition hover:text-white">
@@ -168,7 +159,7 @@ export function Footer({
           </div>
 
           <div className="lg:pl-8">
-            <h3 className="font-serif text-[18px] text-[#c9a8bb]">
+            <h3 className="font-serif text-[18px] text-[#d4c0b2]">
               Let’s Connect
             </h3>
             <ul className="mt-4 space-y-3.5 text-[13px] text-white/80">
@@ -177,7 +168,7 @@ export function Footer({
                   href={`mailto:${displayEmail}`}
                   className="inline-flex items-start gap-2.5 transition hover:text-white"
                 >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#b08d9e]" strokeWidth={1.6} />
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#d4c0b2]" strokeWidth={1.6} />
                   <span className="break-all">{displayEmail}</span>
                 </a>
               </li>
@@ -186,7 +177,7 @@ export function Footer({
                   href={phoneHref || BRAND.phoneHref}
                   className="inline-flex items-center gap-2.5 transition hover:text-white"
                 >
-                  <Phone className="h-4 w-4 shrink-0 text-[#b08d9e]" strokeWidth={1.6} />
+                  <Phone className="h-4 w-4 shrink-0 text-[#d4c0b2]" strokeWidth={1.6} />
                   {displayPhone}
                 </a>
               </li>
@@ -197,7 +188,7 @@ export function Footer({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 transition hover:text-white"
                 >
-                  <InstagramIcon className="h-4 w-4 shrink-0 text-[#b08d9e]" />
+                  <InstagramIcon className="h-4 w-4 shrink-0 text-[#d4c0b2]" />
                   {BRAND.instagram}
                 </a>
               </li>

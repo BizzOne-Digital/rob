@@ -54,7 +54,7 @@ export function CategoryStrip() {
                 href={item.href}
                 className="group flex w-[5.5rem] shrink-0 flex-col items-center gap-1.5 px-1 py-1 text-center sm:w-auto sm:min-w-[6.5rem] sm:flex-1 sm:gap-2 sm:px-2"
               >
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#8a7585] transition group-hover:bg-[#f6f1f6] group-hover:text-[#b08d9e] sm:h-10 sm:w-10">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#8a7585] transition group-hover:bg-[#f6f1f6] group-hover:text-[#a68d7b] sm:h-10 sm:w-10">
                   <Icon className="h-5 w-5" strokeWidth={1.5} />
                 </span>
                 <span className="text-[10px] font-medium leading-tight text-[#5c5660] sm:text-[12px]">

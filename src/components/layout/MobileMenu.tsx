@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { BRAND } from "@/lib/constants";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 
 const links = [
@@ -43,12 +43,12 @@ export function MobileMenu({
         >
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between border-b border-soft-beige px-5 py-4">
-              <p className="font-serif text-xl">{BRAND.name}</p>
+              <BrandLogo href="/" size="sm" onClick={onClose} />
               <button
                 type="button"
                 aria-label="Close menu"
                 onClick={onClose}
-                className="rounded-full p-2 hover:bg-powder-blue/50"
+                className="rounded-full p-2 hover:bg-sage-soft/70"
               >
                 <X className="h-5 w-5" />
               </button>

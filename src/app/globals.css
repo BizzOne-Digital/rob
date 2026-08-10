@@ -2,29 +2,35 @@
 
 :root {
   /*
-    Brand mix the client liked:
-    cream base + lavender accents + soft blue (sparingly) + warm earth beige.
-    Not an all-blue site.
+    Organic sage theme from brand reference:
+    cream base + sage panels + warm taupe accents.
   */
-  --powder-blue: #dce8f7;
-  --icy-blue: #edf4fc;
-  --muted-mauve: #b08d9e;
-  --dusty-lavender: #cabdcc;
-  --warm-ivory: #faf8f4;
-  --soft-beige: #ede6dd;
-  --charcoal: #2f2c31;
+  --sage: #b7c0b0;
+  --sage-deep: #9aa58f;
+  --sage-soft: #d5ddd0;
+  --taupe: #a68d7b;
+  --taupe-deep: #8f7665;
+  --warm-ivory: #f7f3ee;
+  --soft-beige: #e8e0d6;
+  --charcoal: #2f2a26;
   --white: #ffffff;
-  --silver: #cdd2da;
+  --silver: #c9c4bc;
+
+  /* Aliases kept for existing class names */
+  --powder-blue: var(--sage-soft);
+  --icy-blue: #eef1ea;
+  --muted-mauve: var(--taupe);
+  --dusty-lavender: var(--sage);
 
   --background: var(--warm-ivory);
   --foreground: var(--charcoal);
   --muted: color-mix(in srgb, var(--charcoal) 55%, transparent);
-  --border: color-mix(in srgb, var(--soft-beige) 75%, var(--dusty-lavender));
-  --accent: var(--muted-mauve);
-  --accent-soft: var(--dusty-lavender);
+  --border: color-mix(in srgb, var(--soft-beige) 80%, var(--sage));
+  --accent: var(--taupe);
+  --accent-soft: var(--sage);
   --surface: var(--white);
   --surface-soft: var(--icy-blue);
-  --ring: color-mix(in srgb, var(--muted-mauve) 40%, transparent);
+  --ring: color-mix(in srgb, var(--taupe) 40%, transparent);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
@@ -32,7 +38,7 @@
   --radius-xl: 1.75rem;
 
   --shadow-soft: 0 10px 40px color-mix(in srgb, var(--charcoal) 6%, transparent);
-  --shadow-glass: 0 8px 32px color-mix(in srgb, var(--muted-mauve) 12%, transparent);
+  --shadow-glass: 0 8px 32px color-mix(in srgb, var(--taupe) 12%, transparent);
 
   --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-outfit), "Outfit", system-ui, sans-serif;
@@ -48,6 +54,11 @@
   --color-soft-beige: var(--soft-beige);
   --color-charcoal: var(--charcoal);
   --color-silver: var(--silver);
+  --color-sage: var(--sage);
+  --color-sage-deep: var(--sage-deep);
+  --color-sage-soft: var(--sage-soft);
+  --color-taupe: var(--taupe);
+  --color-taupe-deep: var(--taupe-deep);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
@@ -55,7 +66,7 @@
   --color-admin-bg: #f4f6f9;
   --color-admin-sidebar: #141414;
   --color-admin-accent: #7ba3c9;
-  --color-admin-accent-soft: #dce8f7;
+  --color-admin-accent-soft: #d5ddd0;
   --color-admin-border: #e2e8f0;
   --color-admin-muted: #64748b;
   --color-admin-card: #ffffff;
@@ -72,11 +83,11 @@ html {
 }
 
 body {
-  /* Cream-first base, soft lavender wash — not a full blue wash */
+  /* Cream base with soft sage atmosphere */
   background:
-    radial-gradient(ellipse 70% 45% at 12% -8%, color-mix(in srgb, var(--dusty-lavender) 35%, white), transparent 58%),
-    radial-gradient(ellipse 55% 40% at 92% 0%, color-mix(in srgb, var(--soft-beige) 70%, white), transparent 52%),
-    radial-gradient(ellipse 40% 30% at 70% 100%, color-mix(in srgb, var(--powder-blue) 28%, transparent), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 10% -8%, color-mix(in srgb, var(--sage) 32%, white), transparent 58%),
+    radial-gradient(ellipse 55% 40% at 92% 0%, color-mix(in srgb, var(--soft-beige) 75%, white), transparent 52%),
+    radial-gradient(ellipse 40% 30% at 70% 100%, color-mix(in srgb, var(--sage-soft) 45%, transparent), transparent 55%),
     var(--warm-ivory);
   color: var(--foreground);
   font-family: var(--font-sans);

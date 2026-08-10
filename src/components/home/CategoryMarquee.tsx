@@ -7,7 +7,7 @@ export function CategoryMarquee({
 }) {
   const loop = [...items, ...items];
   return (
-    <div className="overflow-hidden border-y border-[#e8e4ea]/70 bg-[#f3eef3]/65 py-4">
+    <div className="overflow-hidden border-y border-[#e8e0d6]/70 bg-[#efe8df]/65 py-4">
       <div className="marquee-track gap-10 px-4">
         {loop.map((item, i) => (
           <span

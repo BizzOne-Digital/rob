@@ -90,7 +90,7 @@ export default function CartPage() {
               ))}
             </ul>
 
-            <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-[#f7f5f8] to-[#ede6dd]/80 p-6">
+            <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-[#eef1ea] to-[#e8e0d6]/80 p-6">
               <div className="flex items-center justify-between">
                 <span className="text-sm uppercase tracking-[0.14em] text-charcoal/55">
                   Subtotal

@@ -67,7 +67,7 @@ export default function AboutPage() {
       />
 
       {/* 1. Hero — matches ss 2, background image ss 3 */}
-      <section className="relative isolate overflow-hidden bg-[#f7f5f8]">
+      <section className="relative isolate overflow-hidden bg-[#eef1ea]">
         <div className="absolute inset-0">
           <Image
             src="/images/brand/about-hero.png"
@@ -77,16 +77,16 @@ export default function AboutPage() {
             sizes="100vw"
             className="object-cover object-[72%_center] lg:object-right"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#faf8f4] via-[#faf8f4]/92 to-transparent lg:via-[#faf8f4]/55 lg:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ee] via-[#f7f3ee]/92 to-transparent lg:via-[#f7f3ee]/55 lg:to-transparent" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_80%_40%,rgba(176,141,158,0.14),transparent_60%)]" />
         </div>
 
         <div className="relative z-10 mx-auto flex min-h-[480px] w-full max-w-[1200px] items-center px-4 py-12 sm:min-h-[560px] sm:px-8 sm:py-16 lg:min-h-[620px] lg:px-10 lg:py-20">
           <div className="w-full min-w-0 max-w-[540px]">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9a7f92] sm:mb-4 sm:text-[11px] sm:tracking-[0.2em]">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8f7665] sm:mb-4 sm:text-[11px] sm:tracking-[0.2em]">
               Our Story • Made With Care
             </p>
-            <h1 className="font-serif text-[2rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2f2c31] sm:text-[3.1rem] lg:text-[3.4rem]">
+            <h1 className="font-serif text-[2rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2f2a26] sm:text-[3.1rem] lg:text-[3.4rem]">
               Where Thoughtful Details Become Meaningful Pieces
             </h1>
             <p className="mt-4 max-w-[440px] text-[14px] leading-relaxed text-[#5c5660] sm:mt-5 sm:text-[15px]">
@@ -97,20 +97,20 @@ export default function AboutPage() {
             <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
               <a
                 href="#our-story"
-                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-[#b08d9e] px-5 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e] sm:flex-none sm:px-6"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-[#a68d7b] px-5 text-[13px] font-semibold text-white transition hover:bg-[#8f7665] sm:flex-none sm:px-6"
               >
                 Discover Our Story
               </a>
               <Link
                 href="/what-we-create"
-                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-[#b08d9e]/80 bg-white/60 px-5 text-[13px] font-semibold text-[#9a7f92] transition hover:bg-white sm:flex-none sm:px-6"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-[#a68d7b]/80 bg-white/60 px-5 text-[13px] font-semibold text-[#8f7665] transition hover:bg-white sm:flex-none sm:px-6"
               >
                 What We Create
               </Link>
             </div>
             <p className="mt-8 font-script text-[1.25rem] leading-snug text-[#8a7585] sm:mt-10 sm:text-[1.55rem]">
               Beautifully handmade, from our hands to your home{" "}
-              <Heart className="ml-1 inline h-4 w-4 fill-[#b08d9e] text-[#b08d9e]" />
+              <Heart className="ml-1 inline h-4 w-4 fill-[#a68d7b] text-[#a68d7b]" />
             </p>
           </div>
         </div>
@@ -129,10 +129,10 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7f92]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8f7665]">
               Our Heart Is in the Little Things
             </p>
-            <h2 className="mt-3 font-serif text-3xl leading-tight text-[#2f2c31] sm:text-4xl">
+            <h2 className="mt-3 font-serif text-3xl leading-tight text-[#2f2a26] sm:text-4xl">
               {ABOUT_CONTENT.title}
             </h2>
             <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-[#5c5660]">
@@ -140,15 +140,15 @@ export default function AboutPage() {
                 <p key={p}>{p}</p>
               ))}
             </div>
-            <Heart className="mt-8 h-5 w-5 text-[#b08d9e]" strokeWidth={1.5} />
+            <Heart className="mt-8 h-5 w-5 text-[#a68d7b]" strokeWidth={1.5} />
           </div>
         </div>
       </section>
 
       {/* 3. Core principles */}
-      <section className="overflow-x-clip bg-[#f7f5f8] py-12 sm:py-16 lg:py-20">
+      <section className="overflow-x-clip bg-[#eef1ea] py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-8 lg:px-10">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7f92]">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8f7665]">
             Our Core Principles
           </p>
           <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -160,10 +160,10 @@ export default function AboutPage() {
                   className="overflow-hidden rounded-2xl border border-[#ebe6eb] bg-white"
                 >
                   <div className="p-5">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f3eef3] text-[#9a7f92]">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#efe8df] text-[#8f7665]">
                       <Icon className="h-4 w-4" strokeWidth={1.6} />
                     </span>
-                    <h3 className="mt-4 font-serif text-xl text-[#2f2c31]">
+                    <h3 className="mt-4 font-serif text-xl text-[#2f2a26]">
                       {item.title}
                     </h3>
                     <p className="mt-2 text-[13px] leading-relaxed text-[#6B5B5B]">
@@ -202,7 +202,7 @@ export default function AboutPage() {
             </p>
             <Link
               href="/what-we-create"
-              className="mt-8 inline-flex h-11 items-center justify-center rounded-lg bg-[#b08d9e] px-6 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e]"
+              className="mt-8 inline-flex h-11 items-center justify-center rounded-lg bg-[#a68d7b] px-6 text-[13px] font-semibold text-white transition hover:bg-[#8f7665]"
             >
               Shop the Collection
             </Link>
@@ -239,10 +239,10 @@ export default function AboutPage() {
             />
           </div>
           <div className="order-1 lg:order-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7f92]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8f7665]">
               A Small Business Story
             </p>
-            <h2 className="mt-3 font-serif text-3xl leading-tight text-[#2f2c31] sm:text-4xl">
+            <h2 className="mt-3 font-serif text-3xl leading-tight text-[#2f2a26] sm:text-4xl">
               With a Big Heart for Meaningful Details
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-[#5c5660]">
@@ -253,7 +253,7 @@ export default function AboutPage() {
             </p>
             <Link
               href="/contact"
-              className="mt-8 inline-flex text-[13px] font-semibold text-[#9a7f92] underline-offset-4 hover:underline"
+              className="mt-8 inline-flex text-[13px] font-semibold text-[#8f7665] underline-offset-4 hover:underline"
             >
               Get in touch
             </Link>

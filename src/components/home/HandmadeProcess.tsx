@@ -15,7 +15,7 @@ export function HandmadeProcess() {
     <section className="bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10">
         <div className="mb-10 text-center">
-          <h2 className="font-serif text-3xl text-[#2f2c31] sm:text-4xl">
+          <h2 className="font-serif text-3xl text-[#2f2a26] sm:text-4xl">
             From an Idea to Something Meaningful
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[14px] text-[#6B5B5B]">
@@ -26,7 +26,7 @@ export function HandmadeProcess() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {PROCESS_STEPS.map((step, index) => (
             <div key={step.title} className="text-center">
-              <div className="mx-auto mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#b08d9e] text-[12px] font-semibold text-white">
+              <div className="mx-auto mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#a68d7b] text-[12px] font-semibold text-white">
                 {index + 1}
               </div>
               <div className="relative mx-auto mb-4 aspect-square w-full max-w-[160px] overflow-hidden rounded-xl bg-[#eef2f7]">
@@ -38,7 +38,7 @@ export function HandmadeProcess() {
                   className="object-cover"
                 />
               </div>
-              <h3 className="font-serif text-[16px] text-[#2f2c31]">
+              <h3 className="font-serif text-[16px] text-[#2f2a26]">
                 {step.title.replace(/^./, (c) => c.toUpperCase())}
               </h3>
               <p className="mt-2 text-[12px] leading-relaxed text-[#6B5B5B]">

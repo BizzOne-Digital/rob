@@ -18,7 +18,7 @@ export function GiftInspiration() {
     <section className="bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10">
         <div className="mb-8 text-center">
-          <h2 className="font-serif text-3xl text-[#2f2c31] sm:text-4xl">
+          <h2 className="font-serif text-3xl text-[#2f2a26] sm:text-4xl">
             Gifts for Every Moment
           </h2>
           <p className="mt-3 text-[14px] text-[#6B5B5B]">

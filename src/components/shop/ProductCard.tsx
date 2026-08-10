@@ -90,7 +90,7 @@ export function ProductCard({
       whileHover={reduce ? undefined : { y: -4 }}
       transition={{ duration: 0.3 }}
     >
-        <div className="relative aspect-square overflow-hidden rounded-[1.35rem] bg-[#ede6dd]">
+        <div className="relative aspect-square overflow-hidden rounded-[1.35rem] bg-[#e8e0d6]">
         <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
           <ImageWithFallback
             src={product.images?.[0]?.url}
@@ -126,7 +126,7 @@ export function ProductCard({
             type="button"
             onClick={(e) => void handleQuickAdd(e)}
             disabled={adding}
-            className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-[#b08d9e] px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-white shadow-sm transition hover:bg-[#9f7d8e] disabled:opacity-60 sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
+            className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-[#a68d7b] px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-white shadow-sm transition hover:bg-[#8f7665] disabled:opacity-60 sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
           >
             <ShoppingBag className="h-3.5 w-3.5" strokeWidth={1.75} />
             {adding ? "…" : complex ? "Options" : "Add"}

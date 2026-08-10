@@ -213,7 +213,7 @@ function orderEmailHtml(order: OrderEmailData, opts: { forAdmin: boolean }) {
     : `<p>We've received your order <strong>${escapeHtml(order.orderNumber)}</strong>. Here's a summary of what you ordered.</p>`;
 
   return `
-    <div style="font-family:Georgia,serif;color:#2f2c31;max-width:640px;margin:0 auto;">
+    <div style="font-family:Georgia,serif;color:#2f2a26;max-width:640px;margin:0 auto;">
       <h1 style="font-size:24px;margin-bottom:8px;">${title}</h1>
       ${intro}
       <p style="font-size:13px;color:#666;">

@@ -20,7 +20,7 @@ export function ProductGallery({
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-[1.75rem] bg-[#ede6dd]">
+      <div className="relative aspect-square overflow-hidden rounded-[1.75rem] bg-[#e8e0d6]">
         <ImageWithFallback
           src={current?.url}
           alt={current?.alt || name}
@@ -40,7 +40,7 @@ export function ProductGallery({
               onClick={() => setActive(i)}
               aria-label={`View photo ${i + 1}`}
               className={cn(
-                "relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-[#ede6dd] transition",
+                "relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-[#e8e0d6] transition",
                 i === active
                   ? "border-muted-mauve"
                   : "border-transparent hover:border-soft-beige",

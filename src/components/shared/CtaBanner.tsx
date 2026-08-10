@@ -22,7 +22,7 @@ export function CtaBanner({
   return (
     <section className={cn("py-16 md:py-24", className)}>
       <Container>
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#faf8f4] via-[#f3eef3] to-[#edf4fc]/75 px-8 py-14 text-center grain-panel md:px-16 md:py-20">
+        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#f7f3ee] via-[#efe8df] to-[#eef1ea]/75 px-8 py-14 text-center grain-panel md:px-16 md:py-20">
           <p className="font-script text-3xl text-muted-mauve md:text-4xl">Handmade with care</p>
           <h2 className="mt-3 font-serif text-3xl text-charcoal md:text-5xl">{title}</h2>
           {description ? (

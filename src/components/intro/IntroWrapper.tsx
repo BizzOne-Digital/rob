@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/constants";
 
 const STORAGE_KEY = "rw-intro-seen";
@@ -90,7 +90,7 @@ export function IntroWrapper({
       {showCover ? (
         <motion.div
           key="intro"
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#f7f5f8] via-[#faf8f4] to-[#edf4fc]/70"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#eef1ea] via-[#f7f3ee] to-[#d5ddd0]/70"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.55 } }}
           aria-hidden={status !== "playing"}
@@ -100,7 +100,7 @@ export function IntroWrapper({
               {particles.map((p) => (
                 <motion.span
                   key={p.id}
-                  className="absolute rounded-full bg-muted-mauve/40"
+                  className="absolute rounded-full bg-taupe/35"
                   style={{
                     left: p.left,
                     top: p.top,
@@ -133,7 +133,7 @@ export function IntroWrapper({
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-script text-4xl text-muted-mauve md:text-5xl"
+                      className="font-script text-4xl text-taupe md:text-5xl"
                     >
                       Beautifully handmade
                     </motion.p>
@@ -145,17 +145,9 @@ export function IntroWrapper({
                     initial={{ opacity: 0, scale: 0.88, y: 12 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8"
+                    className="mt-8 rounded-2xl bg-sage px-8 py-6 sm:px-10 sm:py-8"
                   >
-                    <Image
-                      src="/images/brand/rw-designs-canada-logo-clean.png"
-                      alt={BRAND.name}
-                      width={220}
-                      height={220}
-                      className="mx-auto h-36 w-36 object-contain md:h-44 md:w-44"
-                      priority
-                      quality={100}
-                    />
+                    <BrandLogo href={false} size="lg" />
                   </motion.div>
                 ) : null}
 

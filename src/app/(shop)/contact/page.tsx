@@ -36,7 +36,7 @@ export default async function ContactPage({
       <Container className="grid gap-10 py-14 lg:grid-cols-[1fr_0.85fr]">
         <ContactForm defaultProduct={product} defaultType={type} />
         <MotionSection as="div" className="space-y-6">
-          <div className="rounded-[1.75rem] border border-soft-beige bg-gradient-to-br from-[#ede6dd]/80 to-[#f7f5f8] p-6">
+          <div className="rounded-[1.75rem] border border-soft-beige bg-gradient-to-br from-[#e8e0d6]/80 to-[#eef1ea] p-6">
             <h2 className="font-serif text-2xl">Studio contact</h2>
             <ul className="mt-4 space-y-3 text-sm text-charcoal/70">
               <li>

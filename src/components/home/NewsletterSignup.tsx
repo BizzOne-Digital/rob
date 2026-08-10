@@ -42,7 +42,7 @@ export function NewsletterSignup() {
     <section className="bg-[#dcc9d6]">
       <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-5 py-12 sm:px-8 lg:flex-row lg:items-center lg:px-10 lg:py-14">
         <div className="max-w-md">
-          <h2 className="font-serif text-3xl text-[#2f2c31] sm:text-[2rem]">
+          <h2 className="font-serif text-3xl text-[#2f2a26] sm:text-[2rem]">
             A Little Beauty in Your Inbox
           </h2>
           <p className="mt-3 text-[14px] leading-relaxed text-[#5c5660]">
@@ -64,13 +64,13 @@ export function NewsletterSignup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="h-12 flex-1 bg-transparent px-4 text-[14px] text-[#2f2c31] outline-none placeholder:text-[#9a939b]"
+            className="h-12 flex-1 bg-transparent px-4 text-[14px] text-[#2f2a26] outline-none placeholder:text-[#9a939b]"
             required
           />
           <button
             type="submit"
             disabled={loading}
-            className="h-12 shrink-0 bg-[#b08d9e] px-5 text-[13px] font-semibold text-white transition hover:bg-[#9f7d8e] disabled:opacity-60"
+            className="h-12 shrink-0 bg-[#a68d7b] px-5 text-[13px] font-semibold text-white transition hover:bg-[#8f7665] disabled:opacity-60"
           >
             {loading ? "…" : "Subscribe"}
           </button>

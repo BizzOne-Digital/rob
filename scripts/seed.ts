@@ -38,7 +38,7 @@ const IMG = {
   gallery3: "/images/placeholders/gallery-3.svg",
   gallery4: "/images/placeholders/gallery-4.svg",
   gallery5: "/images/placeholders/gallery-5.svg",
-  logo: "/images/brand/rw-designs-canada-logo.png",
+  logo: "/images/brand/favicon-monogram.svg",
 } as const;
 
 const ABOUT_PARAGRAPHS = [

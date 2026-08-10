@@ -9,7 +9,7 @@ export function OrganizationJsonLd() {
     url: absoluteUrl(),
     email: BRAND.email,
     telephone: BRAND.phone,
-    logo: absoluteUrl("/images/brand/rw-designs-canada-logo.png"),
+    logo: absoluteUrl("/images/brand/favicon-monogram.svg"),
     sameAs: [BRAND.instagramUrl, BRAND.facebookUrl].filter(Boolean),
     description: BRAND.headline,
   };

@@ -42,11 +42,11 @@ export function HomeSocialProof({
   }, [visibleTestimonials.length, paused]);
 
   return (
-    <section className="overflow-x-clip bg-[#f7f5f8] py-12 sm:py-16 lg:py-20">
+    <section className="overflow-x-clip bg-[#eef1ea] py-12 sm:py-16 lg:py-20">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-8 lg:grid-cols-2 lg:gap-14 lg:px-10">
         {/* Testimonials */}
         <div className="min-w-0">
-          <h2 className="font-serif text-[1.85rem] text-[#2f2c31] sm:text-3xl lg:text-[2rem]">
+          <h2 className="font-serif text-[1.85rem] text-[#2f2a26] sm:text-3xl lg:text-[2rem]">
             Kind Words, Meaningful Moments
           </h2>
           <p className="mt-2 text-[14px] text-[#6B5B5B]">
@@ -80,7 +80,7 @@ export function HomeSocialProof({
                   aria-hidden={i !== active}
                 >
                   <Quote className="h-6 w-6 text-[#c9b4c4]" />
-                  <div className="mt-3 flex gap-1 text-[#b08d9e]">
+                  <div className="mt-3 flex gap-1 text-[#a68d7b]">
                     {Array.from({ length: t.rating || 5 }).map((_, star) => (
                       <Star key={star} className="h-3.5 w-3.5 fill-current" />
                     ))}
@@ -88,7 +88,7 @@ export function HomeSocialProof({
                   <p className="mt-4 flex-1 text-[15px] leading-relaxed text-[#5c5660]">
                     “{t.reviewText}”
                   </p>
-                  <p className="mt-4 text-[13px] font-semibold text-[#2f2c31]">
+                  <p className="mt-4 text-[13px] font-semibold text-[#2f2a26]">
                     {t.customerName}
                     {t.reviewDate ? (
                       <span className="font-normal text-[#6B5B5B]">
@@ -115,7 +115,7 @@ export function HomeSocialProof({
                       onClick={() => setActive(i)}
                       className={cn(
                         "h-2 w-2 rounded-full transition",
-                        i === active ? "bg-[#b08d9e]" : "bg-[#cabdcc]",
+                        i === active ? "bg-[#a68d7b]" : "bg-[#b7c0b0]",
                       )}
                     />
                   ))}
@@ -127,7 +127,7 @@ export function HomeSocialProof({
 
         {/* FAQ */}
         <div className="min-w-0">
-          <h2 className="font-serif text-[1.85rem] text-[#2f2c31] sm:text-3xl lg:text-[2rem]">
+          <h2 className="font-serif text-[1.85rem] text-[#2f2a26] sm:text-3xl lg:text-[2rem]">
             Frequently Asked Questions
           </h2>
           <p className="mt-2 text-[14px] text-[#6B5B5B]">
@@ -153,7 +153,7 @@ export function HomeSocialProof({
                       onClick={() => setOpenId(open ? null : faq._id)}
                       aria-expanded={open}
                     >
-                      <span className="text-[14px] font-medium text-[#2f2c31]">
+                      <span className="text-[14px] font-medium text-[#2f2a26]">
                         {faq.question}
                       </span>
                       <ChevronDown
@@ -176,7 +176,7 @@ export function HomeSocialProof({
 
           <Link
             href="/faq"
-            className="mt-5 inline-block text-[13px] font-semibold text-[#9a7f92] underline-offset-4 hover:underline"
+            className="mt-5 inline-block text-[13px] font-semibold text-[#8f7665] underline-offset-4 hover:underline"
           >
             View all FAQs
           </Link>
