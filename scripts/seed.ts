@@ -265,8 +265,8 @@ async function seed() {
           flatRate: {
             enabled: true,
             label: "Canada-wide Shipping",
-            price: null,
-            note: "Shipping rates are configurable. Exact cost shown at checkout once set.",
+            price: 10,
+            note: "Canada only. $10 delivery on orders up to $11. Higher rates apply above $11 (pricing to be confirmed).",
           },
           freeShippingThreshold: null,
           provinceRates: [],
@@ -289,7 +289,11 @@ async function seed() {
         policies: {
           privacy: `${DRAFT_NOTICE}\n\nRW Designs Canada (“we”, “us”) respects your privacy. This draft outlines how contact, order, and inquiry information may be collected and used to fulfill handmade orders, respond to messages, and improve our shop experience. Personal information is not sold. Payment processing, when enabled, is handled by secure third-party providers. For questions, contact rwdesignscanada@gmail.com.`,
           terms: `${DRAFT_NOTICE}\n\nBy browsing or placing an order with RW Designs Canada, you agree to these draft terms. Product availability, personalization details, and production timelines are confirmed at order time. Colours and scents may vary slightly as each piece is handmade. Custom and personalized items may have limited change or cancellation windows once production begins.`,
-          shippingReturns: `${DRAFT_NOTICE}\n\nLocal pickup and Canada-wide shipping options may be available. Flat-rate shipping pricing will be shown at checkout once configured. Production and dispatch timelines vary by item. Returns for unused, non-personalized items may be considered within a limited window; personalized and custom pieces are typically final sale unless there is a quality issue. Contact us to discuss any concern.`,
+          shippingReturns: `Delivery is available within Canada only — we do not ship internationally.
+
+Standard delivery is $10 for orders up to $11 (before tax). For orders above $11, shipping rates are higher; updated pricing will be posted once confirmed.
+
+Local pickup may be available in select areas. Production and dispatch timelines vary by item. Returns for unused, non-personalized items may be considered within a limited window; personalized and custom pieces are typically final sale unless there is a quality issue. Contact us to discuss any concern.`,
           customOrder: `${DRAFT_NOTICE}\n\nCustom creations begin with a conversation. Share your ideas, preferred materials, wording, colours, and occasion. We will confirm feasibility, timeline, and pricing before production. A deposit may be required for custom work. Once approved and in production, design changes may not be possible.`,
           draftNotice: DRAFT_NOTICE,
         },
@@ -1124,7 +1128,11 @@ async function seed() {
           key: "body",
           type: "rich",
           displayOrder: 1,
-          body: `${DRAFT_NOTICE}\n\nLocal pickup and Canada-wide shipping may be offered. Flat-rate shipping pricing is configurable and shown at checkout once set. Production and dispatch timelines vary. Non-personalized items may be eligible for return discussion within a limited window; personalized and custom orders are generally final sale except for quality concerns. Email rwdesignscanada@gmail.com for help.`,
+          body: `Delivery is available within Canada only — we do not ship internationally.
+
+Standard delivery is $10 for orders up to $11 (before tax). For orders above $11, shipping rates are higher; updated pricing will be posted once confirmed.
+
+Local pickup may be available in select areas. Production and dispatch timelines vary. Non-personalized items may be eligible for return discussion within a limited window; personalized and custom orders are generally final sale except for quality concerns. Email rwdesignscanada@gmail.com for help.`,
         }),
       ],
     },
@@ -1415,7 +1423,7 @@ async function seed() {
       category: "Candles and Wax Melts",
       question: "What wax do you use for candles and melts?",
       answer:
-        "We use soy wax selected for quality home fragrance. Specific vessel and scent details appear on each product when published.",
+        "We use soy wax selected for quality home fragrance. Scent details appear on each product when published.",
       featured: true,
       displayOrder: 1,
     },
@@ -1444,7 +1452,7 @@ async function seed() {
       category: "Shipping",
       question: "Do you ship across Canada?",
       answer:
-        "Canada-wide shipping can be enabled with a configurable flat rate shown at checkout once set. Exact costs appear when shipping is configured.",
+        "Yes — we deliver within Canada only. Standard delivery is $10 for orders up to $11. For orders above $11, shipping rates are higher; updated pricing will be shared once confirmed.",
       featured: true,
       displayOrder: 1,
     },

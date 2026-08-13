@@ -20,6 +20,7 @@ import { Customer } from "@/models/Customer";
 import { Discount } from "@/models/Discount";
 import { SiteSettings } from "@/models/SiteSettings";
 import { rateLimit } from "@/lib/rate-limit";
+import { calculateCanadaShippingAmount } from "@/lib/shipping";
 
 const CART_COOKIE = "rw_cart_sid";
 
@@ -177,7 +178,32 @@ export async function POST(request: NextRequest) {
   }
 
   const settings = await SiteSettings.findOne({ singletonKey: "site" });
-  const shippingAmount = parsed.data.shippingMethod.price;
+
+  const shipCountry = parsed.data.shippingAddress.country?.toUpperCase() ?? "CA";
+  if (shipCountry !== "CA") {
+    return NextResponse.json(
+      { error: "We currently deliver within Canada only." },
+      { status: 400 },
+    );
+  }
+
+  const methodId = parsed.data.shippingMethod.id;
+  if (methodId !== "pickup" && methodId !== "shipping") {
+    return NextResponse.json({ error: "Invalid shipping method" }, { status: 400 });
+  }
+
+  const expectedShipping = calculateCanadaShippingAmount(
+    subtotal,
+    methodId as "pickup" | "shipping",
+  );
+  if (Math.abs(parsed.data.shippingMethod.price - expectedShipping) > 0.01) {
+    return NextResponse.json(
+      { error: "Shipping rate has changed — please refresh checkout." },
+      { status: 400 },
+    );
+  }
+
+  const shippingAmount = expectedShipping;
   const taxable = Math.max(0, subtotal - discountAmount + shippingAmount);
   const taxRate = settings?.tax?.enabled ? (settings.tax.rate ?? 0) : 0;
   const taxAmount = settings?.tax?.includedInPrice

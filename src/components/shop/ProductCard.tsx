@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { Eye, ShoppingBag } from "lucide-react";
+import { Heart } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { Badge } from "@/components/ui/Badge";
 import { getDisplayPrice } from "@/lib/product-price";
-import { useCartStore } from "@/store/cart";
+import { formatCurrency } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 export interface ProductCardData {
@@ -19,6 +17,7 @@ export interface ProductCardData {
   price?: number | null;
   compareAtPrice?: number | null;
   priceVisibility?: string | null;
+  sku?: string | null;
   images?: Array<{ url: string; alt?: string }>;
   badge?: string | null;
   featured?: boolean;
@@ -28,69 +27,66 @@ export interface ProductCardData {
   variants?: Array<{ _id?: string; name?: string; price?: number | null }> | null;
 }
 
-function needsOptions(product: ProductCardData) {
-  return (
-    (product.variants?.length ?? 0) > 0 || Boolean(product.personalizable)
-  );
+function cardBadge(product: ProductCardData, hasPrice: boolean) {
+  if (product.newArrival) return "NEW";
+  if (product.priceVisibility === "contact" || !hasPrice) return "COMING SOON";
+  if (product.badge) return product.badge.toUpperCase();
+  return null;
 }
 
 export function ProductCard({
   product,
   className,
-  onQuickView,
 }: {
   product: ProductCardData;
   className?: string;
-  onQuickView?: (product: ProductCardData) => void;
 }) {
-  const reduce = useReducedMotion();
   const price = getDisplayPrice(product);
-  const addItem = useCartStore((s) => s.addItem);
-  const [adding, setAdding] = useState(false);
-  const complex = needsOptions(product);
+  const comingSoon = product.priceVisibility === "contact" || !price.hasPrice;
+  const badge = cardBadge(product, price.hasPrice);
+  const displayPrice = comingSoon
+    ? formatCurrency(0)
+    : price.hasPrice
+      ? price.label
+      : "Contact for Price";
 
-  const handleQuickAdd = async (e: React.MouseEvent) => {
+  const [wished, setWished] = useState(false);
+  const [wishLoading, setWishLoading] = useState(false);
+
+  const toggleWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!price.hasPrice) {
-      toast.message("This piece is priced on request — please contact us.");
-      return;
+    setWishLoading(true);
+    try {
+      if (wished) {
+        await fetch(`/api/wishlist?productId=${product._id}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+        setWished(false);
+        toast.message("Removed from wishlist");
+      } else {
+        const res = await fetch("/api/wishlist", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: product._id }),
+        });
+        if (!res.ok) throw new Error("Failed");
+        setWished(true);
+        toast.success("Saved to wishlist");
+      }
+    } catch {
+      toast.error("Could not update wishlist");
+    } finally {
+      setWishLoading(false);
     }
-
-    if (complex) {
-      if (onQuickView) onQuickView(product);
-      else toast.message("Choose options on the product page");
-      return;
-    }
-
-    setAdding(true);
-    const result = await addItem({
-      productId: String(product._id),
-      quantity: 1,
-    });
-    setAdding(false);
-
-    if (!result.ok) {
-      toast.error(result.error ?? "Could not add to bag");
-    } else {
-      toast.success("Added to your bag");
-    }
-  };
-
-  const handleQuickView = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onQuickView?.(product);
   };
 
   return (
-    <motion.article
-      className={cn("group", className)}
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ duration: 0.3 }}
-    >
-        <div className="relative aspect-square overflow-hidden rounded-[1.35rem] bg-[#e8e0d6]">
+    <article className={cn("group min-w-0", className)}>
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#f7f3ee]">
         <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
           <ImageWithFallback
             src={product.images?.[0]?.url}
@@ -98,60 +94,58 @@ export function ProductCard({
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             quality={90}
-            className="object-cover object-center transition duration-700 group-hover:scale-[1.03]"
+            className="object-contain object-center transition duration-500 group-hover:scale-[1.01]"
           />
         </Link>
 
-        <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
-          {product.newArrival ? <Badge tone="blue">New</Badge> : null}
-          {product.featured ? <Badge tone="mauve">Best</Badge> : null}
-          {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
-          {product.personalizable ? (
-            <Badge tone="mauve">Customization</Badge>
-          ) : null}
-        </div>
+        {badge ? (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2a26] shadow-sm">
+            {badge}
+          </span>
+        ) : null}
 
-        <div className="absolute inset-x-2 bottom-2 z-10 flex gap-1.5 opacity-100 transition duration-300 sm:inset-x-3 sm:bottom-3 sm:gap-2 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
-          {onQuickView ? (
-            <button
-              type="button"
-              onClick={handleQuickView}
-              className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-white/95 px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-charcoal shadow-sm backdrop-blur transition hover:bg-white sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
-            >
-              <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
-              View
-            </button>
-          ) : null}
-          <button
-            type="button"
-            onClick={(e) => void handleQuickAdd(e)}
-            disabled={adding}
-            className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-[#a68d7b] px-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-white shadow-sm transition hover:bg-[#8f7665] disabled:opacity-60 sm:h-10 sm:gap-1.5 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]"
-          >
-            <ShoppingBag className="h-3.5 w-3.5" strokeWidth={1.75} />
-            {adding ? "…" : complex ? "Options" : "Add"}
-          </button>
-        </div>
+        <button
+          type="button"
+          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+          disabled={wishLoading}
+          onClick={(e) => void toggleWishlist(e)}
+          className={cn(
+            "absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/15 bg-white/95 text-[#2f2a26] shadow-sm transition hover:bg-white disabled:opacity-60",
+            wished && "border-taupe text-taupe",
+          )}
+        >
+          <Heart
+            className={cn("h-4 w-4", wished && "fill-taupe")}
+            strokeWidth={1.6}
+          />
+        </button>
       </div>
 
-      <Link href={`/what-we-create/${product.slug}`} className="block px-1 pt-4">
-        <h3 className="font-serif text-xl text-charcoal transition group-hover:text-muted-mauve">
+      <Link
+        href={`/what-we-create/${product.slug}`}
+        className="mt-3 block min-w-0"
+      >
+        <h3 className="line-clamp-2 font-serif text-[15px] leading-snug text-[#2f2a26] transition group-hover:text-taupe sm:text-[16px]">
           {product.name}
         </h3>
-        {product.shortDescription ? (
-          <p className="mt-1 line-clamp-2 text-sm text-charcoal/55">
-            {product.shortDescription}
-          </p>
-        ) : null}
-        <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-sm font-medium text-charcoal">{price.label}</span>
-          {price.compareAt ? (
-            <span className="text-xs text-charcoal/40 line-through">
-              {price.compareAt}
+
+        <div className="mt-2 flex items-baseline justify-between gap-3">
+          <span className="text-[14px] font-semibold text-[#2f2a26]">
+            {displayPrice}
+          </span>
+          {product.sku ? (
+            <span className="shrink-0 text-[11px] uppercase tracking-[0.06em] text-[#6b6258]">
+              SKU {product.sku}
             </span>
           ) : null}
         </div>
+
+        {comingSoon ? (
+          <p className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#8f7665]">
+            Coming Soon
+          </p>
+        ) : null}
       </Link>
-    </motion.article>
+    </article>
   );
 }

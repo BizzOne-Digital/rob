@@ -45,11 +45,6 @@ export default async function ContactPage({
                 </a>
               </li>
               <li>
-                <a href={BRAND.phoneHref} className="hover:text-muted-mauve">
-                  {BRAND.phone}
-                </a>
-              </li>
-              <li>
                 <a
                   href={BRAND.instagramUrl}
                   target="_blank"

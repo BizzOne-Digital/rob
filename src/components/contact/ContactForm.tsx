@@ -110,10 +110,6 @@ export function ContactForm({
         Or email{" "}
         <a href={`mailto:${BRAND.email}`} className="underline underline-offset-2">
           {BRAND.email}
-        </a>{" "}
-        / call{" "}
-        <a href={BRAND.phoneHref} className="underline underline-offset-2">
-          {BRAND.phone}
         </a>
       </p>
     </form>

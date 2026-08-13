@@ -98,7 +98,8 @@ export default function CartPage() {
                 <span className="font-serif text-3xl">{formatCurrency(subtotal)}</span>
               </div>
               <p className="mt-3 text-xs text-charcoal/55">
-                Taxes and shipping calculated at checkout.
+                Canada-wide delivery only. $10 shipping on orders up to $11; higher
+                rates may apply above that. Calculated at checkout.
               </p>
               <Button href="/checkout" className="mt-6 w-full">
                 Checkout

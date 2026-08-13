@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, Sparkle } from "lucide-react";
+import { Mail, Sparkle } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/constants";
 
@@ -37,22 +37,17 @@ function FacebookIcon({ className }: { className?: string }) {
 
 export function Footer({
   email,
-  phone,
-  phoneHref,
   instagramUrl,
   facebookUrl,
 }: {
   tagline?: string | null;
   copyright?: string | null;
   email?: string | null;
-  phone?: string | null;
-  phoneHref?: string;
   instagramUrl?: string | null;
   facebookUrl?: string | null;
   showBlog?: boolean;
 }) {
   const displayEmail = email || BRAND.email;
-  const displayPhone = phone || BRAND.phone;
   const ig = instagramUrl || BRAND.instagramUrl;
   const fb = facebookUrl || BRAND.facebookUrl;
   const year = new Date().getFullYear();
@@ -170,15 +165,6 @@ export function Footer({
                 >
                   <Mail className="mt-0.5 h-4 w-4 shrink-0 text-taupe" strokeWidth={1.6} />
                   <span className="break-all">{displayEmail}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={phoneHref || BRAND.phoneHref}
-                  className="inline-flex items-center gap-2.5 transition hover:text-taupe"
-                >
-                  <Phone className="h-4 w-4 shrink-0 text-taupe" strokeWidth={1.6} />
-                  {displayPhone}
                 </a>
               </li>
               <li>

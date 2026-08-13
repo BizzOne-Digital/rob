@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { useCartStore } from "@/store/cart";
 import { getDisplayPrice } from "@/lib/product-price";
 import Link from "next/link";
+import { resolveOptionImageUrl } from "@/lib/option-images";
 
 interface PersonalizationField {
   id: string;
@@ -41,6 +42,7 @@ function isPersonalizedVariant(variant: Variant | undefined) {
 
 export function AddToCartForm({
   product,
+  onOptionImageChange,
 }: {
   product: {
     _id: string;
@@ -53,6 +55,7 @@ export function AddToCartForm({
     optionDefinitions?: Array<{ name?: string | null; values?: string[] | null }>;
     variants?: Variant[];
   };
+  onOptionImageChange?: (url: string | null) => void;
 }) {
   const addItem = useCartStore((s) => s.addItem);
   const [quantity, setQuantity] = useState(1);
@@ -91,6 +94,23 @@ export function AddToCartForm({
     }
     return price.label;
   }, [selectedVariant, hasVariants, product.price, price.label]);
+
+  const updateField = (fieldId: string, value: string) => {
+    setFields((prev) => ({ ...prev, [fieldId]: value }));
+
+    if (!onOptionImageChange) return;
+
+    const field = product.personalizationFields?.find((f) => f.id === fieldId);
+    if (field?.type === "select") {
+      const url = resolveOptionImageUrl(
+        product.slug,
+        fieldId,
+        value,
+        field.options ?? [],
+      );
+      onOptionImageChange(url);
+    }
+  };
 
   const onAdd = async () => {
     if (!price.hasPrice) {
@@ -175,9 +195,7 @@ export function AddToCartForm({
             key={field.id}
             field={field}
             value={fields[field.id] ?? ""}
-            onChange={(value) =>
-              setFields((prev) => ({ ...prev, [field.id]: value }))
-            }
+            onChange={(value) => updateField(field.id, value)}
           />
         ))}
 
@@ -236,9 +254,7 @@ export function AddToCartForm({
           <FieldControl
             field={{ ...field, required: personalizedSelected || field.required }}
             value={fields[field.id] ?? ""}
-            onChange={(value) =>
-              setFields((prev) => ({ ...prev, [field.id]: value }))
-            }
+            onChange={(value) => updateField(field.id, value)}
             showCounter
           />
         </div>

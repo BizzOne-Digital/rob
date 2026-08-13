@@ -35,8 +35,6 @@ export default async function ShopLayout({
           tagline={settings.footer?.tagline}
           copyright={settings.footer?.copyright}
           email={settings.email || BRAND.email}
-          phone={settings.phone || BRAND.phone}
-          phoneHref={BRAND.phoneHref}
           instagramUrl={settings.instagramUrl || BRAND.instagramUrl}
           facebookUrl={settings.facebookUrl || BRAND.facebookUrl}
           showBlog={showBlog}

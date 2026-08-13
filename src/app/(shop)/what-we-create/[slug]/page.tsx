@@ -7,8 +7,7 @@ import {
   getPublishedProducts,
   serialize,
 } from "@/lib/data";
-import { ProductGallery } from "@/components/shop/ProductGallery";
-import { AddToCartForm } from "@/components/shop/AddToCartForm";
+import { ProductDetailInteractive } from "@/components/shop/ProductDetailInteractive";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
@@ -187,31 +186,24 @@ export default async function ProductDetailPage({ params }: Props) {
           ]}
         />
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-          <ProductGallery images={images} name={product.name} />
-          <div>
-            <div className="mb-4 flex flex-wrap gap-2">
-              {product.newArrival ? <Badge tone="blue">New</Badge> : null}
-              {product.featured ? <Badge tone="mauve">Best</Badge> : null}
-              {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
-              {product.personalizable ? (
-                <Badge tone="mauve">Customization</Badge>
-              ) : null}
-            </div>
-            <h1 className="break-words font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">
-              {product.name}
-            </h1>
-            {product.shortDescription ? (
-              <p className="mt-4 text-base leading-relaxed text-charcoal/65">
-                {product.shortDescription}
-              </p>
+        <ProductDetailInteractive product={product as never} images={images}>
+          <div className="mb-4 flex flex-wrap gap-2">
+            {product.newArrival ? <Badge tone="blue">New</Badge> : null}
+            {product.featured ? <Badge tone="mauve">Best</Badge> : null}
+            {product.badge ? <Badge tone="charcoal">{product.badge}</Badge> : null}
+            {product.personalizable ? (
+              <Badge tone="mauve">Customization</Badge>
             ) : null}
-
-            <div className="mt-8">
-              <AddToCartForm product={product as never} />
-            </div>
           </div>
-        </div>
+          <h1 className="break-words font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">
+            {product.name}
+          </h1>
+          {product.shortDescription ? (
+            <p className="mt-4 text-base leading-relaxed text-charcoal/65">
+              {product.shortDescription}
+            </p>
+          ) : null}
+        </ProductDetailInteractive>
       </Container>
 
       {accordionItems.length > 0 ? (

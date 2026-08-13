@@ -1,41 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Eye, Heart, ShoppingBag } from "lucide-react";
-import { toast } from "sonner";
-import { useState } from "react";
-import { PLACEHOLDER_IMAGES } from "@/lib/constants";
-import { formatCurrency } from "@/lib/utils";
-import { getDisplayPrice } from "@/lib/product-price";
-import { useCartStore } from "@/store/cart";
-import { QuickView, useQuickView } from "@/components/shop/QuickView";
-import type { ProductCardData } from "@/components/shop/ProductCard";
+import { ProductCard, type ProductCardData } from "@/components/shop/ProductCard";
 
 type Product = ProductCardData;
 
 export function FeaturedProducts({ products }: { products: Product[] }) {
   const list = products.slice(0, 6);
-  const addItem = useCartStore((s) => s.addItem);
-  const { product, open, openQuickView, closeQuickView } = useQuickView();
-  const [addingId, setAddingId] = useState<string | null>(null);
-
-  const quickAdd = async (item: Product) => {
-    const price = getDisplayPrice(item);
-    if (!price.hasPrice) {
-      toast.message("This piece is priced on request — please contact us.");
-      return;
-    }
-    if ((item.variants?.length ?? 0) > 0 || item.personalizable) {
-      openQuickView(item);
-      return;
-    }
-    setAddingId(item._id);
-    const result = await addItem({ productId: String(item._id), quantity: 1 });
-    setAddingId(null);
-    if (!result.ok) toast.error(result.error ?? "Could not add to bag");
-    else toast.success("Added to your bag");
-  };
 
   return (
     <section className="overflow-x-clip bg-[#f7f3ee] py-12 sm:py-16 lg:py-20">
@@ -52,87 +23,22 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
             Favorites will appear here once products are published.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-            {list.map((item) => {
-              const price = getDisplayPrice(item);
-              const img =
-                item.images?.[0]?.url || PLACEHOLDER_IMAGES.gallery1;
-              return (
-                <article
-                  key={item._id}
-                  className="group min-w-0 overflow-hidden rounded-xl border border-[#ebe6eb] bg-white shadow-[0_8px_24px_rgba(20,20,20,0.04)]"
-                >
-                  <div className="relative aspect-square bg-[#e8e0d6]">
-                    <Link href={`/what-we-create/${item.slug}`}>
-                      <Image
-                        src={img}
-                        alt={item.images?.[0]?.alt || item.name}
-                        fill
-                        sizes="(max-width:768px) 50vw, 25vw"
-                        quality={90}
-                        className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                      />
-                    </Link>
-                    <button
-                      type="button"
-                      aria-label="Add to wishlist"
-                      className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#8f7665]"
-                    >
-                      <Heart className="h-4 w-4" strokeWidth={1.6} />
-                    </button>
-                    <div className="absolute inset-x-3 bottom-3 flex gap-2 opacity-100 transition sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
-                      <button
-                        type="button"
-                        onClick={() => openQuickView(item)}
-                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-white/95 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5c5660]"
-                      >
-                        <Eye className="h-3.5 w-3.5" />
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => void quickAdd(item)}
-                        disabled={addingId === item._id}
-                        className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-lg bg-[#a68d7b] text-[11px] font-semibold uppercase tracking-[0.06em] text-white disabled:opacity-60"
-                      >
-                        <ShoppingBag className="h-3.5 w-3.5" />
-                        {addingId === item._id ? "…" : "Add"}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="space-y-3 p-4">
-                    <h3 className="line-clamp-2 min-h-[2.6em] font-serif text-[17px] leading-snug text-[#2f2a26]">
-                      {item.name}
-                    </h3>
-                    <p className="text-[13px] font-semibold text-[#2f2a26]">
-                      {price.hasPrice
-                        ? formatCurrency(item.price)
-                        : "Contact for Price"}
-                    </p>
-                    <Link
-                      href={`/what-we-create/${item.slug}`}
-                      className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-[#e8e0d6] text-[12px] font-semibold uppercase tracking-[0.08em] text-[#5c5660] transition hover:border-[#a68d7b] hover:text-[#8f7665]"
-                    >
-                      View Product
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {list.map((item) => (
+              <ProductCard key={item._id} product={item} />
+            ))}
           </div>
         )}
 
         <div className="mt-10 text-center">
           <Link
             href="/what-we-create"
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-[#a68d7b] px-7 text-[13px] font-semibold text-white transition hover:bg-[#8f7665]"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-taupe px-7 text-[13px] font-semibold !text-white transition hover:bg-taupe-deep"
           >
             Shop all favorites
           </Link>
         </div>
       </div>
-
-      <QuickView product={product} open={open} onClose={closeQuickView} />
     </section>
   );
 }

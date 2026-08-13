@@ -7,6 +7,12 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/lib/utils";
+import {
+  calculateCanadaShippingAmount,
+  CANADA_SHIPPING,
+  getCanadaShippingDescription,
+  getCanadaShippingNote,
+} from "@/lib/shipping";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 export default function CheckoutPage() {
@@ -14,10 +20,19 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
   const [shippingMethod, setShippingMethod] = useState<"pickup" | "shipping">(
-    "pickup",
+    "shipping",
   );
 
-  const shippingPrice = shippingMethod === "pickup" ? 0 : 0;
+  const shippingPrice = useMemo(
+    () => calculateCanadaShippingAmount(subtotal, shippingMethod),
+    [subtotal, shippingMethod],
+  );
+
+  const shippingNote = useMemo(
+    () =>
+      shippingMethod === "shipping" ? getCanadaShippingNote(subtotal) : null,
+    [subtotal, shippingMethod],
+  );
 
   const totals = useMemo(
     () => ({
@@ -76,8 +91,8 @@ export default function CheckoutPage() {
             id: shippingMethod,
             name:
               shippingMethod === "pickup"
-                ? "Local Pickup"
-                : "Canada-wide Shipping",
+                ? CANADA_SHIPPING.pickupLabel
+                : CANADA_SHIPPING.standardLabel,
             price: shippingPrice,
           },
           discountCode: String(form.get("discountCode") || "") || undefined,
@@ -174,20 +189,23 @@ export default function CheckoutPage() {
                 <input
                   type="radio"
                   name="shipMethod"
-                  checked={shippingMethod === "pickup"}
-                  onChange={() => setShippingMethod("pickup")}
+                  checked={shippingMethod === "shipping"}
+                  onChange={() => setShippingMethod("shipping")}
                 />
-                Local pickup
+                {getCanadaShippingDescription(subtotal)}
               </label>
               <label className="flex items-center gap-3 text-sm">
                 <input
                   type="radio"
                   name="shipMethod"
-                  checked={shippingMethod === "shipping"}
-                  onChange={() => setShippingMethod("shipping")}
+                  checked={shippingMethod === "pickup"}
+                  onChange={() => setShippingMethod("pickup")}
                 />
-                Canada-wide shipping (rate confirmed if needed)
+                Local pickup (free)
               </label>
+              {shippingNote ? (
+                <p className="text-xs text-charcoal/50">{shippingNote}</p>
+              ) : null}
             </div>
           </section>
 
