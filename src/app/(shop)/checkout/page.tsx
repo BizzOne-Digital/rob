@@ -154,7 +154,7 @@ export default function CheckoutPage() {
 
       <form
         onSubmit={onSubmit}
-        className="mt-10 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-10"
+        className="mt-10 grid min-w-0 gap-8 overflow-x-hidden lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-10"
       >
         <div className="space-y-8">
           <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">

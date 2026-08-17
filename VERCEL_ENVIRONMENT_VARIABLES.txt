@@ -1,0 +1,119 @@
+═══════════════════════════════════════════════════════════
+VERCEL ENVIRONMENT VARIABLES - PRODUCTION DEPLOYMENT
+═══════════════════════════════════════════════════════════
+
+Copy these to Vercel Dashboard → Your Project → Settings → Environment Variables
+
+═══════════════════════════════════════════════════════════
+DATABASE
+═══════════════════════════════════════════════════════════
+
+MONGODB_URI=mongodb+srv://verceluser:vercel123456789@api1.dggkm.mongodb.net/rw-designs-canada?retryWrites=true&w=majority
+
+═══════════════════════════════════════════════════════════
+AUTHENTICATION
+═══════════════════════════════════════════════════════════
+
+AUTH_SECRET=rw-designs-canada-dev-secret-change-in-production-2026
+AUTH_TRUST_HOST=true
+NEXTAUTH_URL=https://yourdomain.com
+AUTH_URL=https://yourdomain.com
+
+Note: Replace "yourdomain.com" with your actual Vercel domain
+
+═══════════════════════════════════════════════════════════
+ADMIN CREDENTIALS
+═══════════════════════════════════════════════════════════
+
+ADMIN_EMAIL=rwdesignscanada@gmail.com
+ADMIN_PASSWORD=RWDesignsAdmin2026!
+
+═══════════════════════════════════════════════════════════
+SQUARE PAYMENT (PRODUCTION)
+═══════════════════════════════════════════════════════════
+
+SQUARE_ACCESS_TOKEN=EAAAl_01IsRNFEOMYm7JNBPTJP-yDiJebLTBEI_R3dGTHVmQARKxTMreXlQmQwKD
+SQUARE_TOKEN=EAAAl_01IsRNFEOMYm7JNBPTJP-yDiJebLTBEI_R3dGTHVmQARKxTMreXlQmQwKD
+SQUARE_LOCATION_ID=LVEQGZD0NRMRT
+NEXT_PUBLIC_SQUARE_APPLICATION_ID=sq0idp-s4WVLYaqPUltvCP6z7fPvw
+SQUARE_WEBHOOK_SIGNATURE_KEY=
+
+Note: Set up webhook in Square Dashboard after deployment:
+Webhook URL: https://yourdomain.com/api/webhooks/square
+
+═══════════════════════════════════════════════════════════
+EMAIL (SMTP with Gmail)
+═══════════════════════════════════════════════════════════
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=rwdesignscanada@gmail.com
+SMTP_PASS=ehlzpwgjmkzyuqsl
+SMTP_FROM=RW Designs Canada <rwdesignscanada@gmail.com>
+CONTACT_RECIPIENT_EMAIL=rwdesignscanada@gmail.com
+EMAIL_FROM=RW Designs Canada <rwdesignscanada@gmail.com>
+
+Optional - Resend (if you want to use Resend instead of SMTP):
+RESEND_API_KEY=
+
+═══════════════════════════════════════════════════════════
+SITE CONFIGURATION
+═══════════════════════════════════════════════════════════
+
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+
+Note: Replace "yourdomain.com" with your actual Vercel domain
+
+═══════════════════════════════════════════════════════════
+OPTIONAL (Not needed, but included in .env)
+═══════════════════════════════════════════════════════════
+
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+
+Note: Leave these empty - you're using Square, not Stripe
+
+═══════════════════════════════════════════════════════════
+AFTER DEPLOYMENT - SQUARE WEBHOOK SETUP
+═══════════════════════════════════════════════════════════
+
+1. Go to: https://developer.squareup.com/apps
+2. Select your application
+3. Go to "Webhooks" section
+4. Click "Add webhook endpoint"
+5. Enter: https://yourdomain.com/api/webhooks/square
+6. Select these events:
+   - payment.created
+   - payment.updated
+   - order.created
+   - order.updated
+7. Copy the "Signature Key" 
+8. Add it to Vercel: SQUARE_WEBHOOK_SIGNATURE_KEY=<signature-key>
+
+═══════════════════════════════════════════════════════════
+IMPORTANT NOTES
+═══════════════════════════════════════════════════════════
+
+✅ All these variables are for PRODUCTION environment
+✅ Make sure to replace "yourdomain.com" with your actual domain
+✅ Square credentials are PRODUCTION (live payments)
+✅ SMTP is configured and tested
+✅ Don't forget to set up Square webhook after deployment
+
+═══════════════════════════════════════════════════════════
+DEPLOYMENT CHECKLIST
+═══════════════════════════════════════════════════════════
+
+□ Copy all environment variables to Vercel
+□ Replace "yourdomain.com" with actual domain
+□ Deploy to Vercel
+□ Test homepage loads
+□ Test products display
+□ Test checkout flow
+□ Set up Square webhook
+□ Test payment completes
+□ Verify emails are sent (customer + admin)
+□ Done! 🎉
+
+═══════════════════════════════════════════════════════════

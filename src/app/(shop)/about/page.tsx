@@ -49,7 +49,7 @@ const collageImages = [
   "/images/products/Soy-Wax-Melts-1.png",
   "/images/products/Silicone-keychain-charm-1.png",
   "/images/products/Engraved-Birth-Month-Flower-Keychain-1.png",
-  "/images/products/Mama-Car-Mirror-Air-1.png",
+  "/images/products/Mama-Car-Mirror-Air-Freshener-1.png",
   "/images/products/Butterfly-Car-Vent-Clip-Freshie-1.png",
   "/images/products/Highland-Cow-Car-Vent-Clip-Air-Freshener-1.png",
   "/images/products/Dog-Mom-Keychain-1.png",
