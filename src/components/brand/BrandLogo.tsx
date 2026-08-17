@@ -14,21 +14,21 @@ type BrandLogoProps = {
 const sizeStyles = {
   sm: {
     rw: "text-[1.85rem] leading-none",
-    designs: "text-[0.6rem] tracking-[0.42em]",
-    canada: "text-[0.5rem] tracking-[0.34em]",
-    gap: "gap-1",
+    designs: "text-[0.53rem] tracking-[0.24em]",
+    canada: "text-[0.5rem] tracking-[0em]",
+    gap: "gap-0.5",
   },
   md: {
     rw: "text-[2.55rem] leading-none sm:text-[2.85rem]",
-    designs: "text-[0.7rem] tracking-[0.44em] sm:text-[0.78rem]",
-    canada: "text-[0.55rem] tracking-[0.36em] sm:text-[0.6rem]",
-    gap: "gap-1.5",
+    designs: "text-[0.62rem] tracking-[0.26em] sm:text-[0.68rem]",
+    canada: "text-[0.55rem] tracking-[0em] sm:text-[0.6rem]",
+    gap: "gap-0.5",
   },
   lg: {
     rw: "text-[3.1rem] leading-none sm:text-[3.6rem]",
-    designs: "text-[0.8rem] tracking-[0.46em] sm:text-[0.9rem]",
-    canada: "text-[0.6rem] tracking-[0.38em] sm:text-[0.68rem]",
-    gap: "gap-2",
+    designs: "text-[0.7rem] tracking-[0.28em] sm:text-[0.79rem]",
+    canada: "text-[0.6rem] tracking-[0em] sm:text-[0.68rem]",
+    gap: "gap-1",
   },
 };
 

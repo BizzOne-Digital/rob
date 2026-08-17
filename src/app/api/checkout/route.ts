@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { connectDB } from "@/lib/db";
-import { getStripe, isStripeConfigured } from "@/lib/stripe";
+import { getSquareClient, getSquareLocationId, isSquareConfigured } from "@/lib/square";
 import {
   notifyAdminNewOrder,
   sendOrderConfirmation,
@@ -21,6 +21,7 @@ import { Discount } from "@/models/Discount";
 import { SiteSettings } from "@/models/SiteSettings";
 import { rateLimit } from "@/lib/rate-limit";
 import { calculateCanadaShippingAmount } from "@/lib/shipping";
+import { randomUUID } from "crypto";
 
 const CART_COOKIE = "rw_cart_sid";
 
@@ -232,7 +233,7 @@ export async function POST(request: NextRequest) {
     await customer.save();
   }
 
-  const useStripe = isStripeConfigured();
+  const useSquare = isSquareConfigured();
   const orderNumber = generateOrderNumber();
 
   const order = await Order.create({
@@ -249,16 +250,16 @@ export async function POST(request: NextRequest) {
     total,
     currency: settings?.currency ?? "CAD",
     paymentStatus: "pending",
-    fulfillmentStatus: useStripe ? "pending_payment" : "confirmed",
+    fulfillmentStatus: useSquare ? "pending_payment" : "confirmed",
     billingAddress: parsed.data.billingAddress,
     shippingAddress: parsed.data.shippingAddress,
     shippingMethod: parsed.data.shippingMethod,
     customerNotes: parsed.data.customerNotes,
     timeline: [
       {
-        status: useStripe ? "pending_payment" : "confirmed",
-        note: useStripe
-          ? "Checkout started — awaiting Stripe payment"
+        status: useSquare ? "pending_payment" : "confirmed",
+        note: useSquare
+          ? "Checkout started — awaiting Square payment"
           : "Order placed — awaiting payment confirmation",
         visibleToCustomer: true,
         createdAt: new Date(),
@@ -294,104 +295,127 @@ export async function POST(request: NextRequest) {
     })),
   });
 
-  // Stripe path
-  if (useStripe) {
-    const stripe = getStripe();
-    if (!stripe) {
+  // Square path
+  if (useSquare) {
+    const square = getSquareClient();
+    const locationId = getSquareLocationId();
+    
+    if (!square || !locationId) {
       return NextResponse.json(
         { error: "Checkout is not available right now" },
         { status: 503 },
       );
     }
 
-    const lineItems = orderItems.map((item) => ({
-      quantity: item.quantity,
-      price_data: {
-        currency: (settings?.currency ?? "CAD").toLowerCase(),
-        unit_amount: Math.round(item.price * 100),
-        product_data: {
-          name: item.variantLabel
-            ? `${item.name} (${item.variantLabel})`
-            : item.name,
-          images: item.image?.startsWith("http")
-            ? [item.image]
-            : item.image
-              ? [absoluteUrl(item.image)]
-              : undefined,
+    try {
+      const lineItems = orderItems.map((item) => ({
+        name: item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name,
+        quantity: String(item.quantity),
+        basePriceMoney: {
+          amount: BigInt(Math.round(item.price * 100)),
+          currency: (settings?.currency ?? "CAD") as any,
         },
-      },
-    }));
+      }));
 
-    if (shippingAmount > 0) {
-      lineItems.push({
-        quantity: 1,
-        price_data: {
-          currency: (settings?.currency ?? "CAD").toLowerCase(),
-          unit_amount: Math.round(shippingAmount * 100),
-          product_data: {
-            name: parsed.data.shippingMethod.name || "Shipping",
-            images: undefined,
+      // Add shipping as line item if applicable
+      if (shippingAmount > 0) {
+        lineItems.push({
+          name: parsed.data.shippingMethod.name || "Shipping",
+          quantity: "1",
+          basePriceMoney: {
+            amount: BigInt(Math.round(shippingAmount * 100)),
+            currency: (settings?.currency ?? "CAD") as any,
+          },
+        });
+      }
+
+      // Add tax as line item if applicable
+      if (taxAmount > 0) {
+        lineItems.push({
+          name: settings?.tax?.label || "Tax",
+          quantity: "1",
+          basePriceMoney: {
+            amount: BigInt(Math.round(taxAmount * 100)),
+            currency: (settings?.currency ?? "CAD") as any,
+          },
+        });
+      }
+
+      // Create Square checkout payment link
+      // Format phone number for Square (E.164 format: +1234567890)
+      let formattedPhone = parsed.data.phone;
+      if (formattedPhone) {
+        // Remove all non-digit characters
+        formattedPhone = formattedPhone.replace(/\D/g, '');
+        // Add +1 prefix for North America if not present and has 10 digits
+        if (formattedPhone.length === 10) {
+          formattedPhone = `+1${formattedPhone}`;
+        } else if (formattedPhone.length === 11 && formattedPhone.startsWith('1')) {
+          formattedPhone = `+${formattedPhone}`;
+        } else if (!formattedPhone.startsWith('+')) {
+          formattedPhone = `+${formattedPhone}`;
+        }
+      }
+
+      const checkoutResponse = await square.checkout.paymentLinks.create({
+        idempotencyKey: randomUUID(),
+        order: {
+          locationId,
+          lineItems,
+          discounts: discountAmount > 0 ? [{
+            name: discountCode ? `Discount ${discountCode}` : "Order discount",
+            amountMoney: {
+              amount: BigInt(Math.round(discountAmount * 100)),
+              currency: (settings?.currency ?? "CAD") as any,
+            },
+          }] : undefined,
+        },
+        checkoutOptions: {
+          redirectUrl: absoluteUrl(
+            `/order-success?order=${encodeURIComponent(orderNumber)}`,
+          ),
+          askForShippingAddress: false,
+        },
+        prePopulatedData: {
+          buyerEmail: email,
+          buyerPhoneNumber: formattedPhone || undefined,
+          buyerAddress: {
+            addressLine1: parsed.data.billingAddress.line1,
+            addressLine2: parsed.data.billingAddress.line2,
+            locality: parsed.data.billingAddress.city,
+            administrativeDistrictLevel1: parsed.data.billingAddress.province,
+            postalCode: parsed.data.billingAddress.postalCode,
+            country: "CA",
           },
         },
       });
-    }
 
-    if (taxAmount > 0) {
-      lineItems.push({
-        quantity: 1,
-        price_data: {
-          currency: (settings?.currency ?? "CAD").toLowerCase(),
-          unit_amount: Math.round(taxAmount * 100),
-          product_data: {
-            name: settings?.tax?.label || "Tax",
-            images: undefined,
-          },
-        },
-      });
-    }
+      // Square SDK returns paymentLink directly in response (not wrapped in result)
+      const paymentLink = checkoutResponse.paymentLink;
+      
+      if (!paymentLink?.url) {
+        console.error('Square checkout response:', JSON.stringify(checkoutResponse, null, 2));
+        throw new Error("Square checkout URL not generated");
+      }
 
-    let stripeCouponId: string | undefined;
-    if (discountAmount > 0) {
-      const coupon = await stripe.coupons.create({
-        amount_off: Math.round(discountAmount * 100),
-        currency: (settings?.currency ?? "CAD").toLowerCase(),
-        duration: "once",
-        name: discountCode ? `Discount ${discountCode}` : "Order discount",
-      });
-      stripeCouponId = coupon.id;
-    }
+      order.squarePaymentLinkId = paymentLink.id;
+      order.squareOrderId = paymentLink.orderId;
+      await order.save();
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer_email: email,
-      line_items: lineItems,
-      discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
-      success_url: absoluteUrl(
-        `/order-confirmation?order=${encodeURIComponent(orderNumber)}&session_id={CHECKOUT_SESSION_ID}`,
-      ),
-      cancel_url: absoluteUrl("/checkout?cancelled=1"),
-      metadata: {
-        orderId: String(order._id),
+      return NextResponse.json({
+        mode: "square",
+        url: paymentLink.url,
+        paymentLinkId: paymentLink.id,
         orderNumber,
-      },
-      payment_intent_data: {
-        metadata: {
-          orderId: String(order._id),
-          orderNumber,
-        },
-      },
-    });
-
-    order.stripeSessionId = checkoutSession.id;
-    await order.save();
-
-    return NextResponse.json({
-      mode: "stripe",
-      url: checkoutSession.url,
-      sessionId: checkoutSession.id,
-      orderNumber,
-      total: formatCurrency(total, settings?.currency ?? "CAD"),
-    });
+        total: formatCurrency(total, settings?.currency ?? "CAD"),
+      });
+    } catch (error: any) {
+      console.error("Square checkout error:", error);
+      return NextResponse.json(
+        { error: "Failed to create payment link", details: error.message },
+        { status: 500 },
+      );
+    }
   }
 
   // Manual / local checkout (no Stripe) — order is saved for admin + emails sent

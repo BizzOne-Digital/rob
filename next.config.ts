@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    formats: ["image/avif", "image/webp"],
+    qualities: [75, 90],
   },
   typescript: {
     // Large mongoose InferSchemaType graphs can OOM local `tsc` during build;

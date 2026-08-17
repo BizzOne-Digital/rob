@@ -6,7 +6,34 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
+// SMTP Configuration (prefer SMTP over Resend if configured)
+let smtpTransporter: any = null;
+const isSmtpConfigured = !!(
+  process.env.SMTP_HOST &&
+  process.env.SMTP_PORT &&
+  process.env.SMTP_USER &&
+  process.env.SMTP_PASS
+);
+
+if (isSmtpConfigured) {
+  try {
+    const nodemailer = require("nodemailer");
+    smtpTransporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT!),
+      secure: process.env.SMTP_PORT === "465",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  } catch (error) {
+    console.error("[smtp] Failed to initialize:", error);
+  }
+}
+
 const from =
+  process.env.SMTP_FROM ||
   process.env.EMAIL_FROM ||
   `RW Designs Canada <onboarding@resend.dev>`;
 
@@ -16,21 +43,44 @@ export async function sendEmail(options: {
   html: string;
   replyTo?: string;
 }) {
-  if (!resend) {
-    console.info("[email:dev]", options.subject, "→", options.to);
-    console.info("[email:dev:html]", options.html.slice(0, 500));
-    return { id: "dev-mode", skipped: true as const };
+  // Prefer SMTP if configured
+  if (smtpTransporter) {
+    try {
+      const result = await smtpTransporter.sendMail({
+        from,
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        replyTo: options.replyTo,
+      });
+      console.info("[smtp] Sent email:", options.subject, "→", options.to);
+      return { id: result.messageId, service: "smtp" as const };
+    } catch (error: any) {
+      console.error("[smtp] Failed to send email:", error.message);
+      // Fall back to Resend if SMTP fails
+      if (resend) {
+        console.info("[smtp] Falling back to Resend");
+      }
+    }
   }
 
-  const result = await resend.emails.send({
-    from,
-    to: options.to,
-    subject: options.subject,
-    html: options.html,
-    replyTo: options.replyTo,
-  });
+  // Use Resend as fallback or primary
+  if (resend) {
+    const result = await resend.emails.send({
+      from,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      replyTo: options.replyTo,
+    });
+    console.info("[resend] Sent email:", options.subject, "→", options.to);
+    return result;
+  }
 
-  return result;
+  // Dev mode - no email service configured
+  console.info("[email:dev]", options.subject, "→", options.to);
+  console.info("[email:dev:html]", options.html.slice(0, 500));
+  return { id: "dev-mode", skipped: true as const };
 }
 
 export async function notifyAdminInquiry(data: {

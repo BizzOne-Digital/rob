@@ -21,7 +21,7 @@ export function EmptyState({
         className,
       )}
     >
-      <p className="font-script text-3xl text-muted-mauve">RW</p>
+      <p className="font-serif text-4xl font-medium text-muted-mauve">RW</p>
       <h3 className="mt-3 font-serif text-2xl text-charcoal">{title}</h3>
       {description ? (
         <p className="mt-3 text-sm leading-relaxed text-charcoal/60">{description}</p>

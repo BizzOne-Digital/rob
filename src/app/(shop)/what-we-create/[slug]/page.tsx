@@ -76,7 +76,6 @@ export default async function ProductDetailPage({ params }: Props) {
     product.dimensions ? ["Dimensions", product.dimensions] : null,
     product.waxType ? ["Wax", product.waxType] : null,
     product.wickType ? ["Wick", product.wickType] : null,
-    product.vessel ? ["Vessel", product.vessel] : null,
     product.burnTime ? ["Burn time", product.burnTime] : null,
     product.productionTime ? ["Production time", product.productionTime] : null,
   ].filter(Boolean) as Array<[string, string]>;

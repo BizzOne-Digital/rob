@@ -1,0 +1,54 @@
+Subject: Email Setup Required - Order Notifications & Contact Form
+
+Hi,
+
+I've completed the email notification system for the website. The system is ready to send:
+
+1. **Customer Order Confirmation Emails**
+   - "Thank you for your order" message
+   - Complete order details (items, prices, totals)
+   - Shipping and billing addresses
+   - Order number and payment status
+
+2. **Admin Order Notification Emails**
+   - Alert when new orders come in
+   - Full customer details (name, email, phone)
+   - Complete shipping and billing addresses
+   - All order items and totals
+   - Customer notes
+
+3. **Contact Form Responses**
+   - When customers submit inquiries through the contact form
+   - Includes customer info and their message
+
+To activate the email system, I need you to provide an **email service**. I recommend **Resend** (it's the easiest):
+
+**Resend Setup (Recommended):**
+1. Create free account at: https://resend.com/signup
+2. Get your API Key from the dashboard
+3. Send me the API key
+
+The free tier includes 3,000 emails/month which should be plenty to start.
+
+**Alternatively**, if you prefer to use your business email (Gmail, Office 365, etc.), I can set up traditional SMTP. Just let me know your preference.
+
+**What I need from you:**
+
+Option A (Resend - Easiest):
+- Resend API Key
+
+Option B (SMTP):
+- Email server host
+- Email server port
+- Email address to send from
+- Email password (or app password)
+
+Also, please confirm:
+- **Admin Email Address:** Where should order notifications be sent? (currently set to: rwdesignscanada@gmail.com)
+- **From Email:** What email should customers see orders coming from? (e.g., orders@rwdesignscanada.com)
+
+Once you provide these details, all email notifications will be fully functional.
+
+I've also created a detailed guide (EMAIL_SETUP.md) explaining both options if you'd like to review.
+
+Thanks!

@@ -111,6 +111,11 @@ export default function CheckoutPage() {
         return;
       }
 
+      if (data.mode === "square" && data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
       if (data.mode === "manual" && data.redirectUrl) {
         await clearCart();
         toast.success("Order placed");
@@ -189,19 +194,10 @@ export default function CheckoutPage() {
                 <input
                   type="radio"
                   name="shipMethod"
-                  checked={shippingMethod === "shipping"}
-                  onChange={() => setShippingMethod("shipping")}
+                  checked={true}
+                  readOnly
                 />
                 {getCanadaShippingDescription(subtotal)}
-              </label>
-              <label className="flex items-center gap-3 text-sm">
-                <input
-                  type="radio"
-                  name="shipMethod"
-                  checked={shippingMethod === "pickup"}
-                  onChange={() => setShippingMethod("pickup")}
-                />
-                Local pickup (free)
               </label>
               {shippingNote ? (
                 <p className="text-xs text-charcoal/50">{shippingNote}</p>
@@ -308,7 +304,7 @@ export default function CheckoutPage() {
             </div>
           </div>
           <Button type="submit" className="mt-6 w-full !text-white" disabled={loading}>
-            {loading ? "Placing order…" : "Place order"}
+            {loading ? "Processing…" : "Pay Now"}
           </Button>
         </aside>
       </form>

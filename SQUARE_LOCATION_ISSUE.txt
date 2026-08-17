@@ -1,0 +1,38 @@
+❌ SQUARE SETUP ISSUE - NO LOCATIONS FOUND
+
+Your Square credentials are working, but your Square account has NO LOCATIONS set up.
+
+WHAT YOU NEED TO DO:
+
+1. Go to Square Dashboard: https://squareup.com/dashboard
+
+2. Click on "Locations" in the left sidebar menu
+
+3. If no locations exist:
+   - Click "Add Location" 
+   - Fill in your business details (name, address, etc.)
+   - Save the location
+
+4. If a location exists but is inactive:
+   - Click on the location
+   - Make sure it's set to "Active" status
+
+5. Copy the Location ID:
+   - Click on the location
+   - Look for "Location ID" (it will be a long alphanumeric code)
+   - Copy this ID
+
+6. Update your .env.local file:
+   SQUARE_LOCATION_ID=<paste-the-location-id-here>
+
+7. Restart your dev server (Ctrl+C then npm run dev)
+
+---
+
+Your current credentials:
+✅ Access Token: Valid (Production)
+✅ Application ID: sq0idp-s4WVLYaqPUltvCP6z7fPvw
+❌ Location ID: LQQMY80 - This location doesn't exist in your account
+
+After setting up the location in Square Dashboard and updating the Location ID, 
+the checkout will work properly.

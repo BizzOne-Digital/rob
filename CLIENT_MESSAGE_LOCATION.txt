@@ -1,0 +1,37 @@
+Hi,
+
+The Location IDs you sent (LQQMY80 and LVEQGZD) are not working - Square says they're invalid.
+
+I need you to get the COMPLETE Location ID from your Square Dashboard. Here's exactly how:
+
+**METHOD 1 - Square Dashboard:**
+
+1. Go to https://squareup.com/dashboard
+2. Click "Account & Settings" (bottom left corner)
+3. Click "Business" 
+4. Click "Locations"
+5. Click on your location name
+6. Look for "Location ID" 
+7. Copy the FULL ID - it should be about 13 characters long like: L7P2CCWQK19J6
+
+**METHOD 2 - Developer Portal:**
+
+1. Go to https://developer.squareup.com/apps
+2. Click on your app
+3. Go to "Locations" tab
+4. Copy the Location ID shown there
+
+**What I Need:**
+
+A complete Location ID that looks like:
+- L7P2CCWQK19J6 (starts with L, then 12 more characters)
+- NOT just 7 characters like what you sent
+
+The codes you sent might be:
+- A different type of ID (not Location ID)
+- Shortened/truncated versions
+- From the wrong field
+
+Please send me the COMPLETE Location ID exactly as shown in Square, and I'll update it immediately so checkout can work!
+
+Thanks!

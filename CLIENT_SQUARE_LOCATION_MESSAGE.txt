@@ -1,0 +1,34 @@
+Hi,
+
+I've tested the Square credentials you provided and they're working correctly. However, there's one issue preventing checkout from working:
+
+**Your Square account doesn't have any locations set up.**
+
+The Location ID you gave me (LQQMY80) doesn't exist in your Square account. Every Square account needs at least one active location to process payments.
+
+**Here's what you need to do:**
+
+1. Log in to your Square Dashboard: https://squareup.com/dashboard
+
+2. Click on "Locations" in the left sidebar
+
+3. If you don't see any locations:
+   - Click "Add Location" or "Create New Location"
+   - Enter your business name and address
+   - Save it
+
+4. If you already have a location:
+   - Click on it to open the details
+   - Make sure the status is "Active"
+
+5. Once you have an active location:
+   - Open that location's details
+   - Find and copy the "Location ID" (it's a long code, usually starts with letters)
+
+6. Send me that correct Location ID so I can update the website
+
+After I have the correct Location ID, your Square checkout will work perfectly. The payment button will redirect customers to Square's secure payment page, and after they pay, they'll return to your website with a confirmation.
+
+Let me know once you have the Location ID!
+
+Thanks

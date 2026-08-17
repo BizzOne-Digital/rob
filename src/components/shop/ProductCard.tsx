@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Heart } from "lucide-react";
+import { Heart, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
@@ -85,8 +85,8 @@ export function ProductCard({
   };
 
   return (
-    <article className={cn("group min-w-0", className)}>
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#f7f3ee]">
+    <article className={cn("group min-w-0 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md", className)}>
+      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
         <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
           <ImageWithFallback
             src={product.images?.[0]?.url}
@@ -94,7 +94,7 @@ export function ProductCard({
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             quality={90}
-            className="object-contain object-center transition duration-500 group-hover:scale-[1.01]"
+            className="object-contain object-center p-4 transition duration-500 group-hover:scale-105"
           />
         </Link>
 
@@ -104,40 +104,45 @@ export function ProductCard({
           </span>
         ) : null}
 
-        <button
-          type="button"
-          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-          disabled={wishLoading}
-          onClick={(e) => void toggleWishlist(e)}
-          className={cn(
-            "absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/15 bg-white/95 text-[#2f2a26] shadow-sm transition hover:bg-white disabled:opacity-60",
-            wished && "border-taupe text-taupe",
-          )}
-        >
-          <Heart
-            className={cn("h-4 w-4", wished && "fill-taupe")}
-            strokeWidth={1.6}
-          />
-        </button>
+        <div className="absolute inset-x-0 bottom-0 z-10 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/20 to-transparent pb-3 pt-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <Link
+            href={`/what-we-create/${product.slug}`}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition hover:scale-110 hover:bg-taupe hover:text-white"
+            aria-label="View product details"
+          >
+            <Eye className="h-5 w-5" strokeWidth={2} />
+          </Link>
+
+          <button
+            type="button"
+            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+            disabled={wishLoading}
+            onClick={(e) => void toggleWishlist(e)}
+            className={cn(
+              "inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition hover:scale-110 hover:bg-taupe hover:text-white disabled:opacity-60",
+              wished && "bg-taupe text-white",
+            )}
+          >
+            <Heart
+              className={cn("h-5 w-5", wished && "fill-white")}
+              strokeWidth={2}
+            />
+          </button>
+        </div>
       </div>
 
       <Link
         href={`/what-we-create/${product.slug}`}
-        className="mt-3 block min-w-0"
+        className="mt-4 block min-w-0"
       >
         <h3 className="line-clamp-2 font-serif text-[15px] leading-snug text-[#2f2a26] transition group-hover:text-taupe sm:text-[16px]">
           {product.name}
         </h3>
 
         <div className="mt-2 flex items-baseline justify-between gap-3">
-          <span className="text-[14px] font-semibold text-[#2f2a26]">
+          <span className="text-[15px] font-bold text-[#2f2a26]">
             {displayPrice}
           </span>
-          {product.sku ? (
-            <span className="shrink-0 text-[11px] uppercase tracking-[0.06em] text-[#6b6258]">
-              SKU {product.sku}
-            </span>
-          ) : null}
         </div>
 
         {comingSoon ? (
