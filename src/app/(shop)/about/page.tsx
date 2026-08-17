@@ -48,7 +48,7 @@ const collageImages = [
   "/images/products/Sunflower-Car-Mirror-Air-Freshener-1.png",
   "/images/products/Soy-Wax-Melts-1.png",
   "/images/products/Silicone-keychain-charm-1.png",
-  "/images/products/Engraved-Birth-Month-Flower-Keychain-1.png",
+  "/images/products/Engraved-Birth-Month-Flower-Keychain-april-1.png",
   "/images/products/Dripping-Cherries-Car-Mirror-Air-Freshener-1.png",
   "/images/products/Butterfly-Car-Vent-Clip-Freshie-1.png",
   "/images/products/Highland-Cow-Car-Vent-Clip-Air-Freshener-1.png",
