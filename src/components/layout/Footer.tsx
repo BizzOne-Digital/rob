@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Mail, Sparkle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -35,7 +36,31 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
+const footerLinkClass =
+  "inline-block py-1 transition hover:text-taupe focus-visible:outline-none focus-visible:text-taupe";
+
+function FooterSection({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={cn(
+        "relative w-full border-b border-[#2f2a26]/10 py-6 last:border-b-0 lg:border-b-0 lg:py-0",
+        className,
+      )}
+    >
+      {children}
+    </section>
+  );
+}
+
 export function Footer({
+  tagline,
+  copyright,
   email,
   instagramUrl,
   facebookUrl,
@@ -51,59 +76,37 @@ export function Footer({
   const ig = instagramUrl || BRAND.instagramUrl;
   const fb = facebookUrl || BRAND.facebookUrl;
   const year = new Date().getFullYear();
+  const displayTagline =
+    tagline ||
+    "Thoughtfully handmade gifts and home goods made in Canada with care.";
+  const displayCopyright =
+    copyright || `© ${year} ${BRAND.name}. All rights reserved.`;
 
   return (
-    <footer className="relative mt-auto overflow-x-clip border-t border-[#aeb6a6]/70 bg-sage text-[#2f2a26]">
-      <Sparkle className="pointer-events-none absolute bottom-28 left-1/2 h-3 w-3 -translate-x-1/2 text-[#2f2a26]/35" />
-
-      <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-8 pt-10 sm:px-8 lg:px-10 lg:pt-12">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
-          <div className="min-w-0 lg:border-r lg:border-[#2f2a26]/15 lg:pr-8">
-            <BrandLogo href="/" tone="dark" size="md" />
-            <p className="mt-5 max-w-[220px] text-[13px] leading-relaxed text-[#2f2a26]/70">
-              Thoughtfully handmade gifts and home goods made in Canada with
-              care.
+    <footer className="mt-auto border-t border-[#aeb6a6]/70 bg-sage text-[#2f2a26]">
+      <div className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-8 lg:px-10 lg:py-10">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 lg:items-start lg:gap-0 lg:divide-x lg:divide-[#2f2a26]/15">
+          <FooterSection className="text-center lg:pr-8 lg:text-left">
+            <BrandLogo href="/" tone="dark" size="sm" />
+            <p className="mx-auto mt-4 max-w-[280px] text-[13px] leading-relaxed text-[#2f2a26]/70 lg:mx-0 lg:max-w-[220px]">
+              {displayTagline}
             </p>
-            <div className="mt-5 flex items-center gap-3">
-              {ig ? (
-                <a
-                  href={ig}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
-                >
-                  <InstagramIcon className="h-4 w-4" />
-                </a>
-              ) : null}
-              {fb ? (
-                <a
-                  href={fb}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
-                >
-                  <FacebookIcon className="h-4 w-4" />
-                </a>
-              ) : null}
-            </div>
-          </div>
+          </FooterSection>
 
-          <div className="lg:border-r lg:border-[#2f2a26]/15 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#2f2a26]">
+          <FooterSection className="lg:px-8">
+            <h3 className="font-serif text-base text-[#2f2a26]">
               What We Create
             </h3>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-[#2f2a26]/75">
+            <ul className="mt-3 space-y-1 text-[13px] text-[#2f2a26]/75">
               <li>
-                <Link href="/what-we-create" className="block py-2 transition hover:text-taupe">
+                <Link href="/what-we-create" className={footerLinkClass}>
                   View All
                 </Link>
               </li>
               <li>
                 <Link
                   href="/what-we-create?sort=newest"
-                  className="block py-2 transition hover:text-taupe"
+                  className={footerLinkClass}
                 >
                   New Arrivals
                 </Link>
@@ -111,59 +114,62 @@ export function Footer({
               <li>
                 <Link
                   href="/what-we-create?featured=1"
-                  className="block py-2 transition hover:text-taupe"
+                  className={footerLinkClass}
                 >
                   Best Sellers
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="block py-2 transition hover:text-taupe">
+                <Link href="/contact" className={footerLinkClass}>
                   Custom Orders
                 </Link>
               </li>
             </ul>
-          </div>
+          </FooterSection>
 
-          <div className="lg:border-r lg:border-[#2f2a26]/15 lg:px-8">
-            <h3 className="font-serif text-[18px] text-[#2f2a26]">Help</h3>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-[#2f2a26]/75">
+          <FooterSection className="lg:px-8">
+            <h3 className="font-serif text-base text-[#2f2a26]">Help</h3>
+            <ul className="mt-3 space-y-1 text-[13px] text-[#2f2a26]/75">
               <li>
-                <Link href="/faq" className="block py-2 transition hover:text-taupe">
+                <Link href="/faq" className={footerLinkClass}>
                   FAQ
                 </Link>
               </li>
               <li>
                 <Link
                   href="/shipping-and-returns"
-                  className="block py-2 transition hover:text-taupe"
+                  className={footerLinkClass}
                 >
                   Shipping & Returns
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="block py-2 transition hover:text-taupe">
+                <Link href="/faq" className={footerLinkClass}>
                   Care Instructions
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="block py-2 transition hover:text-taupe">
+                <Link href="/contact" className={footerLinkClass}>
                   Contact Us
                 </Link>
               </li>
             </ul>
-          </div>
+          </FooterSection>
 
-          <div className="lg:pl-8">
-            <h3 className="font-serif text-[18px] text-[#2f2a26]">
-              Let’s Connect
+          <FooterSection className="lg:pl-8">
+            <h3 className="font-serif text-base text-[#2f2a26]">
+              Let&apos;s Connect
             </h3>
-            <ul className="mt-4 space-y-3.5 text-[13px] text-[#2f2a26]/75">
+            <ul className="mt-3 space-y-2 text-[13px] text-[#2f2a26]/75">
               <li>
                 <a
                   href={`mailto:${displayEmail}`}
-                  className="inline-flex items-start gap-2.5 transition hover:text-taupe"
+                  className={`inline-flex items-start gap-2 py-1 ${footerLinkClass}`}
                 >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-taupe" strokeWidth={1.6} />
+                  <Mail
+                    className="mt-0.5 h-4 w-4 shrink-0 text-taupe"
+                    strokeWidth={1.6}
+                  />
                   <span className="break-all">{displayEmail}</span>
                 </a>
               </li>
@@ -172,38 +178,58 @@ export function Footer({
                   href={ig}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 transition hover:text-taupe"
+                  className={`inline-flex items-center gap-2 py-1 ${footerLinkClass}`}
                 >
                   <InstagramIcon className="h-4 w-4 shrink-0 text-taupe" />
                   {BRAND.instagram}
                 </a>
               </li>
             </ul>
-          </div>
+            {(ig || fb) && (
+              <div className="mt-4 flex items-center gap-2.5">
+                {ig ? (
+                  <a
+                    href={ig}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
+                  >
+                    <InstagramIcon className="h-4 w-4" />
+                  </a>
+                ) : null}
+                {fb ? (
+                  <a
+                    href={fb}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
+                  >
+                    <FacebookIcon className="h-4 w-4" />
+                  </a>
+                ) : null}
+              </div>
+            )}
+          </FooterSection>
         </div>
 
-        <div className="mt-10 border-t border-[#2f2a26]/15 pt-5">
-          <div className="flex flex-col gap-3 text-[12px] text-[#2f2a26]/55 sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              © {year} {BRAND.name}. All rights reserved.
+        <div className="mt-6 border-t border-[#2f2a26]/15 pt-5 lg:mt-10">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p className="text-center text-[12px] leading-normal text-[#2f2a26]/55 sm:text-left">
+              {displayCopyright}
             </p>
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href="/privacy-policy" className="block py-2 transition hover:text-taupe">
+            <nav className="flex flex-col items-center gap-1 text-[12px] text-[#2f2a26]/55 sm:flex-row sm:flex-wrap sm:justify-end sm:gap-x-4 sm:gap-y-1">
+              <Link href="/privacy-policy" className={footerLinkClass}>
                 Privacy Policy
               </Link>
-              <Link
-                href="/terms-and-conditions"
-                className="block py-2 transition hover:text-taupe"
-              >
+              <Link href="/terms-and-conditions" className={footerLinkClass}>
                 Terms of Service
               </Link>
-              <Link
-                href="/shipping-and-returns"
-                className="block py-2 transition hover:text-taupe"
-              >
+              <Link href="/shipping-and-returns" className={footerLinkClass}>
                 Shipping & Returns
               </Link>
-            </div>
+            </nav>
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           scrolled && "shadow-[0_8px_30px_rgba(47,42,38,0.08)]",
         )}
       >
-        <div className="relative mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between gap-2 px-3 sm:h-[92px] sm:gap-3 sm:px-6 lg:h-[116px] lg:px-8">
+        <div className="relative mx-auto flex h-14 w-full max-w-[1280px] items-center justify-between gap-2 px-3 sm:h-[68px] sm:gap-3 sm:px-6 lg:h-[76px] lg:px-8">
           <div className="flex min-w-0 items-center gap-0.5 sm:gap-1">
             <button
               type="button"
@@ -41,8 +41,8 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <BrandLogo size="sm" href="/" className="sm:hidden" />
-            <BrandLogo size="md" href="/" className="hidden sm:inline-flex" />
+            <BrandLogo size="sm" href="/" className="lg:hidden" />
+            <BrandLogo size="md" href="/" className="hidden lg:inline-flex" />
           </div>
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
@@ -79,7 +79,7 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             </button>
             <Link
               href="/what-we-create"
-              className="ml-1 hidden h-10 items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white shadow-sm transition hover:bg-taupe-deep md:inline-flex"
+              className="ml-1 hidden h-9 items-center justify-center rounded-full bg-taupe px-4 text-[12px] font-semibold !text-white shadow-sm transition hover:bg-taupe-deep md:inline-flex"
             >
               Shop Now
             </Link>
@@ -107,7 +107,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="px-3 py-2 text-[14px] font-medium text-[#2f2a26] transition hover:text-taupe"
+      className="px-3 py-1.5 text-[13px] font-medium text-[#2f2a26] transition hover:text-taupe"
     >
       {children}
     </Link>
