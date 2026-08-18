@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Shopping bag",
+  title: "Shopping cart",
   description: "Review your handmade selections from RW Designs Canada.",
 };
 

@@ -120,7 +120,7 @@ export function IntroWrapper({
               <button
                 type="button"
                 onClick={finish}
-                className="absolute right-5 top-5 z-10 rounded-full border border-charcoal/10 bg-white/50 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-charcoal/70 backdrop-blur"
+                className="absolute right-4 top-4 z-10 min-h-11 rounded-full border border-charcoal/10 bg-white/50 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.16em] text-charcoal/70 backdrop-blur sm:right-5 sm:top-5"
               >
                 Skip
               </button>
@@ -133,7 +133,7 @@ export function IntroWrapper({
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-script text-4xl text-taupe md:text-5xl"
+                      className="font-script text-3xl text-taupe sm:text-4xl md:text-5xl"
                     >
                       Beautifully handmade
                     </motion.p>
@@ -145,7 +145,7 @@ export function IntroWrapper({
                     initial={{ opacity: 0, scale: 0.88, y: 12 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8 rounded-2xl bg-white/35 px-8 py-6 sm:px-10 sm:py-8"
+                    className="mt-8 rounded-2xl bg-white/35 px-4 py-5 sm:px-10 sm:py-8"
                   >
                     <BrandLogo href={false} size="lg" />
                   </motion.div>

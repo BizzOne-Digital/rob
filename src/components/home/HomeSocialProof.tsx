@@ -63,6 +63,7 @@ export function HomeSocialProof({
               className="relative mt-6 min-h-[240px] overflow-hidden rounded-2xl border border-[#d9e0ea] bg-white shadow-[0_10px_30px_rgba(20,20,20,0.04)] sm:min-h-[260px]"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
+              onTouchStart={() => setPaused(true)}
               onFocus={() => setPaused(true)}
               onBlur={() => setPaused(false)}
             >
@@ -106,18 +107,22 @@ export function HomeSocialProof({
               ))}
 
               {visibleTestimonials.length > 1 ? (
-                <div className="absolute bottom-5 left-6 z-10 flex gap-2">
+                <div className="absolute bottom-3 left-4 z-10 flex gap-1 sm:bottom-5 sm:left-6 sm:gap-2">
                   {visibleTestimonials.map((t, i) => (
                     <button
                       key={t._id}
                       type="button"
                       aria-label={`Show review ${i + 1}`}
                       onClick={() => setActive(i)}
-                      className={cn(
-                        "h-2 w-2 rounded-full transition",
-                        i === active ? "bg-[#a68d7b]" : "bg-[#b7c0b0]",
-                      )}
-                    />
+                      className="touch-target inline-flex items-center justify-center"
+                    >
+                      <span
+                        className={cn(
+                          "block h-2.5 w-2.5 rounded-full transition sm:h-2 sm:w-2",
+                          i === active ? "bg-[#a68d7b]" : "bg-[#b7c0b0]",
+                        )}
+                      />
+                    </button>
                   ))}
                 </div>
               ) : null}

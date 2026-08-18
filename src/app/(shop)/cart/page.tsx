@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/lib/utils";
-import { PLACEHOLDER_IMAGES } from "@/lib/constants";
-import { ImageGrid } from "@/components/shared/ImageGrid";
+import { SHIPPING_CART_SUMMARY } from "@/lib/shipping";
 
 export default function CartPage() {
   const { items, subtotal, loading, updateQuantity, removeItem, hydrated } =
@@ -17,16 +16,16 @@ export default function CartPage() {
 
   return (
     <>
-      <Container className="py-14 md:py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-mauve">Your bag</p>
-        <h1 className="mt-2 font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">Shopping bag</h1>
+      <Container className="py-10 md:py-20">
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-mauve">Your cart</p>
+        <h1 className="mt-2 font-serif text-2xl text-charcoal sm:text-4xl md:text-5xl">Shopping cart</h1>
 
         {!hydrated || (loading && items.length === 0) ? (
-          <p className="mt-10 text-sm text-charcoal/50">Loading your bag…</p>
+          <p className="mt-10 text-sm text-charcoal/50">Loading your cart…</p>
         ) : items.length === 0 ? (
           <div className="mt-12">
             <EmptyState
-              title="Your bag is empty"
+              title="Your cart is empty"
               description="Discover handmade pieces made to gift and keep."
               actionLabel="Browse shop"
               actionHref="/what-we-create"
@@ -38,59 +37,73 @@ export default function CartPage() {
               {items.map((item) => (
                 <li
                   key={item._id}
-                  className="flex flex-col gap-4 rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:flex-row"
+                  className="flex gap-4 rounded-[1.5rem] border border-soft-beige bg-white/70 p-4"
                 >
-                  <div className="relative h-36 w-full overflow-hidden rounded-xl bg-powder-blue/40 sm:h-28 sm:w-24">
-                    <ImageWithFallback src={item.image} alt={item.name} fill sizes="120px" />
-                  </div>
+                  <Link
+                    href={item.slug ? `/what-we-create/${item.slug}` : "/what-we-create"}
+                    className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#f7f3ee] sm:h-28 sm:w-28"
+                  >
+                    <ImageWithFallback
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="112px"
+                      className="object-contain object-center p-1.5"
+                    />
+                  </Link>
                   <div className="min-w-0 flex-1">
                     <Link
                       href={item.slug ? `/what-we-create/${item.slug}` : "/what-we-create"}
-                      className="font-serif text-2xl text-charcoal hover:text-muted-mauve"
+                      className="font-serif text-lg leading-snug text-charcoal hover:text-muted-mauve sm:text-2xl"
                     >
                       {item.name}
                     </Link>
                     {item.variantLabel ? (
                       <p className="mt-1 text-sm text-charcoal/50">{item.variantLabel}</p>
                     ) : null}
-                    <p className="mt-2 text-sm">{formatCurrency(item.price)}</p>
-                    <div className="mt-4 flex items-center gap-4">
+                    <div className="mt-3 flex items-center justify-between gap-3 sm:mt-2 sm:block">
+                      <p className="text-sm">{formatCurrency(item.price)}</p>
+                      <p className="font-serif text-lg sm:hidden">
+                        {formatCurrency(item.price * item.quantity)}
+                      </p>
+                    </div>
+                    <div className="mt-4 flex flex-wrap items-center gap-3 sm:gap-4">
                       <div className="inline-flex items-center rounded-full border border-soft-beige bg-white">
                         <button
                           type="button"
-                          className="p-2"
+                          className="touch-target inline-flex items-center justify-center"
                           disabled={loading || item.quantity <= 1}
                           onClick={() => void updateQuantity(item._id, item.quantity - 1)}
                         >
-                          <Minus className="h-3.5 w-3.5" />
+                          <Minus className="h-4 w-4" />
                         </button>
                         <span className="min-w-8 text-center text-sm">{item.quantity}</span>
                         <button
                           type="button"
-                          className="p-2"
+                          className="touch-target inline-flex items-center justify-center"
                           disabled={loading}
                           onClick={() => void updateQuantity(item._id, item.quantity + 1)}
                         >
-                          <Plus className="h-3.5 w-3.5" />
+                          <Plus className="h-4 w-4" />
                         </button>
                       </div>
                       <button
                         type="button"
-                        className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.12em] text-charcoal/45 hover:text-muted-mauve"
+                        className="touch-target inline-flex items-center gap-1 px-2 text-xs uppercase tracking-[0.12em] text-charcoal/45 hover:text-muted-mauve"
                         onClick={() => void removeItem(item._id)}
                       >
                         <Trash2 className="h-3.5 w-3.5" /> Remove
                       </button>
                     </div>
                   </div>
-                  <p className="font-serif text-xl sm:self-start">
+                  <p className="hidden font-serif text-xl sm:block sm:self-start">
                     {formatCurrency(item.price * item.quantity)}
                   </p>
                 </li>
               ))}
             </ul>
 
-            <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-[#eef1ea] to-[#e8e0d6]/80 p-6">
+            <aside className="sticky bottom-0 z-10 -mx-4 border-t border-soft-beige bg-gradient-to-br from-[#eef1ea] to-[#e8e0d6]/95 p-4 backdrop-blur-sm safe-bottom sm:mx-0 sm:rounded-[1.5rem] sm:border sm:p-6 lg:static lg:border-t-0 lg:bg-gradient-to-br lg:from-[#eef1ea] lg:to-[#e8e0d6]/80 lg:backdrop-blur-none">
               <div className="flex items-center justify-between">
                 <span className="text-sm uppercase tracking-[0.14em] text-charcoal/55">
                   Subtotal
@@ -98,8 +111,7 @@ export default function CartPage() {
                 <span className="font-serif text-3xl">{formatCurrency(subtotal)}</span>
               </div>
               <p className="mt-3 text-xs text-charcoal/55">
-                Canada-wide delivery only. $10 shipping on orders up to $11; higher
-                rates may apply above that. Calculated at checkout.
+                {SHIPPING_CART_SUMMARY}
               </p>
               <Button href="/checkout" className="mt-6 w-full">
                 Checkout
@@ -110,17 +122,6 @@ export default function CartPage() {
             </aside>
           </div>
         )}
-      </Container>
-      <Container className="pb-16">
-        <ImageGrid
-          images={[
-            { src: PLACEHOLDER_IMAGES.packaging, alt: "Packaging" },
-            { src: PLACEHOLDER_IMAGES.gift, alt: "Gift" },
-            { src: PLACEHOLDER_IMAGES.candle, alt: "Candle" },
-            { src: PLACEHOLDER_IMAGES.home, alt: "Home" },
-            { src: PLACEHOLDER_IMAGES.sparkle, alt: "Detail" },
-          ]}
-        />
       </Container>
     </>
   );

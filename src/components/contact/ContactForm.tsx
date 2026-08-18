@@ -50,7 +50,7 @@ export function ContactForm({
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-[1.75rem] border border-soft-beige bg-white/70 p-6 md:p-8">
+    <form onSubmit={onSubmit} className="space-y-4 rounded-[1.25rem] border border-soft-beige bg-white/70 p-4 sm:rounded-[1.75rem] sm:p-6 md:p-8">
       <input
         type="text"
         name="website"
@@ -74,7 +74,7 @@ export function ContactForm({
           <select
             name="type"
             defaultValue={defaultType || "general"}
-            className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none"
+            className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none sm:text-sm"
           >
             <option value="general">General</option>
             <option value="product">Product question</option>
@@ -143,7 +143,7 @@ function Field({
         required={required}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none focus:border-muted-mauve"
+        className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none focus:border-muted-mauve sm:text-sm"
       />
     </div>
   );

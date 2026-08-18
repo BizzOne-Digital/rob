@@ -74,7 +74,7 @@ export function SearchOverlay({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -16, opacity: 0 }}
             transition={{ duration: 0.28 }}
-            className="mx-auto mt-8 w-[min(720px,92vw)] overflow-hidden rounded-[1.5rem] bg-warm-ivory shadow-2xl"
+            className="mx-auto mt-4 max-h-[90dvh] w-[min(720px,92vw)] overflow-hidden rounded-[1.25rem] bg-warm-ivory shadow-2xl sm:mt-8 sm:rounded-[1.5rem]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 border-b border-soft-beige px-5 py-4">
@@ -86,7 +86,12 @@ export function SearchOverlay({
                 placeholder="Search creations..."
                 className="w-full bg-transparent text-base outline-none placeholder:text-charcoal/40"
               />
-              <button type="button" aria-label="Close search" onClick={onClose}>
+              <button
+                type="button"
+                aria-label="Close search"
+                onClick={onClose}
+                className="touch-target inline-flex items-center justify-center rounded-full hover:bg-powder-blue/40"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>

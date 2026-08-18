@@ -13,22 +13,27 @@ type BrandLogoProps = {
 
 const sizeStyles = {
   sm: {
-    rw: "text-[1.85rem] leading-none",
-    designs: "text-[0.53rem] tracking-[0.24em]",
-    canada: "text-[0.5rem] tracking-[0em]",
-    gap: "gap-0.5",
+    rw: "text-[1.65rem] leading-none",
+    designs: "text-[0.5rem] leading-none tracking-[0.16em]",
+    canada: "text-[0.48rem] leading-none tracking-[0.04em]",
+    gap: "gap-[0.2rem]",
+    rule: "w-2.5",
   },
   md: {
-    rw: "text-[2.55rem] leading-none sm:text-[2.85rem]",
-    designs: "text-[0.62rem] tracking-[0.26em] sm:text-[0.68rem]",
-    canada: "text-[0.55rem] tracking-[0em] sm:text-[0.6rem]",
-    gap: "gap-0.5",
+    rw: "text-[1.85rem] leading-none sm:text-[2.25rem] lg:text-[2.5rem]",
+    designs:
+      "text-[0.52rem] leading-none tracking-[0.16em] sm:text-[0.56rem] lg:text-[0.6rem]",
+    canada:
+      "text-[0.48rem] leading-none tracking-[0.04em] sm:text-[0.5rem] lg:text-[0.54rem]",
+    gap: "gap-[0.2rem] sm:gap-[0.22rem]",
+    rule: "w-3 sm:w-3.5",
   },
   lg: {
-    rw: "text-[3.1rem] leading-none sm:text-[3.6rem]",
-    designs: "text-[0.7rem] tracking-[0.28em] sm:text-[0.79rem]",
-    canada: "text-[0.6rem] tracking-[0em] sm:text-[0.68rem]",
-    gap: "gap-1",
+    rw: "text-[2.85rem] leading-none sm:text-[3.2rem]",
+    designs: "text-[0.62rem] leading-none tracking-[0.16em] sm:text-[0.68rem]",
+    canada: "text-[0.54rem] leading-none tracking-[0.04em] sm:text-[0.58rem]",
+    gap: "gap-[0.25rem]",
+    rule: "w-4",
   },
 };
 
@@ -47,17 +52,17 @@ export function BrandLogo({
   const mark = (
     <span
       className={cn(
-        "inline-flex flex-col items-center text-center",
+        "inline-grid auto-rows-min justify-items-center text-center",
         s.gap,
         ink,
         className,
       )}
       aria-label={BRAND.name}
     >
-      <span className={cn("font-serif font-medium", s.rw)}>RW</span>
+      <span className={cn("block font-serif font-medium", s.rw)}>RW</span>
       <span
         className={cn(
-          "font-sans font-medium uppercase",
+          "block font-sans font-medium uppercase",
           s.designs,
           muted,
         )}
@@ -66,14 +71,14 @@ export function BrandLogo({
       </span>
       <span
         className={cn(
-          "flex w-full max-w-[7.5rem] items-center gap-2 font-sans font-medium uppercase",
+          "inline-flex items-center gap-1.5 font-sans font-medium uppercase",
           s.canada,
           muted,
         )}
       >
-        <span className={cn("h-px flex-1", rule)} aria-hidden />
+        <span className={cn("h-px shrink-0", s.rule, rule)} aria-hidden />
         Canada
-        <span className={cn("h-px flex-1", rule)} aria-hidden />
+        <span className={cn("h-px shrink-0", s.rule, rule)} aria-hidden />
       </span>
     </span>
   );
@@ -84,7 +89,7 @@ export function BrandLogo({
     <Link
       href={href}
       onClick={onClick}
-      className="inline-flex shrink-0 focus-visible:outline-none"
+      className="inline-flex h-full shrink-0 items-center justify-center focus-visible:outline-none"
     >
       {mark}
     </Link>

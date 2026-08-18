@@ -31,17 +31,18 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
           scrolled && "shadow-[0_8px_30px_rgba(47,42,38,0.08)]",
         )}
       >
-        <div className="relative mx-auto flex h-[92px] w-full max-w-[1280px] items-center justify-between gap-3 px-3 sm:h-[108px] sm:px-6 lg:h-[116px] lg:px-8">
-          <div className="flex min-w-0 items-center gap-1">
+        <div className="relative mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between gap-2 px-3 sm:h-[92px] sm:gap-3 sm:px-6 lg:h-[116px] lg:px-8">
+          <div className="flex min-w-0 items-center gap-0.5 sm:gap-1">
             <button
               type="button"
-              className="rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 lg:hidden"
+              className="touch-target inline-flex items-center justify-center rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 lg:hidden"
               aria-label="Open menu"
               onClick={() => setMenuOpen(true)}
             >
               <Menu className="h-5 w-5" />
             </button>
-            <BrandLogo size="md" />
+            <BrandLogo size="sm" href="/" className="sm:hidden" />
+            <BrandLogo size="md" href="/" className="hidden sm:inline-flex" />
           </div>
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
@@ -59,14 +60,14 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             <Link
               href="/wishlist"
               aria-label="Wishlist"
-              className="hidden rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 sm:inline-flex"
+              className="touch-target hidden items-center justify-center rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25 sm:inline-flex"
             >
               <Heart className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </Link>
             <button
               type="button"
               aria-label="Open cart"
-              className="relative rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
+              className="touch-target relative inline-flex items-center justify-center rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
               onClick={() => setCartOpen(true)}
             >
               <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.75} />
@@ -127,7 +128,7 @@ function IconButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
+      className="touch-target inline-flex items-center justify-center rounded-lg p-2 text-[#2f2a26] transition hover:bg-white/25"
     >
       {children}
     </button>

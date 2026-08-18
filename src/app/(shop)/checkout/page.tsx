@@ -19,19 +19,16 @@ export default function CheckoutPage() {
   const { items, subtotal, hydrated, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
-  const [shippingMethod, setShippingMethod] = useState<"pickup" | "shipping">(
-    "shipping",
-  );
+  const shippingMethod = "shipping" as const;
 
   const shippingPrice = useMemo(
     () => calculateCanadaShippingAmount(subtotal, shippingMethod),
-    [subtotal, shippingMethod],
+    [subtotal],
   );
 
   const shippingNote = useMemo(
-    () =>
-      shippingMethod === "shipping" ? getCanadaShippingNote(subtotal) : null,
-    [subtotal, shippingMethod],
+    () => getCanadaShippingNote(subtotal),
+    [subtotal],
   );
 
   const totals = useMemo(
@@ -46,7 +43,7 @@ export default function CheckoutPage() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (items.length === 0) {
-      toast.error("Your bag is empty");
+      toast.error("Your cart is empty");
       return;
     }
     const form = new FormData(e.currentTarget);
@@ -136,7 +133,7 @@ export default function CheckoutPage() {
       <Container className="py-20">
         <EmptyState
           title="Nothing to checkout"
-          description="Add a creation with a set price to your bag first."
+          description="Add a creation with a set price to your cart first."
           actionLabel="What We Create"
           actionHref="/what-we-create"
         />
@@ -145,8 +142,8 @@ export default function CheckoutPage() {
   }
 
   return (
-    <Container className="py-14 md:py-20">
-      <h1 className="font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">Checkout</h1>
+    <Container className="py-10 md:py-20">
+      <h1 className="font-serif text-2xl text-charcoal sm:text-4xl md:text-5xl">Checkout</h1>
       <p className="mt-3 text-sm text-charcoal/60">
         Enter your details to place your order. You’ll receive a confirmation
         email, and we’ll follow up about payment if needed.
@@ -190,12 +187,13 @@ export default function CheckoutPage() {
               <Input name="shippingPostal" label="Postal code" required />
             </div>
             <div className="mt-5 space-y-2">
-              <label className="flex items-center gap-3 text-sm">
+              <label className="flex min-h-11 items-center gap-3 rounded-xl px-1 text-sm">
                 <input
                   type="radio"
                   name="shipMethod"
                   checked={true}
                   readOnly
+                  className="h-4 w-4 shrink-0"
                 />
                 {getCanadaShippingDescription(subtotal)}
               </label>
@@ -206,7 +204,7 @@ export default function CheckoutPage() {
           </section>
 
           <section className="rounded-[1.5rem] border border-soft-beige bg-white/70 p-4 sm:p-6">
-            <label className="flex items-center gap-3 text-sm">
+            <label className="flex min-h-11 items-center gap-3 px-1 text-sm">
               <input
                 type="checkbox"
                 checked={sameAsShipping}
@@ -255,17 +253,18 @@ export default function CheckoutPage() {
           </section>
         </div>
 
-        <aside className="h-fit rounded-[1.5rem] border border-soft-beige bg-gradient-to-br from-[#eef1ea] to-[#e8e0d6]/70 p-6">
+        <aside className="sticky bottom-0 z-10 -mx-4 border-t border-soft-beige bg-gradient-to-br from-[#eef1ea] to-[#e8e0d6]/95 p-4 backdrop-blur-sm safe-bottom sm:mx-0 sm:rounded-[1.5rem] sm:border sm:p-6 lg:static lg:h-fit lg:border-t-0 lg:bg-gradient-to-br lg:from-[#eef1ea] lg:to-[#e8e0d6]/70 lg:backdrop-blur-none">
           <h2 className="font-serif text-2xl">Order summary</h2>
           <ul className="mt-4 space-y-3">
             {items.map((item) => (
               <li key={item._id} className="flex gap-3">
-                <div className="relative h-16 w-14 overflow-hidden rounded-lg bg-white/50">
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-[#f7f3ee]">
                   <ImageWithFallback
                     src={item.image}
                     alt={item.name}
                     fill
-                    sizes="56px"
+                    sizes="64px"
+                    className="object-contain object-center p-0.5"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -292,13 +291,9 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between">
               <span>Shipping</span>
-              <span>
-                {shippingMethod === "pickup"
-                  ? "Pickup"
-                  : formatCurrency(totals.shipping)}
-              </span>
+              <span>{formatCurrency(totals.shipping)}</span>
             </div>
-            <div className="flex justify-between font-serif text-xl">
+            <div className="flex justify-between font-serif text-lg sm:text-xl">
               <span>Total</span>
               <span>{formatCurrency(totals.total)}</span>
             </div>
@@ -335,7 +330,7 @@ function Input({
         name={name}
         type={type}
         required={required}
-        className="h-11 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none focus:border-muted-mauve"
+        className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none focus:border-muted-mauve sm:h-11 sm:text-sm"
       />
     </div>
   );

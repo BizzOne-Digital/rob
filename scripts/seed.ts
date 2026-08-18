@@ -266,7 +266,7 @@ async function seed() {
             enabled: true,
             label: "Canada-wide Shipping",
             price: 10,
-            note: "Canada only. $10 delivery on orders up to $11. Higher rates apply above $11 (pricing to be confirmed).",
+            note: "Canada only. $10 flat rate for orders up to 11 lbs. Higher rates apply above 11 lbs (pricing to be confirmed).",
           },
           freeShippingThreshold: null,
           provinceRates: [],
@@ -291,7 +291,7 @@ async function seed() {
           terms: `${DRAFT_NOTICE}\n\nBy browsing or placing an order with RW Designs Canada, you agree to these draft terms. Product availability, personalization details, and production timelines are confirmed at order time. Colours and scents may vary slightly as each piece is handmade. Custom and personalized items may have limited change or cancellation windows once production begins.`,
           shippingReturns: `Delivery is available within Canada only — we do not ship internationally.
 
-Standard delivery is $10 for orders up to $11 (before tax). For orders above $11, shipping rates are higher; updated pricing will be posted once confirmed.
+Standard delivery is a $10 flat rate for orders up to 11 lbs. For orders above 11 lbs, shipping rates are higher; updated pricing will be posted once confirmed.
 
 Local pickup may be available in select areas. Production and dispatch timelines vary by item. Returns for unused, non-personalized items may be considered within a limited window; personalized and custom pieces are typically final sale unless there is a quality issue. Contact us to discuss any concern.`,
           customOrder: `${DRAFT_NOTICE}\n\nCustom creations begin with a conversation. Share your ideas, preferred materials, wording, colours, and occasion. We will confirm feasibility, timeline, and pricing before production. A deposit may be required for custom work. Once approved and in production, design changes may not be possible.`,
@@ -1130,7 +1130,7 @@ Local pickup may be available in select areas. Production and dispatch timelines
           displayOrder: 1,
           body: `Delivery is available within Canada only — we do not ship internationally.
 
-Standard delivery is $10 for orders up to $11 (before tax). For orders above $11, shipping rates are higher; updated pricing will be posted once confirmed.
+Standard delivery is a $10 flat rate for orders up to 11 lbs. For orders above 11 lbs, shipping rates are higher; updated pricing will be posted once confirmed.
 
 Local pickup may be available in select areas. Production and dispatch timelines vary. Non-personalized items may be eligible for return discussion within a limited window; personalized and custom orders are generally final sale except for quality concerns. Email rwdesignscanada@gmail.com for help.`,
         }),
@@ -1452,7 +1452,7 @@ Local pickup may be available in select areas. Production and dispatch timelines
       category: "Shipping",
       question: "Do you ship across Canada?",
       answer:
-        "Yes — we deliver within Canada only. Standard delivery is $10 for orders up to $11. For orders above $11, shipping rates are higher; updated pricing will be shared once confirmed.",
+        "Yes — we deliver within Canada only. Standard delivery is a $10 flat rate for orders up to 11 lbs. For orders above 11 lbs, shipping rates are higher; updated pricing will be shared once confirmed.",
       featured: true,
       displayOrder: 1,
     },

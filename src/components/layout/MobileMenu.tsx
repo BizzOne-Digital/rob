@@ -48,7 +48,7 @@ export function MobileMenu({
                 type="button"
                 aria-label="Close menu"
                 onClick={onClose}
-                className="rounded-full p-2 hover:bg-sage-soft/70"
+                className="touch-target inline-flex items-center justify-center rounded-full hover:bg-sage-soft/70"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -79,7 +79,7 @@ export function MobileMenu({
                 ) : null}
               </ul>
             </nav>
-            <div className="border-t border-soft-beige p-5">
+            <div className="border-t border-soft-beige p-5 safe-bottom">
               <Button href="/contact" className="w-full" onClick={onClose}>
                 Get in touch
               </Button>

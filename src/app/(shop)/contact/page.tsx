@@ -33,11 +33,11 @@ export default async function ContactPage({
           { label: "Contact" },
         ]}
       />
-      <Container className="grid gap-10 py-14 lg:grid-cols-[1fr_0.85fr]">
+      <Container className="grid gap-8 py-10 lg:grid-cols-[1fr_0.85fr] lg:gap-10 lg:py-14">
         <ContactForm defaultProduct={product} defaultType={type} />
         <MotionSection as="div" className="space-y-6">
-          <div className="rounded-[1.75rem] border border-soft-beige bg-gradient-to-br from-[#e8e0d6]/80 to-[#eef1ea] p-6">
-            <h2 className="font-serif text-2xl">Studio contact</h2>
+          <div className="rounded-[1.25rem] border border-soft-beige bg-gradient-to-br from-[#e8e0d6]/80 to-[#eef1ea] p-4 sm:rounded-[1.75rem] sm:p-6">
+            <h2 className="font-serif text-xl sm:text-2xl">Studio contact</h2>
             <ul className="mt-4 space-y-3 text-sm text-charcoal/70">
               <li>
                 <a href={`mailto:${BRAND.email}`} className="hover:text-muted-mauve">
@@ -66,7 +66,7 @@ export default async function ContactPage({
               </li>
             </ul>
           </div>
-          <p className="font-script text-3xl text-muted-mauve">
+          <p className="text-balance font-script text-2xl text-muted-mauve sm:text-3xl">
             Beautifully handmade. Thoughtfully designed.
           </p>
         </MotionSection>

@@ -159,9 +159,9 @@ export function AddToCartForm({
     setLoading(false);
 
     if (!result.ok) {
-      toast.error(result.error ?? "Could not add to bag");
+      toast.error(result.error ?? "Could not add to cart");
     } else {
-      toast.success("Added to your bag");
+      toast.success("Added to your cart");
     }
   };
 
@@ -178,9 +178,9 @@ export function AddToCartForm({
   }
 
   return (
-    <div className="space-y-5 rounded-2xl border border-soft-beige bg-white/70 p-5">
+    <div className="space-y-5 rounded-2xl border border-soft-beige bg-white/70 p-4 sm:p-5">
       <div>
-        <p className="font-serif text-3xl text-charcoal">{displayPriceLabel}</p>
+        <p className="font-serif text-2xl text-charcoal sm:text-3xl">{displayPriceLabel}</p>
         {hasVariants && !variantId ? (
           <p className="mt-1 text-xs text-charcoal/45">
             Select personalization to see the exact price
@@ -221,7 +221,7 @@ export function AddToCartForm({
                 });
               }
             }}
-            className="h-11 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none"
+            className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none sm:h-11 sm:text-sm"
           >
             <option value="">Select…</option>
             {product.variants!.map((v) => {
@@ -274,7 +274,7 @@ export function AddToCartForm({
       </div>
 
       <Button type="button" onClick={() => void onAdd()} disabled={loading} className="w-full">
-        {loading ? "Adding…" : "Add to bag"}
+        {loading ? "Adding…" : "Add to cart"}
       </Button>
       <p className="text-center text-xs text-charcoal/45">
         Prefer a custom quote?{" "}
@@ -322,7 +322,7 @@ function FieldControl({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none"
+          className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none sm:h-11 sm:text-sm"
         >
           <option value="">Select…</option>
           {(field.options ?? []).map((opt) => (
@@ -338,7 +338,7 @@ function FieldControl({
           maxLength={field.maxLength}
           placeholder={field.placeholder}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-sm outline-none"
+          className="h-12 w-full rounded-full border border-soft-beige bg-warm-ivory px-4 text-base outline-none sm:h-11 sm:text-sm"
         />
       )}
       {field.helpText ? (

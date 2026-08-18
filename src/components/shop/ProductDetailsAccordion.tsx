@@ -37,7 +37,7 @@ export function ProductDetailsAccordion({
                 onClick={() => setOpenId(open ? null : item.id)}
                 className="flex w-full items-center justify-between gap-4 py-5 text-left sm:py-6"
               >
-                <span className="font-serif text-[1.35rem] leading-snug tracking-[-0.01em] text-[#f3efe8] sm:text-[1.6rem]">
+                <span className="font-serif text-xl leading-snug tracking-[-0.01em] text-[#f3efe8] sm:text-[1.6rem]">
                   {item.title}
                 </span>
                 <ChevronDown

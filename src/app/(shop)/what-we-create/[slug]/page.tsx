@@ -167,7 +167,7 @@ export default async function ProductDetailPage({ params }: Props) {
         ]}
       />
 
-      <Container className="py-10 md:py-16">
+      <Container className="py-8 md:py-16">
         <Breadcrumbs
           className="mb-8"
           items={[
@@ -194,7 +194,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <Badge tone="mauve">Customization</Badge>
             ) : null}
           </div>
-          <h1 className="break-words font-serif text-3xl text-charcoal sm:text-4xl md:text-5xl">
+          <h1 className="break-words text-balance font-serif text-2xl text-charcoal sm:text-3xl md:text-4xl lg:text-5xl">
             {product.name}
           </h1>
           {product.shortDescription ? (

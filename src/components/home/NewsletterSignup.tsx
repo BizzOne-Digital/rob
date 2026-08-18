@@ -53,7 +53,7 @@ export function NewsletterSignup() {
 
         <form
           onSubmit={(e) => void onSubmit(e)}
-          className="flex w-full max-w-md overflow-hidden rounded-xl bg-white shadow-sm"
+          className="flex w-full max-w-md flex-col gap-2 overflow-hidden rounded-xl bg-white shadow-sm sm:flex-row sm:gap-0"
         >
           <label htmlFor="home-newsletter-email" className="sr-only">
             Email address
@@ -64,13 +64,13 @@ export function NewsletterSignup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="h-12 flex-1 bg-transparent px-4 text-[14px] text-[#2f2a26] outline-none placeholder:text-[#9a939b]"
+            className="h-12 w-full bg-transparent px-4 text-base text-[#2f2a26] outline-none placeholder:text-[#9a939b] sm:flex-1 sm:text-[14px]"
             required
           />
           <button
             type="submit"
             disabled={loading}
-            className="h-12 shrink-0 bg-[#a68d7b] px-5 text-[13px] font-semibold text-white transition hover:bg-[#8f7665] disabled:opacity-60"
+            className="h-12 w-full shrink-0 bg-[#a68d7b] px-5 text-[13px] font-semibold text-white transition hover:bg-[#8f7665] disabled:opacity-60 sm:w-auto"
           >
             {loading ? "…" : "Subscribe"}
           </button>

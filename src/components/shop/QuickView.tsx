@@ -52,11 +52,11 @@ export function QuickView({
     setAdding(false);
 
     if (!result.ok) {
-      toast.error(result.error ?? "Could not add to bag");
+      toast.error(result.error ?? "Could not add to cart");
       return;
     }
 
-    toast.success("Added to your bag");
+    toast.success("Added to your cart");
     onClose();
   };
 
@@ -123,7 +123,7 @@ export function QuickView({
                     onClick={() => void handleAdd()}
                   >
                     <ShoppingBag className="h-4 w-4" />
-                    {adding ? "Adding…" : "Quick add to bag"}
+                    {adding ? "Adding…" : "Quick add to cart"}
                   </Button>
                 ) : null}
                 <Button

@@ -71,7 +71,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
                 >
                   <InstagramIcon className="h-4 w-4" />
                 </a>
@@ -82,7 +82,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#2f2a26]/20 text-[#2f2a26] transition hover:border-taupe hover:text-taupe"
                 >
                   <FacebookIcon className="h-4 w-4" />
                 </a>
@@ -96,14 +96,14 @@ export function Footer({
             </h3>
             <ul className="mt-4 space-y-2.5 text-[13px] text-[#2f2a26]/75">
               <li>
-                <Link href="/what-we-create" className="transition hover:text-taupe">
+                <Link href="/what-we-create" className="block py-2 transition hover:text-taupe">
                   View All
                 </Link>
               </li>
               <li>
                 <Link
                   href="/what-we-create?sort=newest"
-                  className="transition hover:text-taupe"
+                  className="block py-2 transition hover:text-taupe"
                 >
                   New Arrivals
                 </Link>
@@ -111,13 +111,13 @@ export function Footer({
               <li>
                 <Link
                   href="/what-we-create?featured=1"
-                  className="transition hover:text-taupe"
+                  className="block py-2 transition hover:text-taupe"
                 >
                   Best Sellers
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="transition hover:text-taupe">
+                <Link href="/contact" className="block py-2 transition hover:text-taupe">
                   Custom Orders
                 </Link>
               </li>
@@ -128,25 +128,25 @@ export function Footer({
             <h3 className="font-serif text-[18px] text-[#2f2a26]">Help</h3>
             <ul className="mt-4 space-y-2.5 text-[13px] text-[#2f2a26]/75">
               <li>
-                <Link href="/faq" className="transition hover:text-taupe">
+                <Link href="/faq" className="block py-2 transition hover:text-taupe">
                   FAQ
                 </Link>
               </li>
               <li>
                 <Link
                   href="/shipping-and-returns"
-                  className="transition hover:text-taupe"
+                  className="block py-2 transition hover:text-taupe"
                 >
                   Shipping & Returns
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="transition hover:text-taupe">
+                <Link href="/faq" className="block py-2 transition hover:text-taupe">
                   Care Instructions
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="transition hover:text-taupe">
+                <Link href="/contact" className="block py-2 transition hover:text-taupe">
                   Contact Us
                 </Link>
               </li>
@@ -188,18 +188,18 @@ export function Footer({
               © {year} {BRAND.name}. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href="/privacy-policy" className="transition hover:text-taupe">
+              <Link href="/privacy-policy" className="block py-2 transition hover:text-taupe">
                 Privacy Policy
               </Link>
               <Link
                 href="/terms-and-conditions"
-                className="transition hover:text-taupe"
+                className="block py-2 transition hover:text-taupe"
               >
                 Terms of Service
               </Link>
               <Link
                 href="/shipping-and-returns"
-                className="transition hover:text-taupe"
+                className="block py-2 transition hover:text-taupe"
               >
                 Shipping & Returns
               </Link>

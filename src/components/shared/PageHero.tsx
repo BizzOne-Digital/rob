@@ -34,7 +34,7 @@ export function PageHero({
     >
       <Container
         className={cn(
-          "relative z-10 py-14 md:py-20 lg:py-22",
+          "relative z-10 py-10 sm:py-14 md:py-20 lg:py-22",
           centered
             ? "flex flex-col items-center text-center"
             : "grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr] lg:py-24",
@@ -78,7 +78,7 @@ export function PageHero({
           ) : null}
           <h1
             className={cn(
-              "font-serif text-[1.85rem] leading-[1.12] text-charcoal sm:text-4xl md:text-5xl lg:text-6xl",
+              "text-balance font-serif text-[1.65rem] leading-[1.12] text-charcoal sm:text-4xl md:text-5xl lg:text-6xl",
               centered ? "max-w-3xl" : "max-w-2xl",
             )}
           >
@@ -97,7 +97,7 @@ export function PageHero({
         </div>
 
         {!centered && image ? (
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-powder-blue/40 md:aspect-[5/6] md:max-h-[520px]">
+          <div className="relative aspect-[4/5] max-h-[50vh] overflow-hidden rounded-[1.25rem] bg-powder-blue/40 sm:max-h-none sm:rounded-[1.75rem] md:aspect-[5/6] md:max-h-[520px]">
             <ImageWithFallback
               src={image}
               alt={imageAlt ?? title}

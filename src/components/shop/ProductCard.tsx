@@ -85,7 +85,7 @@ export function ProductCard({
   };
 
   return (
-    <article className={cn("group min-w-0 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md", className)}>
+    <article className={cn("group min-w-0 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition hover:shadow-md sm:p-4", className)}>
       <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
         <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
           <ImageWithFallback
@@ -104,10 +104,10 @@ export function ProductCard({
           </span>
         ) : null}
 
-        <div className="absolute inset-x-0 bottom-0 z-10 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/20 to-transparent pb-3 pt-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 z-10 flex translate-y-0 items-center justify-center gap-2 bg-gradient-to-t from-black/20 to-transparent pb-3 pt-6 opacity-100 sm:translate-y-full sm:opacity-0 sm:transition-all sm:duration-300 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
           <Link
             href={`/what-we-create/${product.slug}`}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition hover:scale-110 hover:bg-taupe hover:text-white"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition active:scale-95 sm:h-10 sm:w-10 sm:hover:scale-110 sm:hover:bg-taupe sm:hover:text-white"
             aria-label="View product details"
           >
             <Eye className="h-5 w-5" strokeWidth={2} />
@@ -119,7 +119,7 @@ export function ProductCard({
             disabled={wishLoading}
             onClick={(e) => void toggleWishlist(e)}
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition hover:scale-110 hover:bg-taupe hover:text-white disabled:opacity-60",
+              "inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition active:scale-95 disabled:opacity-60 sm:h-10 sm:w-10 sm:hover:scale-110 sm:hover:bg-taupe sm:hover:text-white",
               wished && "bg-taupe text-white",
             )}
           >
@@ -135,7 +135,7 @@ export function ProductCard({
         href={`/what-we-create/${product.slug}`}
         className="mt-4 block min-w-0"
       >
-        <h3 className="line-clamp-2 font-serif text-[15px] leading-snug text-[#2f2a26] transition group-hover:text-taupe sm:text-[16px]">
+        <h3 className="line-clamp-2 font-serif text-[14px] leading-snug text-[#2f2a26] transition group-hover:text-taupe sm:text-[16px]">
           {product.name}
         </h3>
 

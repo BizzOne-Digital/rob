@@ -25,7 +25,7 @@ export function ProductGallery({
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-[1.75rem] bg-transparent p-8">
+      <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-transparent p-3 sm:rounded-[1.75rem] sm:p-6 lg:p-8">
         <ImageWithFallback
           src={displayUrl}
           alt={current?.alt || name}
@@ -33,11 +33,11 @@ export function ProductGallery({
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
           quality={92}
-          className="object-contain object-center scale-90"
+          className="object-contain object-center"
         />
       </div>
       {list.length > 1 ? (
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {list.map((img, i) => (
             <button
               key={`${img.url}-${i}`}
@@ -48,7 +48,7 @@ export function ProductGallery({
               }}
               aria-label={`View photo ${i + 1}`}
               className={cn(
-                "relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-transparent transition",
+                "relative h-16 w-16 shrink-0 snap-start overflow-hidden rounded-xl border-2 bg-transparent transition sm:h-20 sm:w-20",
                 i === active
                   ? "border-muted-mauve"
                   : "border-transparent hover:border-soft-beige",

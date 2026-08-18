@@ -39,13 +39,13 @@ export function Hero({ headline }: { headline?: string | null } = {}) {
         <div className="absolute inset-0 bg-gradient-to-r from-[#f7f3ee] via-[#f7f3ee]/92 to-transparent lg:via-[#f7f3ee]/55" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[480px] w-full max-w-[1200px] items-center px-4 py-12 sm:min-h-[560px] sm:px-8 sm:py-16 lg:min-h-[620px] lg:px-10 lg:py-20">
+      <div className="relative z-10 mx-auto flex min-h-[min(420px,82dvh)] w-full max-w-[1200px] items-center px-4 py-10 sm:min-h-[560px] sm:px-8 sm:py-16 lg:min-h-[620px] lg:px-10 lg:py-20">
         <div className="w-full min-w-0 max-w-[540px]">
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-taupe sm:mb-4 sm:text-[11px] sm:tracking-[0.22em]">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-taupe sm:mb-4 sm:text-[11px] sm:tracking-[0.22em]">
             Handmade • Personalized • Made in Canada
           </p>
 
-          <h1 className="font-serif text-[2rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2f2a26] sm:text-[3.2rem] lg:text-[3.5rem]">
+          <h1 className="text-balance font-serif text-[1.75rem] font-medium leading-[1.12] tracking-[-0.02em] text-[#2f2a26] sm:text-[3.2rem] lg:text-[3.5rem]">
             Beautifully handmade.
             <br />
             Thoughtfully designed.
@@ -58,18 +58,12 @@ export function Hero({ headline }: { headline?: string | null } = {}) {
             care.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
+          <div className="mt-6 sm:mt-8">
             <Link
               href="/what-we-create"
-              className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white transition hover:bg-taupe-deep sm:flex-none sm:px-6"
+              className="inline-flex h-12 w-full items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white transition hover:bg-taupe-deep sm:h-11 sm:w-auto sm:px-6"
             >
               Shop Our Collection
-            </Link>
-            <Link
-              href="/what-we-create"
-              className="inline-flex h-11 flex-1 items-center justify-center rounded-full border border-taupe/80 bg-transparent px-5 text-[13px] font-semibold text-taupe transition hover:bg-white/70 sm:flex-none sm:px-6"
-            >
-              Explore All
             </Link>
           </div>
         </div>

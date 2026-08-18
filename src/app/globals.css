@@ -80,6 +80,8 @@ html {
   overflow-x: clip;
   width: 100%;
   max-width: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -108,8 +110,25 @@ svg {
 }
 
 /* Next/Image fill containers stay clipped */
-.relative img {
+.relative:has(> img[data-nimg]) img,
+.relative:has(> span > img[data-nimg]) img {
   max-width: none;
+}
+
+/* Minimum 44px touch targets on phones */
+@media (max-width: 639px) {
+  .touch-target {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 body::before {
@@ -293,6 +312,11 @@ select::-ms-expand {
   list-style: disc;
   padding-left: 1.25rem;
   margin-bottom: 1em;
+}
+
+.prose-rw img {
+  max-width: 100%;
+  height: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
