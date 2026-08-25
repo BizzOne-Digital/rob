@@ -94,16 +94,10 @@ export default function AboutPage() {
               quality materials, timeless design, and personal touches made to
               be enjoyed for years to come.
             </p>
-            <div className="mt-7 flex flex-wrap gap-2.5 sm:mt-8 sm:gap-3">
-              <a
-                href="#our-story"
-                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-[#a68d7b] px-5 text-[13px] font-semibold text-white transition hover:bg-[#8f7665] sm:flex-none sm:px-6"
-              >
-                Discover Our Story
-              </a>
+            <div className="mt-7 sm:mt-8">
               <Link
                 href="/what-we-create"
-                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-[#a68d7b]/80 bg-white/60 px-5 text-[13px] font-semibold text-[#8f7665] transition hover:bg-white sm:flex-none sm:px-6"
+                className="inline-flex h-11 items-center justify-center rounded-lg border border-[#a68d7b]/80 bg-white/60 px-5 text-[13px] font-semibold text-[#8f7665] transition hover:bg-white sm:px-6"
               >
                 What We Create
               </Link>
