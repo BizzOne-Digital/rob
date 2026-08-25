@@ -21,7 +21,7 @@ import { Discount } from "@/models/Discount";
 import { SiteSettings } from "@/models/SiteSettings";
 import { rateLimit } from "@/lib/rate-limit";
 import { calculateCanadaShippingAmount } from "@/lib/shipping";
-import { toSquareCurrency } from "@/lib/square";
+import { toSquareCurrency, formatPhoneForSquare } from "@/lib/square";
 import { randomUUID } from "crypto";
 
 const CART_COOKIE = "rw_cart_sid";
@@ -342,20 +342,7 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Create Square checkout payment link
-      let formattedPhone = parsed.data.phone?.trim();
-      if (formattedPhone) {
-        const digits = formattedPhone.replace(/\D/g, "");
-        if (digits.length === 10) {
-          formattedPhone = `+1${digits}`;
-        } else if (digits.length === 11 && digits.startsWith("1")) {
-          formattedPhone = `+${digits}`;
-        } else if (digits.length >= 8) {
-          formattedPhone = `+${digits}`;
-        } else {
-          formattedPhone = undefined;
-        }
-      }
+      const formattedPhone = formatPhoneForSquare(parsed.data.phone);
 
       const redirectUrl = absoluteUrl(
         `/order-success?order=${encodeURIComponent(orderNumber)}`,
