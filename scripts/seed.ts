@@ -1688,37 +1688,47 @@ Local pickup may be available in select areas. Production and dispatch timelines
   );
 
   // -------------------------------------------------------------------------
-  // 9. Testimonials (UNAPPROVED placeholders only)
+  // 9. Testimonials (approved customer reviews for homepage)
   // -------------------------------------------------------------------------
   await Testimonial.insertMany([
     {
-      customerName: "Placeholder Customer A",
-      reviewText:
-        "Placeholder review — do not publish. Replace with a real approved customer testimonial.",
-      productName: "Draft catalogue item",
+      customerName: "Jenn",
+      reviewText: "Lovely refreshing scent for the spring",
+      reviewDate: "22 May, 2026",
       rating: 5,
-      featured: false,
-      approved: false,
+      featured: true,
+      approved: true,
       displayOrder: 1,
     },
     {
-      customerName: "Placeholder Customer B",
+      customerName: "Etsy buyer",
       reviewText:
-        "Placeholder review — awaiting real customer permission before approval.",
-      productName: "Custom creation",
+        "Great quality and a good Father's Day gift. Owner gave excellent customer service when I had a small issue. They went above and beyond to ensure satisfaction.",
+      reviewDate: "28 May, 2024",
       rating: 5,
-      featured: false,
-      approved: false,
+      featured: true,
+      approved: true,
       displayOrder: 2,
     },
     {
-      customerName: "Placeholder Customer C",
+      customerName: "Victoria",
       reviewText:
-        "Placeholder review — unapproved sample for admin workflow testing only.",
+        "The items were beautiful and as described. I needed 2 keychains the same and they look identical. Great quality",
+      reviewDate: "05 Apr, 2024",
       rating: 5,
-      featured: false,
-      approved: false,
+      featured: true,
+      approved: true,
       displayOrder: 3,
+    },
+    {
+      customerName: "Etsy buyer",
+      reviewText:
+        "Love the fall blocks. Wonderfully made. Love the colors. Thank you!",
+      reviewDate: "14 Oct, 2022",
+      rating: 5,
+      featured: true,
+      approved: true,
+      displayOrder: 4,
     },
   ]);
 

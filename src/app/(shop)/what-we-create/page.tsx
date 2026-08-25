@@ -47,6 +47,11 @@ export default async function WhatWeCreatePage({
   ]);
 
   const products = serialize(items);
+  const serializedCategories = serialize(categories);
+  const activeCategory = category
+    ? serializedCategories.find((c) => c.slug === category)
+    : undefined;
+  const pageTitle = activeCategory?.name ?? "Handmade creations";
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
@@ -54,11 +59,12 @@ export default async function WhatWeCreatePage({
       <PageHero
         align="center"
         eyebrow="What We Create"
-        title="Handmade creations"
+        title={pageTitle}
         description="Browse thoughtfully crafted pieces — prices shown when available, otherwise contact us for a quote."
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "What We Create" },
+          { label: "What We Create", href: activeCategory ? "/what-we-create" : undefined },
+          ...(activeCategory ? [{ label: activeCategory.name }] : []),
         ]}
       />
 
@@ -71,9 +77,7 @@ export default async function WhatWeCreatePage({
             <div className="mb-6 flex items-center justify-between gap-4">
               <p className="text-sm text-charcoal/55">
                 {total} {total === 1 ? "creation" : "creations"}
-                {category
-                  ? ` in ${serialize(categories).find((c) => c.slug === category)?.name ?? category}`
-                  : ""}
+                {activeCategory ? ` in ${activeCategory.name}` : ""}
               </p>
             </div>
             <ProductGrid products={products as never} />

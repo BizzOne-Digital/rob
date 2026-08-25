@@ -31,7 +31,7 @@ export default async function HomePage() {
   const [settingsDoc, productsResult, testimonials, faqs] = await Promise.all([
     getSettings(),
     getPublishedProducts({ limit: 6, sort: "newest" }),
-    getApprovedTestimonials({ featured: true, limit: 6 }),
+    getApprovedTestimonials({ limit: 6 }),
     getPublishedFaqs({ featured: true, limit: 5 }),
   ]);
 

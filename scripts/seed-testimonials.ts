@@ -6,13 +6,10 @@ import { config } from "dotenv";
 import path from "path";
 
 config({ path: path.resolve(process.cwd(), ".env.local") });
+config({ path: path.resolve(process.cwd(), ".env") });
 if (!process.env.MONGODB_URI) {
   process.env.MONGODB_URI = "mongodb://127.0.0.1:27017/rw-designs-canada";
 }
-
-import mongoose from "mongoose";
-import { connectDB } from "../src/lib/db";
-import { Testimonial } from "../src/models/Testimonial";
 
 const reviews = [
   {
@@ -57,6 +54,10 @@ const reviews = [
 ];
 
 async function main() {
+  const { default: mongoose } = await import("mongoose");
+  const { connectDB } = await import("../src/lib/db");
+  const { Testimonial } = await import("../src/models/Testimonial");
+
   await connectDB();
 
   // Replace previous placeholder/unapproved samples with these approved reviews
@@ -71,6 +72,7 @@ async function main() {
 main().catch(async (err) => {
   console.error(err);
   try {
+    const { default: mongoose } = await import("mongoose");
     await mongoose.disconnect();
   } catch {
     /* ignore */
