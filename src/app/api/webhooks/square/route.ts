@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/db";
 import { Order } from "@/models/Order";
 import { Customer } from "@/models/Customer";
 import { Discount } from "@/models/Discount";
-import { Cart } from "@/models/Cart";
 import { sendOrderConfirmation, notifyAdminNewOrder, toOrderEmailData } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
@@ -132,10 +131,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ received: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Webhook processing failed";
     console.error("Square webhook error:", error);
     return NextResponse.json(
-      { error: "Webhook processing failed", details: error.message },
+      { error: "Webhook processing failed", details: message },
       { status: 500 }
     );
   }

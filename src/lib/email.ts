@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import nodemailer, { type Transporter } from "nodemailer";
 import { BRAND } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
@@ -6,8 +7,7 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-// SMTP Configuration (prefer SMTP over Resend if configured)
-let smtpTransporter: any = null;
+let smtpTransporter: Transporter | null = null;
 const isSmtpConfigured = !!(
   process.env.SMTP_HOST &&
   process.env.SMTP_PORT &&
@@ -17,7 +17,6 @@ const isSmtpConfigured = !!(
 
 if (isSmtpConfigured) {
   try {
-    const nodemailer = require("nodemailer");
     smtpTransporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT!),
@@ -55,8 +54,10 @@ export async function sendEmail(options: {
       });
       console.info("[smtp] Sent email:", options.subject, "→", options.to);
       return { id: result.messageId, service: "smtp" as const };
-    } catch (error: any) {
-      console.error("[smtp] Failed to send email:", error.message);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Failed to send email";
+      console.error("[smtp] Failed to send email:", message);
       // Fall back to Resend if SMTP fails
       if (resend) {
         console.info("[smtp] Falling back to Resend");

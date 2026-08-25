@@ -18,11 +18,11 @@ export function calculateCanadaShippingAmount(
   return CANADA_SHIPPING.flatRate;
 }
 
-export function getCanadaShippingDescription(_subtotal?: number): string {
+export function getCanadaShippingDescription(): string {
   return `$${CANADA_SHIPPING.flatRate.toFixed(2)} flat rate for orders up to ${CANADA_SHIPPING.maxWeightLbs} lbs (Canada only)`;
 }
 
-export function getCanadaShippingNote(_subtotal?: number): string {
+export function getCanadaShippingNote(): string {
   return `Delivery within Canada only. $${CANADA_SHIPPING.flatRate.toFixed(2)} flat rate for orders up to ${CANADA_SHIPPING.maxWeightLbs} lbs. Higher rates may apply above ${CANADA_SHIPPING.maxWeightLbs} lbs.`;
 }
 

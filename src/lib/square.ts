@@ -1,36 +1,37 @@
-// @ts-ignore - Square SDK has issues with Next.js types
-const square = require("square");
-const { SquareClient, SquareEnvironment } = square;
+import { SquareClient, SquareEnvironment } from "square";
 
-let squareClient: any | null = null;
+let squareClient: SquareClient | null = null;
 
 export function isSquareConfigured(): boolean {
   return !!(
-    process.env.SQUARE_ACCESS_TOKEN &&
-    process.env.SQUARE_LOCATION_ID &&
-    process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID
+    (process.env.SQUARE_ACCESS_TOKEN || process.env.SQUARE_TOKEN) &&
+    process.env.SQUARE_LOCATION_ID
   );
 }
 
-export function getSquareClient(): any | null {
+export function getSquareClient(): SquareClient | null {
   if (!isSquareConfigured()) {
     return null;
   }
 
   if (!squareClient) {
-    const accessToken = process.env.SQUARE_ACCESS_TOKEN || process.env.SQUARE_TOKEN;
-    
+    const accessToken =
+      process.env.SQUARE_ACCESS_TOKEN || process.env.SQUARE_TOKEN;
+
     if (!accessToken) {
       console.error("Square access token not found in environment variables");
       return null;
     }
-    
-    // Production credentials are being used, so always use Production environment
+
+    const useSandbox =
+      process.env.SQUARE_ENVIRONMENT?.toLowerCase() === "sandbox";
     squareClient = new SquareClient({
       bearerAuthCredentials: {
-        accessToken: accessToken,
+        accessToken,
       },
-      environment: SquareEnvironment.Production,
+      environment: useSandbox
+        ? SquareEnvironment.Sandbox
+        : SquareEnvironment.Production,
     });
   }
 
@@ -43,4 +44,10 @@ export function getSquareLocationId(): string | null {
 
 export function getSquareApplicationId(): string | null {
   return process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID || null;
+}
+
+export type SquareCheckoutCurrency = "CAD" | "USD";
+
+export function toSquareCurrency(code?: string | null): SquareCheckoutCurrency {
+  return code === "USD" ? "USD" : "CAD";
 }

@@ -21,6 +21,7 @@ import { Discount } from "@/models/Discount";
 import { SiteSettings } from "@/models/SiteSettings";
 import { rateLimit } from "@/lib/rate-limit";
 import { calculateCanadaShippingAmount } from "@/lib/shipping";
+import { toSquareCurrency } from "@/lib/square";
 import { randomUUID } from "crypto";
 
 const CART_COOKIE = "rw_cart_sid";
@@ -313,7 +314,7 @@ export async function POST(request: NextRequest) {
         quantity: String(item.quantity),
         basePriceMoney: {
           amount: BigInt(Math.round(item.price * 100)),
-          currency: (settings?.currency ?? "CAD") as any,
+          currency: toSquareCurrency(settings?.currency),
         },
       }));
 
@@ -324,7 +325,7 @@ export async function POST(request: NextRequest) {
           quantity: "1",
           basePriceMoney: {
             amount: BigInt(Math.round(shippingAmount * 100)),
-            currency: (settings?.currency ?? "CAD") as any,
+            currency: toSquareCurrency(settings?.currency),
           },
         });
       }
@@ -336,26 +337,29 @@ export async function POST(request: NextRequest) {
           quantity: "1",
           basePriceMoney: {
             amount: BigInt(Math.round(taxAmount * 100)),
-            currency: (settings?.currency ?? "CAD") as any,
+            currency: toSquareCurrency(settings?.currency),
           },
         });
       }
 
       // Create Square checkout payment link
-      // Format phone number for Square (E.164 format: +1234567890)
-      let formattedPhone = parsed.data.phone;
+      let formattedPhone = parsed.data.phone?.trim();
       if (formattedPhone) {
-        // Remove all non-digit characters
-        formattedPhone = formattedPhone.replace(/\D/g, '');
-        // Add +1 prefix for North America if not present and has 10 digits
-        if (formattedPhone.length === 10) {
-          formattedPhone = `+1${formattedPhone}`;
-        } else if (formattedPhone.length === 11 && formattedPhone.startsWith('1')) {
-          formattedPhone = `+${formattedPhone}`;
-        } else if (!formattedPhone.startsWith('+')) {
-          formattedPhone = `+${formattedPhone}`;
+        const digits = formattedPhone.replace(/\D/g, "");
+        if (digits.length === 10) {
+          formattedPhone = `+1${digits}`;
+        } else if (digits.length === 11 && digits.startsWith("1")) {
+          formattedPhone = `+${digits}`;
+        } else if (digits.length >= 8) {
+          formattedPhone = `+${digits}`;
+        } else {
+          formattedPhone = undefined;
         }
       }
+
+      const redirectUrl = absoluteUrl(
+        `/order-success?order=${encodeURIComponent(orderNumber)}`,
+      );
 
       const checkoutResponse = await square.checkout.paymentLinks.create({
         idempotencyKey: randomUUID(),
@@ -366,14 +370,12 @@ export async function POST(request: NextRequest) {
             name: discountCode ? `Discount ${discountCode}` : "Order discount",
             amountMoney: {
               amount: BigInt(Math.round(discountAmount * 100)),
-              currency: (settings?.currency ?? "CAD") as any,
+              currency: toSquareCurrency(settings?.currency),
             },
           }] : undefined,
         },
         checkoutOptions: {
-          redirectUrl: absoluteUrl(
-            `/order-success?order=${encodeURIComponent(orderNumber)}`,
-          ),
+          redirectUrl,
           askForShippingAddress: false,
         },
         prePopulatedData: {
@@ -409,10 +411,22 @@ export async function POST(request: NextRequest) {
         orderNumber,
         total: formatCurrency(total, settings?.currency ?? "CAD"),
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const squareMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "errors" in error &&
+        Array.isArray((error as { errors?: Array<{ detail?: string }> }).errors)
+          ? (error as { errors: Array<{ detail?: string }> }).errors[0]?.detail
+          : undefined;
+      const message =
+        error instanceof Error ? error.message : "Unknown Square error";
       console.error("Square checkout error:", error);
       return NextResponse.json(
-        { error: "Failed to create payment link", details: error.message },
+        {
+          error: squareMessage ?? "Failed to create payment link",
+          details: message,
+        },
         { status: 500 },
       );
     }

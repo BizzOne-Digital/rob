@@ -24,7 +24,7 @@ export function OrderSuccessClient() {
         Thank You for Your Order!
       </h1>
       <p className="mx-auto mt-4 max-w-xl text-charcoal/65">
-        We've received your order
+        We&apos;ve received your order
         {order ? (
           <>
             {" "}

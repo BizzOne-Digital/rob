@@ -98,7 +98,10 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data.error ?? "Checkout unavailable");
+        toast.error(
+          [data.error, data.details].filter(Boolean).join(" — ") ||
+            "Checkout unavailable",
+        );
         setLoading(false);
         return;
       }

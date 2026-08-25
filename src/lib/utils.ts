@@ -39,7 +39,9 @@ export function generateOrderNumber(): string {
 export function absoluteUrl(path = ""): string {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://localhost:3000";
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL.replace(/\/$/, "")}`
+      : "http://localhost:3000");
   if (!path) return base;
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
