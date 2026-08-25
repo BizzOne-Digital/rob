@@ -13,22 +13,22 @@ type BrandLogoProps = {
 
 const sizeStyles = {
   sm: {
-    rw: "text-[1.25rem] leading-[0.82]",
-    designs: "text-[0.44rem] leading-none tracking-[0.12em] -mt-1",
-    canada: "text-[0.42rem] leading-none tracking-[0.02em] mt-px",
+    rw: "text-[1.4rem] leading-[0.82]",
+    designs: "text-[0.49rem] leading-none tracking-[0.12em] -mt-1",
+    canada: "text-[0.47rem] leading-none tracking-[0.02em] mt-px",
   },
   md: {
-    rw: "text-[1.35rem] leading-[0.82] sm:text-[1.45rem] lg:text-[1.55rem]",
+    rw: "text-[1.5rem] leading-[0.82] sm:text-[1.6rem] lg:text-[1.75rem]",
     designs:
-      "text-[0.46rem] leading-none tracking-[0.12em] -mt-1.5 sm:text-[0.48rem] lg:text-[0.5rem]",
+      "text-[0.52rem] leading-none tracking-[0.12em] -mt-1.5 sm:text-[0.54rem] lg:text-[0.56rem]",
     canada:
-      "text-[0.42rem] leading-none tracking-[0.02em] mt-0.5 sm:text-[0.44rem] lg:text-[0.46rem]",
+      "text-[0.47rem] leading-none tracking-[0.02em] mt-0.5 sm:text-[0.49rem] lg:text-[0.52rem]",
   },
   lg: {
-    rw: "text-[2.4rem] leading-[0.82] sm:text-[2.75rem]",
+    rw: "text-[2.7rem] leading-[0.82] sm:text-[3.1rem]",
     designs:
-      "text-[0.58rem] leading-none tracking-[0.14em] -mt-2.5 sm:text-[0.64rem]",
-    canada: "text-[0.5rem] leading-none tracking-[0.02em] mt-0.5 sm:text-[0.54rem]",
+      "text-[0.65rem] leading-none tracking-[0.14em] -mt-2.5 sm:text-[0.72rem]",
+    canada: "text-[0.56rem] leading-none tracking-[0.02em] mt-0.5 sm:text-[0.6rem]",
   },
 };
 

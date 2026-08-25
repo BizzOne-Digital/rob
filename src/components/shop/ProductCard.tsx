@@ -84,102 +84,104 @@ export function ProductCard({
     }
   };
 
-  const actionButtonClass =
-    "inline-flex items-center justify-center rounded-full border border-gray-200 bg-white text-[#2f2a26] shadow-sm transition active:scale-95 disabled:opacity-60";
+  const desktopActionClass =
+    "inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white text-[#2f2a26] shadow-lg transition active:scale-95 hover:scale-110 hover:bg-taupe hover:text-white disabled:opacity-60";
+
+  const mobileActionClass =
+    "inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/35 text-[#2f2a26] transition active:scale-95 disabled:opacity-60";
 
   return (
-    <article className={cn("group min-w-0 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition hover:shadow-md sm:p-4", className)}>
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
-        <Link href={`/what-we-create/${product.slug}`} className="absolute inset-0">
-          <ImageWithFallback
-            src={product.images?.[0]?.url}
-            alt={product.images?.[0]?.alt || product.name}
-            fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            quality={90}
-            className="object-contain object-center p-4 transition duration-500 group-hover:scale-105"
-          />
-        </Link>
-
-        {badge ? (
-          <span className="absolute left-3 top-3 z-10 rounded-full bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2a26] shadow-sm">
-            {badge}
-          </span>
-        ) : null}
-
-        <div className="absolute inset-x-0 bottom-0 z-10 hidden translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/20 to-transparent pb-3 pt-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:flex">
+    <article
+      className={cn(
+        "group min-w-0 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition hover:shadow-md sm:p-4",
+        className,
+      )}
+    >
+      <div className="overflow-hidden rounded-xl">
+        <div className="relative aspect-square w-full bg-white">
           <Link
             href={`/what-we-create/${product.slug}`}
-            className={cn(
-              actionButtonClass,
-              "h-10 w-10 border-white hover:scale-110 hover:bg-taupe hover:text-white",
-            )}
-            aria-label="View product details"
+            className="absolute inset-0"
           >
-            <Eye className="h-5 w-5" strokeWidth={2} />
-          </Link>
-
-          <button
-            type="button"
-            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-            disabled={wishLoading}
-            onClick={(e) => void toggleWishlist(e)}
-            className={cn(
-              actionButtonClass,
-              "h-10 w-10 border-white hover:scale-110 hover:bg-taupe hover:text-white",
-              wished && "bg-taupe text-white",
-            )}
-          >
-            <Heart
-              className={cn("h-5 w-5", wished && "fill-white")}
-              strokeWidth={2}
+            <ImageWithFallback
+              src={product.images?.[0]?.url}
+              alt={product.images?.[0]?.alt || product.name}
+              fill
+              sizes="(max-width: 768px) 50vw, 25vw"
+              quality={90}
+              className="object-contain object-center p-1 transition duration-500 group-hover:scale-105 sm:p-4"
             />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3 sm:hidden">
-        <div className="flex items-start gap-2">
-          <Link
-            href={`/what-we-create/${product.slug}`}
-            className="min-w-0 flex-1"
-          >
-            <h3 className="line-clamp-2 font-serif text-[14px] leading-snug text-[#2f2a26]">
-              {product.name}
-            </h3>
           </Link>
-          <div className="flex shrink-0 items-center gap-1.5 pt-0.5">
+
+          {badge ? (
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2f2a26] shadow-sm">
+              {badge}
+            </span>
+          ) : null}
+
+          <div className="absolute inset-x-0 bottom-0 z-10 hidden translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/20 to-transparent pb-3 pt-6 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:flex">
             <Link
               href={`/what-we-create/${product.slug}`}
-              className={cn(actionButtonClass, "h-9 w-9")}
+              className={desktopActionClass}
               aria-label="View product details"
             >
-              <Eye className="h-4 w-4" strokeWidth={2} />
+              <Eye className="h-5 w-5" strokeWidth={2} />
             </Link>
+
             <button
               type="button"
               aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
               disabled={wishLoading}
               onClick={(e) => void toggleWishlist(e)}
               className={cn(
-                actionButtonClass,
-                "h-9 w-9",
-                wished && "border-taupe bg-taupe text-white",
+                desktopActionClass,
+                wished && "bg-taupe text-white",
               )}
             >
               <Heart
-                className={cn("h-4 w-4", wished && "fill-white")}
+                className={cn("h-5 w-5", wished && "fill-white")}
                 strokeWidth={2}
               />
             </button>
           </div>
         </div>
 
-        <div className="mt-2 flex items-baseline justify-between gap-3">
-          <span className="text-[15px] font-bold text-[#2f2a26]">
-            {displayPrice}
-          </span>
+        <div className="flex items-center justify-center gap-4 border-t border-[#aeb6a6]/60 bg-sage py-2.5 sm:hidden">
+          <Link
+            href={`/what-we-create/${product.slug}`}
+            className={mobileActionClass}
+            aria-label="View product details"
+          >
+            <Eye className="h-5 w-5" strokeWidth={1.75} />
+          </Link>
+          <button
+            type="button"
+            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+            disabled={wishLoading}
+            onClick={(e) => void toggleWishlist(e)}
+            className={cn(
+              mobileActionClass,
+              wished && "bg-taupe text-white",
+            )}
+          >
+            <Heart
+              className={cn("h-5 w-5", wished && "fill-white")}
+              strokeWidth={1.75}
+            />
+          </button>
         </div>
+      </div>
+
+      <div className="mt-3 text-center sm:hidden">
+        <Link href={`/what-we-create/${product.slug}`} className="block">
+          <h3 className="line-clamp-2 px-1 font-serif text-[14px] leading-snug text-[#2f2a26]">
+            {product.name}
+          </h3>
+        </Link>
+
+        <p className="mt-2 text-[15px] font-bold text-[#2f2a26]">
+          {displayPrice}
+        </p>
 
         {comingSoon ? (
           <p className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#8f7665]">
