@@ -118,3 +118,33 @@ export async function deleteStoredUploadByUrl(url: string) {
     }
   }
 }
+
+export function extractImageUrls(
+  images: Array<{ url?: string | null } | null | undefined> | undefined,
+): string[] {
+  return (images ?? [])
+    .map((img) => img?.url)
+    .filter((url): url is string => typeof url === "string" && url.length > 0);
+}
+
+export async function deleteRemovedStoredUploads(
+  previousUrls: string[],
+  nextUrls: string[],
+) {
+  const nextSet = new Set(nextUrls);
+  await Promise.all(
+    previousUrls
+      .filter((url) => url.startsWith("/api/uploads/") && !nextSet.has(url))
+      .map((url) => deleteStoredUploadByUrl(url)),
+  );
+}
+
+export async function deleteStoredUploadsForImages(
+  images: Array<{ url?: string | null } | null | undefined> | undefined,
+) {
+  await Promise.all(
+    extractImageUrls(images)
+      .filter((url) => url.startsWith("/api/uploads/"))
+      .map((url) => deleteStoredUploadByUrl(url)),
+  );
+}

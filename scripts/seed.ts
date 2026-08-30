@@ -1608,84 +1608,29 @@ Local pickup may be available in select areas. Production and dispatch timelines
   );
 
   // -------------------------------------------------------------------------
-  // 8. Gallery items (published, ≥8)
+  // 8. Gallery items — add via Admin → Gallery (no placeholder seed data)
   // -------------------------------------------------------------------------
-  const galleryDefs = [
-    {
-      title: "Hand-poured candle detail",
-      caption: "Soy candle craftsmanship",
-      image: IMG.candle,
-      category: "Wax Melts & Candles",
-    },
-    {
-      title: "Wax melt set",
-      caption: "Home fragrance melts",
-      image: IMG.waxMelts,
-      category: "Wax Melts & Candles",
-    },
-    {
-      title: "Scented freshie",
-      caption: "Decorative fragrance for everyday spaces",
-      image: IMG.freshie,
-      category: "Freshies",
-    },
-    {
-      title: "Beaded keychain colourway",
-      caption: "Small handmade gift",
-      image: IMG.keychain,
-      category: "Beaded Keychains",
-    },
-    {
-      title: "Laser-engraved keepsake",
-      caption: "Personalized engraving",
-      image: IMG.engraved,
-      category: "Laser-Engraved Items",
-    },
-    {
-      title: "Custom wood sign",
-      caption: "Wording for home and gifting",
-      image: IMG.woodSign,
-      category: "Wood Signs",
-    },
-    {
-      title: "Gift-ready packaging",
-      caption: "Thoughtfully packed orders",
-      image: IMG.packaging,
-      category: "Behind the Scenes",
-      behindTheScenes: true,
-    },
-    {
-      title: "Workspace moments",
-      caption: "Making with care",
-      image: IMG.workspace,
-      category: "Behind the Scenes",
-      behindTheScenes: true,
-    },
-    {
-      title: "Gallery arrangement one",
-      caption: "Handmade collection preview",
-      image: IMG.gallery1,
-      category: "Gallery",
-    },
-    {
-      title: "Gallery arrangement two",
-      caption: "Texture and detail",
-      image: IMG.gallery2,
-      category: "Gallery",
-    },
-  ];
+  const galleryDefs: Array<{
+    title: string;
+    caption: string;
+    image: string;
+    category: string;
+    behindTheScenes?: boolean;
+  }> = [];
 
-  await GalleryItem.insertMany(
-    galleryDefs.map((g, index) => ({
-      title: g.title,
-      caption: g.caption,
-      image: media(g.image, g.title, g.caption),
-      category: g.category,
-      behindTheScenes: Boolean(g.behindTheScenes),
-      displayOrder: index + 1,
-      published: true,
-    })),
-  );
+  if (galleryDefs.length > 0) {
+    await GalleryItem.insertMany(
+      galleryDefs.map((g, index) => ({
+        title: g.title,
+        caption: g.caption,
+        image: media(g.image, g.title, g.caption),
+        category: g.category,
+        behindTheScenes: Boolean(g.behindTheScenes),
+        displayOrder: index + 1,
+        published: true,
+      })),
+    );
+  }
 
   // -------------------------------------------------------------------------
   // 9. Testimonials (approved customer reviews for homepage)

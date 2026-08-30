@@ -57,7 +57,7 @@ export default function AdminProductsPage() {
         description="Manage catalog products, variants, and inventory"
         actions={
           <Link href="/admin/products/new" className="admin-btn-primary">
-            <Plus className="h-4 w-4" /> New product
+            <Plus className="h-4 w-4" /> Add product
           </Link>
         }
       />

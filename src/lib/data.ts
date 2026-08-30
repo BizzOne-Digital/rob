@@ -136,7 +136,10 @@ export async function getPageBySlug(slug: string) {
 
 export async function getGalleryItems(limit?: number) {
   await connectDB();
-  const q = GalleryItem.find({ published: true }).sort({ displayOrder: 1 });
+  const q = GalleryItem.find({
+    published: true,
+    "image.url": { $not: /^\/images\/placeholders\// },
+  }).sort({ displayOrder: 1 });
   if (limit) q.limit(limit);
   return q.lean();
 }

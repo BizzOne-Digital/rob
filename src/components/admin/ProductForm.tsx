@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { ImageField } from "@/components/admin/ImagePicker";
+import { MongoImageField } from "@/components/admin/MongoImageField";
 import { UnsavedGuard } from "@/components/admin/UnsavedGuard";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { adminFetch, idOf } from "@/lib/admin/api";
@@ -558,15 +558,21 @@ export function ProductForm({ productId }: ProductFormProps) {
               <Plus className="h-4 w-4" /> Add image
             </button>
           </div>
+          {form.images.length === 0 ? (
+            <p className="text-sm text-admin-muted">
+              Upload product photos — stored in the database and work on Vercel.
+            </p>
+          ) : null}
           {form.images.map((img, index) => (
-            <div key={`${img.url}-${index}`} className="rounded-lg border border-admin-border p-3">
-              <ImageField
+            <div key={`img-${index}-${img.url || "empty"}`} className="rounded-lg border border-admin-border p-3">
+              <MongoImageField
                 label={`Image ${index + 1}`}
-                value={img.url ? img : null}
-                onChange={(next) => {
+                folder="products"
+                value={img.url || null}
+                onChange={(url) => {
                   const images = [...form.images];
-                  if (!next) images.splice(index, 1);
-                  else images[index] = next;
+                  if (!url) images.splice(index, 1);
+                  else images[index] = { url, alt: form.name.trim() || "Product" };
                   patch("images", images);
                 }}
               />

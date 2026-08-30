@@ -138,3 +138,6 @@ export function MongoImageField({
     </div>
   );
 }
+
+/** Alias matching the LocalImageField naming used in upload specs. */
+export { MongoImageField as LocalImageField };

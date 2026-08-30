@@ -10,6 +10,11 @@ import {
 } from "@/lib/pricing-sync";
 import { slugify } from "@/lib/utils";
 import { revalidateProduct, revalidateShop } from "@/lib/revalidate";
+import {
+  deleteRemovedStoredUploads,
+  deleteStoredUploadsForImages,
+  extractImageUrls,
+} from "@/lib/stored-uploads";
 import { Product } from "@/models/Product";
 import { CreationCategory } from "@/models/CreationCategory";
 
@@ -172,7 +177,11 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       : undefined;
   }
   if (data.images !== undefined) {
-    product.images = data.images as typeof product.images;
+    const previousUrls = extractImageUrls(product.images);
+    const nextImages = data.images as typeof product.images;
+    const nextUrls = extractImageUrls(nextImages);
+    await deleteRemovedStoredUploads(previousUrls, nextUrls);
+    product.images = nextImages;
   }
   if (data.optionDefinitions !== undefined) {
     product.optionDefinitions =
@@ -228,6 +237,8 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
   if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
+
+  await deleteStoredUploadsForImages(product.images);
 
   await deletePricingForProduct(product._id);
   revalidateShop();
