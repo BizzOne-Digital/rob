@@ -57,7 +57,10 @@ export async function POST(request: NextRequest) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const originalName = file.name || "upload";
-  const uploaded = await saveUploadFile(buffer, originalName, { folder });
+  const uploaded = await saveUploadFile(buffer, originalName, {
+    folder,
+    mimeType: file.type,
+  });
 
   await connectDB();
   const item = await MediaAsset.create({

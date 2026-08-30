@@ -50,6 +50,7 @@ export function Header({ showBlog = false }: { showBlog?: boolean }) {
             <NavLink href="/about">About Us</NavLink>
             <NavLink href="/what-we-create">What We Create</NavLink>
             {showBlog ? <NavLink href="/blog">Journal</NavLink> : null}
+            <NavLink href="/gallery">Gallery</NavLink>
             <NavLink href="/contact">Contact</NavLink>
           </nav>
 

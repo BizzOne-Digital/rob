@@ -1,58 +1,48 @@
-import { randomUUID } from "crypto";
-import path from "path";
-import { mkdir, unlink, writeFile } from "fs/promises";
+import {
+  ALLOWED_MIME_TYPES,
+  deleteStoredUploadByUrl,
+  isAllowedMimeType,
+  normalizeUploadFolder,
+  saveStoredUpload,
+  type AllowedMimeType,
+} from "@/lib/stored-uploads";
 
-const UPLOADS_ROOT = path.join(process.cwd(), "public", "uploads");
-
-function sanitizeFolder(folder?: string) {
-  const cleaned = (folder || "general")
-    .replace(/\\/g, "/")
-    .split("/")
-    .map((part) => part.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40))
-    .filter(Boolean)
-    .join("/");
-  return cleaned || "general";
+function mapLegacyFolder(folder?: string) {
+  if (!folder || folder === "general") return "misc";
+  return normalizeUploadFolder(folder);
 }
 
-function sanitizeBaseName(name: string) {
-  return name.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40) || "file";
+function inferMimeType(originalName: string, mimeType?: string): AllowedMimeType | null {
+  if (mimeType && isAllowedMimeType(mimeType)) return mimeType;
+
+  const ext = originalName.split(".").pop()?.toLowerCase();
+  if (ext === "jpg" || ext === "jpeg") return "image/jpeg";
+  if (ext === "png") return "image/png";
+  if (ext === "webp") return "image/webp";
+  if (ext === "gif") return "image/gif";
+  return null;
 }
 
 export async function saveUploadFile(
   buffer: Buffer,
   originalName: string,
-  options?: { folder?: string },
+  options?: { folder?: string; mimeType?: string },
 ) {
-  const folder = sanitizeFolder(options?.folder);
-  const ext = path.extname(originalName) || "";
-  const base = sanitizeBaseName(path.basename(originalName, ext));
-  const filename = `${base}-${randomUUID()}${ext.toLowerCase()}`;
-  const dir = path.join(UPLOADS_ROOT, folder);
-  await mkdir(dir, { recursive: true });
-  const diskPath = path.join(dir, filename);
-  await writeFile(diskPath, buffer);
+  const folder = mapLegacyFolder(options?.folder);
+  const mimeType = inferMimeType(originalName, options?.mimeType);
+  if (!mimeType) {
+    throw new Error("Unsupported file type");
+  }
 
-  const urlPath = `/uploads/${folder}/${filename}`.replace(/\\/g, "/");
+  const saved = await saveStoredUpload(buffer, mimeType, folder);
   return {
-    url: urlPath,
+    url: saved.url,
     filename: originalName,
-    diskPath,
-    format: ext.replace(".", "").toLowerCase() || undefined,
-    bytes: buffer.length,
+    format: ALLOWED_MIME_TYPES[mimeType],
+    bytes: saved.size,
   };
 }
 
 export async function deleteUploadFile(url: string) {
-  if (!url.startsWith("/uploads/")) return;
-
-  const relative = url.replace(/^\/uploads\//, "");
-  const diskPath = path.join(UPLOADS_ROOT, relative);
-  const resolved = path.resolve(diskPath);
-  if (!resolved.startsWith(path.resolve(UPLOADS_ROOT))) return;
-
-  try {
-    await unlink(resolved);
-  } catch {
-    // ignore missing local file
-  }
+  await deleteStoredUploadByUrl(url);
 }

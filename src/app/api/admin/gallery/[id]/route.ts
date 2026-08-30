@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/admin-auth";
 import { connectDB } from "@/lib/db";
 import { logActivity } from "@/lib/activity";
 import { revalidateGallery } from "@/lib/revalidate";
+import { deleteStoredUploadByUrl } from "@/lib/stored-uploads";
 import { GalleryItem } from "@/models/GalleryItem";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -66,6 +67,11 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
   }
 
   await connectDB();
+  const existing = await GalleryItem.findById(id);
+  if (!existing) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const item = await GalleryItem.findByIdAndUpdate(
     id,
     { $set: parsed.data },
@@ -73,6 +79,14 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
   );
   if (!item) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  if (
+    parsed.data.image?.url &&
+    existing.image?.url &&
+    parsed.data.image.url !== existing.image.url
+  ) {
+    await deleteStoredUploadByUrl(existing.image.url);
   }
 
   revalidateGallery();
@@ -100,6 +114,10 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
   const item = await GalleryItem.findByIdAndDelete(id);
   if (!item) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  if (item.image?.url) {
+    await deleteStoredUploadByUrl(item.image.url);
   }
 
   revalidateGallery();

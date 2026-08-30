@@ -1482,7 +1482,7 @@ Local pickup may be available in select areas. Production and dispatch timelines
       category: "Payments",
       question: "What payment methods do you accept?",
       answer:
-        "When online checkout is enabled, secure card payments are processed through Stripe. We’ll confirm available methods at purchase time.",
+        "When online checkout is enabled, secure card payments are processed through Square. We’ll confirm available methods at purchase time.",
       displayOrder: 1,
     },
     {

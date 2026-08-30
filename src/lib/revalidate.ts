@@ -24,6 +24,7 @@ export function revalidateCategories() {
 }
 
 export function revalidateGallery() {
+  revalidatePath("/gallery");
   revalidatePath("/");
   revalidateTag("gallery");
 }

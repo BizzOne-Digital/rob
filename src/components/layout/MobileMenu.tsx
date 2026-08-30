@@ -11,6 +11,7 @@ const links = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "What We Create", href: "/what-we-create" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
 ];
 

@@ -31,6 +31,7 @@ export function ImageWithFallback({
   const [failed, setFailed] = useState(false);
   const resolved = !src || failed ? fallback : src;
   const isSvg = resolved.endsWith(".svg");
+  const isApiUpload = resolved.startsWith("/api/uploads/");
 
   return (
     <Image
@@ -43,7 +44,7 @@ export function ImageWithFallback({
       sizes={sizes}
       priority={priority}
       quality={quality}
-      unoptimized={isSvg}
+      unoptimized={isSvg || isApiUpload}
       onError={() => setFailed(true)}
     />
   );

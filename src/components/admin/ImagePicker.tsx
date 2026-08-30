@@ -114,7 +114,7 @@ export function ImagePicker({ open, onClose, onSelect }: ImagePickerProps) {
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Media Library</h2>
             <p className="text-xs text-admin-muted">
-              Uploads save to the local uploads folder
+              Uploads are stored securely in the database
             </p>
           </div>
           <button type="button" className="admin-btn-ghost" onClick={onClose}>

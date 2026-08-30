@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
 import { AdminHeader } from "@/components/admin/AdminHeader";
-import { ImageField } from "@/components/admin/ImagePicker";
+import { MongoImageField } from "@/components/admin/MongoImageField";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { ErrorState, LoadingState } from "@/components/admin/EmptyState";
 import { adminFetch, idOf } from "@/lib/admin/api";
@@ -23,7 +23,7 @@ export default function AdminGalleryPage() {
   const [creating, setCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const [image, setImage] = useState<MediaRef | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [category, setCategory] = useState("");
   const [behindTheScenes, setBehindTheScenes] = useState(false);
 
@@ -47,12 +47,16 @@ export default function AdminGalleryPage() {
   }, [load]);
 
   async function createItem() {
-    if (!title.trim() || !image?.url) {
+    if (!title.trim() || !imageUrl) {
       toast.error("Title and image are required");
       return;
     }
     setCreating(true);
     try {
+      const image: MediaRef = {
+        url: imageUrl,
+        alt: title.trim(),
+      };
       await adminFetch("/api/admin/gallery", {
         method: "POST",
         body: JSON.stringify({
@@ -68,7 +72,7 @@ export default function AdminGalleryPage() {
       toast.success("Gallery item added");
       setTitle("");
       setCaption("");
-      setImage(null);
+      setImageUrl(null);
       setCategory("");
       setBehindTheScenes(false);
       await load();
@@ -84,6 +88,7 @@ export default function AdminGalleryPage() {
     patch: Partial<{
       title: string;
       caption: string;
+      image: MediaRef;
       displayOrder: number;
       published: boolean;
       behindTheScenes: boolean;
@@ -149,7 +154,12 @@ export default function AdminGalleryPage() {
           />
         </div>
         <div className="md:col-span-2">
-          <ImageField label="Image" value={image} onChange={setImage} />
+          <MongoImageField
+            label="Image"
+            folder="gallery"
+            value={imageUrl}
+            onChange={setImageUrl}
+          />
         </div>
         <label className="flex items-center gap-2 text-sm">
           <input
@@ -187,6 +197,20 @@ export default function AdminGalleryPage() {
                 className="aspect-[4/3] w-full object-cover"
               />
               <div className="space-y-2 p-3">
+                <MongoImageField
+                  label="Replace image"
+                  folder="gallery"
+                  value={item.image?.url ?? null}
+                  onChange={(url) => {
+                    if (!url) return;
+                    void updateItem(item._id, {
+                      image: {
+                        url,
+                        alt: item.image?.alt || item.title,
+                      },
+                    });
+                  }}
+                />
                 <input
                   className="admin-input"
                   value={item.title}
