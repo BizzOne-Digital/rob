@@ -6,7 +6,11 @@ import { Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Button } from "@/components/ui/Button";
-import { formatCurrency } from "@/lib/utils";
+import {
+  PRODUCT_IMAGE_SURFACE,
+  PRODUCT_IMAGE_THUMB_CLASS,
+} from "@/lib/product-images";
+import { formatCurrency, cn } from "@/lib/utils";
 
 export function CartDrawer() {
   const { open, setOpen, items, subtotal, loading, updateQuantity, removeItem } =
@@ -70,13 +74,18 @@ export function CartDrawer() {
                       key={item._id}
                       className="flex gap-3 rounded-2xl border border-soft-beige/80 bg-white/70 p-3"
                     >
-                      <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-[#f7f3ee]">
+                      <div
+                        className={cn(
+                          "relative h-24 w-20 shrink-0 overflow-hidden rounded-xl",
+                          PRODUCT_IMAGE_SURFACE,
+                        )}
+                      >
                         <ImageWithFallback
                           src={item.image}
                           alt={item.name}
                           fill
                           sizes="80px"
-                          className="object-contain object-center p-1"
+                          className={PRODUCT_IMAGE_THUMB_CLASS}
                         />
                       </div>
                       <div className="min-w-0 flex-1">

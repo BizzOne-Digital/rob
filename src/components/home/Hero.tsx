@@ -61,7 +61,7 @@ export function Hero({ headline }: { headline?: string | null } = {}) {
           <div className="mt-6 sm:mt-8">
             <Link
               href="/what-we-create"
-              className="inline-flex h-12 w-full items-center justify-center rounded-full bg-taupe px-5 text-[13px] font-semibold !text-white transition hover:bg-taupe-deep sm:h-11 sm:w-auto sm:px-6"
+              className="inline-flex h-11 w-auto items-center justify-center self-start rounded-full bg-taupe px-6 text-[13px] font-semibold !text-white transition hover:bg-taupe-deep"
             >
               Shop Our Collection
             </Link>

@@ -6,6 +6,10 @@ import { Heart, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
+import {
+  PRODUCT_IMAGE_CLASS,
+  PRODUCT_IMAGE_SURFACE,
+} from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -98,10 +102,10 @@ export function ProductCard({
       )}
     >
       <div className="overflow-hidden rounded-xl">
-        <div className="relative aspect-square w-full bg-white">
+        <div className={cn("relative aspect-square w-full", PRODUCT_IMAGE_SURFACE)}>
           <Link
             href={`/what-we-create/${product.slug}`}
-            className="absolute inset-0"
+            className="absolute inset-0 block"
           >
             <ImageWithFallback
               src={product.images?.[0]?.url}
@@ -109,7 +113,10 @@ export function ProductCard({
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
               quality={90}
-              className="object-contain object-center p-1 transition duration-500 group-hover:scale-105 sm:p-4"
+              className={cn(
+                PRODUCT_IMAGE_CLASS,
+                "transition duration-500 group-hover:scale-[1.02]",
+              )}
             />
           </Link>
 

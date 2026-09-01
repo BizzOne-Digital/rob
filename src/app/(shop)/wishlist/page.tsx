@@ -6,6 +6,10 @@ import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
+import {
+  PRODUCT_IMAGE_CLASS,
+  PRODUCT_IMAGE_SURFACE,
+} from "@/lib/product-images";
 import { Button } from "@/components/ui/Button";
 
 interface WishItem {
@@ -63,12 +67,13 @@ export default function WishlistPage() {
                 href={`/what-we-create/${item.slug}`}
                 className="overflow-hidden rounded-[1.35rem] bg-white/70 shadow-[var(--shadow-soft)]"
               >
-                <div className="relative aspect-[4/5] bg-powder-blue/40">
+                <div className={`relative aspect-square overflow-hidden ${PRODUCT_IMAGE_SURFACE}`}>
                   <ImageWithFallback
                     src={item.images?.[0]?.url}
                     alt={item.name}
                     fill
                     sizes="25vw"
+                    className={PRODUCT_IMAGE_CLASS}
                   />
                 </div>
                 <div className="p-4">

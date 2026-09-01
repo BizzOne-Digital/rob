@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingBag, X } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { PRODUCT_IMAGE_CLASS, PRODUCT_IMAGE_SURFACE } from "@/lib/product-images";
 import { Button } from "@/components/ui/Button";
 import { getDisplayPrice } from "@/lib/product-price";
 import { useCartStore } from "@/store/cart";
@@ -77,14 +78,16 @@ export function QuickView({
             className="grid max-h-[90vh] w-full max-w-3xl overflow-hidden overflow-y-auto rounded-[1.25rem] bg-warm-ivory sm:rounded-[1.75rem] md:grid-cols-2"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-square bg-[#e8e0d6] md:aspect-auto md:min-h-[420px]">
+            <div
+              className={`relative aspect-square md:aspect-auto md:min-h-[420px] ${PRODUCT_IMAGE_SURFACE}`}
+            >
               <ImageWithFallback
                 src={product.images?.[0]?.url}
                 alt={product.name}
                 fill
                 sizes="50vw"
                 quality={90}
-                className="object-cover object-center"
+                className={PRODUCT_IMAGE_CLASS}
               />
             </div>
             <div className="relative flex flex-col p-6 md:p-8">

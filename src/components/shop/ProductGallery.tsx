@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import {
+  PRODUCT_IMAGE_CLASS,
+  PRODUCT_IMAGE_SURFACE,
+  PRODUCT_IMAGE_THUMB_CLASS,
+} from "@/lib/product-images";
 import { cn } from "@/lib/utils";
 
 export function ProductGallery({
@@ -25,7 +30,12 @@ export function ProductGallery({
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-transparent p-3 sm:rounded-[1.75rem] sm:p-6 lg:p-8">
+      <div
+        className={cn(
+          "relative aspect-square overflow-hidden rounded-[1.25rem] sm:rounded-[1.75rem]",
+          PRODUCT_IMAGE_SURFACE,
+        )}
+      >
         <ImageWithFallback
           src={displayUrl}
           alt={current?.alt || name}
@@ -33,7 +43,7 @@ export function ProductGallery({
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
           quality={92}
-          className="object-contain object-center"
+          className={PRODUCT_IMAGE_CLASS}
         />
       </div>
       {list.length > 1 ? (
@@ -48,7 +58,8 @@ export function ProductGallery({
               }}
               aria-label={`View photo ${i + 1}`}
               className={cn(
-                "relative h-16 w-16 shrink-0 snap-start overflow-hidden rounded-xl border-2 bg-transparent transition sm:h-20 sm:w-20",
+                "relative h-16 w-16 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition sm:h-20 sm:w-20",
+                PRODUCT_IMAGE_SURFACE,
                 i === active
                   ? "border-muted-mauve"
                   : "border-transparent hover:border-soft-beige",
@@ -60,7 +71,7 @@ export function ProductGallery({
                 fill
                 sizes="80px"
                 quality={85}
-                className="object-contain object-center"
+                className={PRODUCT_IMAGE_THUMB_CLASS}
               />
             </button>
           ))}

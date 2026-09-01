@@ -6,6 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
+import {
+  PRODUCT_IMAGE_SURFACE,
+  PRODUCT_IMAGE_THUMB_CLASS,
+} from "@/lib/product-images";
 
 interface SearchItem {
   _id: string;
@@ -114,12 +118,15 @@ export function SearchOverlay({
                         onClick={onClose}
                         className="flex items-center gap-4 rounded-xl p-3 transition hover:bg-powder-blue/40"
                       >
-                        <div className="relative h-16 w-16 overflow-hidden rounded-lg bg-powder-blue/40">
+                        <div
+                          className={`relative h-16 w-16 overflow-hidden rounded-lg ${PRODUCT_IMAGE_SURFACE}`}
+                        >
                           <ImageWithFallback
                             src={item.images?.[0]?.url}
                             alt={item.images?.[0]?.alt ?? item.name}
                             fill
                             sizes="64px"
+                            className={PRODUCT_IMAGE_THUMB_CLASS}
                           />
                         </div>
                         <div className="min-w-0 flex-1">

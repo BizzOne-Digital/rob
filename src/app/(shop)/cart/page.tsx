@@ -7,6 +7,10 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { EmptyState } from "@/components/ui/EmptyState";
+import {
+  PRODUCT_IMAGE_SURFACE,
+  PRODUCT_IMAGE_THUMB_CLASS,
+} from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
 import { SHIPPING_CART_SUMMARY } from "@/lib/shipping";
 
@@ -41,14 +45,14 @@ export default function CartPage() {
                 >
                   <Link
                     href={item.slug ? `/what-we-create/${item.slug}` : "/what-we-create"}
-                    className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#f7f3ee] sm:h-28 sm:w-28"
+                    className={`relative h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28 ${PRODUCT_IMAGE_SURFACE}`}
                   >
                     <ImageWithFallback
                       src={item.image}
                       alt={item.name}
                       fill
                       sizes="112px"
-                      className="object-contain object-center p-1.5"
+                      className={PRODUCT_IMAGE_THUMB_CLASS}
                     />
                   </Link>
                   <div className="min-w-0 flex-1">

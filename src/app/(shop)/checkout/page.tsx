@@ -14,6 +14,10 @@ import {
   getCanadaShippingNote,
 } from "@/lib/shipping";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import {
+  PRODUCT_IMAGE_SURFACE,
+  PRODUCT_IMAGE_THUMB_CLASS,
+} from "@/lib/product-images";
 
 export default function CheckoutPage() {
   const { items, subtotal, hydrated, clearCart } = useCartStore();
@@ -261,13 +265,15 @@ export default function CheckoutPage() {
           <ul className="mt-4 space-y-3">
             {items.map((item) => (
               <li key={item._id} className="flex gap-3">
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-[#f7f3ee]">
+                <div
+                  className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg ${PRODUCT_IMAGE_SURFACE}`}
+                >
                   <ImageWithFallback
                     src={item.image}
                     alt={item.name}
                     fill
                     sizes="64px"
-                    className="object-contain object-center p-0.5"
+                    className={PRODUCT_IMAGE_THUMB_CLASS}
                   />
                 </div>
                 <div className="min-w-0 flex-1">
