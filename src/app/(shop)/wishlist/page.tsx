@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
 import {
-  PRODUCT_IMAGE_CLASS,
+  PRODUCT_IMAGE_COVER_CLASS,
   PRODUCT_IMAGE_SURFACE,
 } from "@/lib/product-images";
 import { Button } from "@/components/ui/Button";
@@ -73,7 +73,7 @@ export default function WishlistPage() {
                     alt={item.name}
                     fill
                     sizes="25vw"
-                    className={PRODUCT_IMAGE_CLASS}
+                    className={PRODUCT_IMAGE_COVER_CLASS}
                   />
                 </div>
                 <div className="p-4">

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getDisplayPrice } from "@/lib/product-price";
 import {
-  PRODUCT_IMAGE_CLASS,
+  PRODUCT_IMAGE_COVER_CLASS,
   PRODUCT_IMAGE_SURFACE,
 } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
@@ -114,8 +114,8 @@ export function ProductCard({
               sizes="(max-width: 768px) 50vw, 25vw"
               quality={90}
               className={cn(
-                PRODUCT_IMAGE_CLASS,
-                "transition duration-500 group-hover:scale-[1.02]",
+                PRODUCT_IMAGE_COVER_CLASS,
+                "transition duration-500 group-hover:scale-105",
               )}
             />
           </Link>

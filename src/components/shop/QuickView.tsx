@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingBag, X } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { PRODUCT_IMAGE_CLASS, PRODUCT_IMAGE_SURFACE } from "@/lib/product-images";
+import { PRODUCT_IMAGE_COVER_CLASS, PRODUCT_IMAGE_SURFACE } from "@/lib/product-images";
 import { Button } from "@/components/ui/Button";
 import { getDisplayPrice } from "@/lib/product-price";
 import { useCartStore } from "@/store/cart";
@@ -87,7 +87,7 @@ export function QuickView({
                 fill
                 sizes="50vw"
                 quality={90}
-                className={PRODUCT_IMAGE_CLASS}
+                className={PRODUCT_IMAGE_COVER_CLASS}
               />
             </div>
             <div className="relative flex flex-col p-6 md:p-8">
