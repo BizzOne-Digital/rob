@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import type { ContentBlockType, MediaRef } from "@/types";
 import type { PageSection } from "@/lib/admin/types";
-import { ImageField } from "./ImagePicker";
+import { MongoMediaField } from "./MongoImageField";
 import { cn } from "@/lib/utils";
 
 const SECTION_TYPES: ContentBlockType[] = [
@@ -272,8 +272,9 @@ function SortableSection({
                 key={`${img.url}-${imgIndex}`}
                 className="flex flex-wrap items-end gap-3 rounded-lg border border-admin-border p-3"
               >
-                <ImageField
+                <MongoMediaField
                   label={`Image ${imgIndex + 1}`}
+                  folder="pages"
                   value={img}
                   onChange={(next) => {
                     const images = [...(section.images ?? [])];

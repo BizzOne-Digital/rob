@@ -8,6 +8,7 @@ import { GalleryPreview } from "@/components/home/GalleryPreview";
 import { HomeSocialProof } from "@/components/home/HomeSocialProof";
 import {
   getApprovedTestimonials,
+  getGalleryItems,
   getPublishedFaqs,
   getPublishedProducts,
   getSettings,
@@ -28,11 +29,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [settingsDoc, productsResult, testimonials, faqs] = await Promise.all([
+  const [settingsDoc, productsResult, testimonials, faqs, galleryItems] =
+    await Promise.all([
     getSettings(),
     getPublishedProducts({ limit: 6, sort: "newest" }),
     getApprovedTestimonials({ limit: 6 }),
     getPublishedFaqs({ featured: true, limit: 5 }),
+    getGalleryItems(6),
   ]);
 
   const settings = serialize(settingsDoc);
@@ -44,7 +47,7 @@ export default async function HomePage() {
       <FeaturedProducts products={serialize(productsResult.items)} />
       <AboutPreview />
       <CustomCreationsTeaser />
-      <GalleryPreview />
+      <GalleryPreview items={serialize(galleryItems)} />
       <HomeSocialProof
         testimonials={serialize(testimonials)}
         faqs={serialize(faqs)}

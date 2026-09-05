@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { AdminHeader } from "@/components/admin/AdminHeader";
-import { ImageField } from "@/components/admin/ImagePicker";
+import { MongoMediaField } from "@/components/admin/MongoImageField";
 import { UnsavedGuard } from "@/components/admin/UnsavedGuard";
 import { ErrorState, LoadingState } from "@/components/admin/EmptyState";
 import { adminFetch } from "@/lib/admin/api";
@@ -237,8 +237,9 @@ export default function AdminBlogEditPage() {
           />
         </div>
         <div className="md:col-span-2">
-          <ImageField
+          <MongoMediaField
             label="Featured image"
+            folder="pages"
             value={featuredImage}
             onChange={setFeaturedImage}
           />

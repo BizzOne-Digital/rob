@@ -46,14 +46,40 @@ export async function POST(request: NextRequest) {
 
   const form = await request.formData();
   const file = form.get("file");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "file is required" }, { status: 400 });
-  }
-
+  const urlField = form.get("url");
   const alt = String(form.get("alt") ?? "");
   const caption = String(form.get("caption") ?? "");
   const category = String(form.get("category") ?? "general") || "general";
   const folder = String(form.get("folder") ?? category) || "general";
+  const filename = String(form.get("filename") ?? "upload");
+
+  if (typeof urlField === "string" && urlField.startsWith("/api/uploads/")) {
+    await connectDB();
+    const item = await MediaAsset.create({
+      url: urlField,
+      filename: filename || urlField.split("/").pop() || "upload",
+      format: urlField.split(".").pop()?.toLowerCase(),
+      resourceType: "image",
+      alt,
+      caption,
+      category,
+      folder,
+    });
+
+    await logActivity({
+      session,
+      action: "media.upload",
+      entityType: "MediaAsset",
+      entityId: String(item._id),
+      summary: `Registered media ${item.filename ?? urlField}`,
+    });
+
+    return NextResponse.json({ item }, { status: 201 });
+  }
+
+  if (!(file instanceof File)) {
+    return NextResponse.json({ error: "file is required" }, { status: 400 });
+  }
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const originalName = file.name || "upload";

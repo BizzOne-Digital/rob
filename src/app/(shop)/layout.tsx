@@ -7,6 +7,10 @@ import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { getSettings, serialize } from "@/lib/data";
 import { BRAND } from "@/lib/constants";
 
+/** Always read fresh CMS content after admin updates. */
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function ShopLayout({
   children,
 }: {

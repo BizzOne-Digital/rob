@@ -260,6 +260,31 @@ export function ProductForm({ productId }: ProductFormProps) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  async function persistImages(images: MediaRef[]) {
+    if (!productId) return;
+
+    const savedImages = images.filter((img) => img.url);
+    try {
+      await adminFetch(`/api/admin/products/${productId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ images: savedImages }),
+      });
+      setForm((prev) => {
+        const next = { ...prev, images: savedImages };
+        setBaseline(JSON.stringify(next));
+        return next;
+      });
+      toast.success("Images saved — live site updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not save images");
+    }
+  }
+
+  function updateImages(nextImages: MediaRef[]) {
+    patch("images", nextImages);
+    if (productId) void persistImages(nextImages);
+  }
+
   async function save(statusOverride?: ProductStatus) {
     if (!form.name.trim()) {
       toast.error("Name is required");
@@ -560,7 +585,10 @@ export function ProductForm({ productId }: ProductFormProps) {
           </div>
           {form.images.length === 0 ? (
             <p className="text-sm text-admin-muted">
-              Upload product photos — stored in the database and work on Vercel.
+              Upload product photos — stored in MongoDB and work on Vercel.
+              {isNew
+                ? " Click Publish after uploading to show on the live site."
+                : " Images save to the live site automatically."}
             </p>
           ) : null}
           {form.images.map((img, index) => (
@@ -573,7 +601,7 @@ export function ProductForm({ productId }: ProductFormProps) {
                   const images = [...form.images];
                   if (!url) images.splice(index, 1);
                   else images[index] = { url, alt: form.name.trim() || "Product" };
-                  patch("images", images);
+                  updateImages(images);
                 }}
               />
             </div>

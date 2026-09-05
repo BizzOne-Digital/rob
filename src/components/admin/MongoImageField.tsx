@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
 import type { UploadFolder } from "@/lib/stored-uploads";
+import type { MediaRef } from "@/types";
 
 interface UploadResponse {
   success: boolean;
@@ -141,3 +142,39 @@ export function MongoImageField({
 
 /** Alias matching the LocalImageField naming used in upload specs. */
 export { MongoImageField as LocalImageField };
+
+export function MongoMediaField({
+  label,
+  value,
+  onChange,
+  folder = "misc",
+  alt,
+}: {
+  label: string;
+  value?: MediaRef | null;
+  onChange: (value: MediaRef | null) => void;
+  folder?: UploadFolder;
+  alt?: string;
+}) {
+  return (
+    <MongoImageField
+      label={label}
+      folder={folder}
+      value={value?.url ?? null}
+      onChange={(url) =>
+        onChange(
+          url
+            ? {
+                url,
+                alt: alt || value?.alt || label,
+                caption: value?.caption,
+                publicId: value?.publicId,
+                width: value?.width,
+                height: value?.height,
+              }
+            : null,
+        )
+      }
+    />
+  );
+}

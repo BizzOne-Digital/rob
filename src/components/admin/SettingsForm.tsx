@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { ImageField } from "@/components/admin/ImagePicker";
+import { MongoMediaField } from "@/components/admin/MongoImageField";
 import { UnsavedGuard } from "@/components/admin/UnsavedGuard";
 import { adminFetch } from "@/lib/admin/api";
 import type { AdminItemResponse, SiteSettingsAdmin } from "@/lib/admin/types";
@@ -175,18 +175,21 @@ export function SettingsForm() {
 
         {tab === "branding" ? (
           <div className="grid gap-6 md:grid-cols-3">
-            <ImageField
+            <MongoMediaField
               label="Logo light"
+              folder="misc"
               value={settings.logoLight ?? null}
               onChange={(v) => setMedia("logoLight", v)}
             />
-            <ImageField
+            <MongoMediaField
               label="Logo dark"
+              folder="misc"
               value={settings.logoDark ?? null}
               onChange={(v) => setMedia("logoDark", v)}
             />
-            <ImageField
+            <MongoMediaField
               label="Favicon"
+              folder="misc"
               value={settings.favicon ?? null}
               onChange={(v) => setMedia("favicon", v)}
             />

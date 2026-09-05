@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { ImageField } from "@/components/admin/ImagePicker";
+import { MongoMediaField } from "@/components/admin/MongoImageField";
 import { UnsavedGuard } from "@/components/admin/UnsavedGuard";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { adminFetch, idOf } from "@/lib/admin/api";
@@ -341,8 +341,9 @@ export function CategoryForm({
             />
           </div>
           <div className="md:col-span-2">
-            <ImageField
+            <MongoMediaField
               label="Hero image"
+              folder="pages"
               value={form.heroImage}
               onChange={(v) => patch("heroImage", v)}
             />
@@ -363,9 +364,10 @@ export function CategoryForm({
             </button>
           </div>
           {form.images.map((img, i) => (
-            <ImageField
+            <MongoMediaField
               key={`${img.url}-${i}`}
               label={`Image ${i + 1}`}
+              folder="pages"
               value={img.url ? img : null}
               onChange={(next) => {
                 const images = [...form.images];

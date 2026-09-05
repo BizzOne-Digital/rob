@@ -1,14 +1,31 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 
+const SHOP_PATHS = [
+  "/",
+  "/what-we-create",
+  "/gallery",
+  "/wishlist",
+  "/about",
+  "/contact",
+  "/collections",
+] as const;
+
 export function revalidateSite() {
-  revalidatePath("/", "layout");
+  for (const path of SHOP_PATHS) {
+    revalidatePath(path);
+    revalidatePath(path, "layout");
+  }
   revalidateTag("settings");
   revalidateTag("navigation");
 }
 
 export function revalidateShop() {
+  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/what-we-create");
+  revalidatePath("/what-we-create", "layout");
   revalidatePath("/collections", "layout");
+  revalidatePath("/wishlist");
   revalidateTag("products");
 }
 
@@ -20,12 +37,14 @@ export function revalidateProduct(slug: string) {
 export function revalidateCategories() {
   revalidatePath("/what-we-create");
   revalidatePath("/what-we-create", "layout");
+  revalidatePath("/about");
   revalidateTag("categories");
 }
 
 export function revalidateGallery() {
   revalidatePath("/gallery");
   revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidateTag("gallery");
 }
 

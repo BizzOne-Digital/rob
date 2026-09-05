@@ -62,6 +62,47 @@ export function sanitizeStoredFilename(filename: string) {
   return base;
 }
 
+/** Lean Mongo queries return BSON Binary — convert to Node Buffer for HTTP responses. */
+export function bufferFromStoredData(data: unknown): Buffer | null {
+  if (!data) return null;
+  if (Buffer.isBuffer(data)) return data;
+  if (data instanceof Uint8Array) return Buffer.from(data);
+
+  if (typeof data === "object" && data !== null) {
+    const record = data as Record<string, unknown>;
+
+    if (Buffer.isBuffer(record.buffer)) {
+      return record.buffer as Buffer;
+    }
+
+    if (
+      typeof record.read === "function" &&
+      typeof record.length === "function"
+    ) {
+      const binary = data as { read: (pos: number, len: number) => Buffer; length: () => number };
+      return binary.read(0, binary.length());
+    }
+
+    if (
+      record.type === "Buffer" &&
+      Array.isArray(record.data)
+    ) {
+      return Buffer.from(record.data as number[]);
+    }
+  }
+
+  return null;
+}
+
+export function inferMimeTypeFromFilename(name: string): AllowedMimeType | null {
+  const ext = name.split(".").pop()?.toLowerCase();
+  if (ext === "jpg" || ext === "jpeg") return "image/jpeg";
+  if (ext === "png") return "image/png";
+  if (ext === "webp") return "image/webp";
+  if (ext === "gif") return "image/gif";
+  return null;
+}
+
 export async function saveStoredUpload(
   buffer: Buffer,
   mimeType: AllowedMimeType,
@@ -91,7 +132,20 @@ export async function getStoredUpload(folderInput: string, filenameInput: string
   const filename = sanitizeStoredFilename(filenameInput);
   if (!filename) return null;
 
-  return StoredUpload.findOne({ folder, filename }).lean();
+  const doc = await StoredUpload.findOne({ folder, filename })
+    .select("mimeType size data")
+    .lean();
+
+  if (!doc) return null;
+
+  const data = bufferFromStoredData(doc.data);
+  if (!data) return null;
+
+  return {
+    mimeType: doc.mimeType,
+    size: data.length,
+    data,
+  };
 }
 
 export async function deleteStoredUploadByUrl(url: string) {

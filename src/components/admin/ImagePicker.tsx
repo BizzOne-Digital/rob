@@ -51,10 +51,25 @@ export function ImagePicker({ open, onClose, onSelect }: ImagePickerProps) {
     setUploading(true);
     try {
       for (const file of Array.from(fileList)) {
-        const form = new FormData();
-        form.append("file", file);
-        form.append("alt", file.name);
-        await adminFetch("/api/admin/media", { method: "POST", body: form });
+        const uploadForm = new FormData();
+        uploadForm.append("file", file);
+        uploadForm.append("folder", "misc");
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadForm,
+          credentials: "include",
+        });
+        const payload = (await res.json()) as { url?: string; error?: string };
+        if (!res.ok || !payload.url) {
+          throw new Error(payload.error || "Upload failed");
+        }
+
+        const registerForm = new FormData();
+        registerForm.append("url", payload.url);
+        registerForm.append("alt", file.name);
+        registerForm.append("filename", file.name);
+        await adminFetch("/api/admin/media", { method: "POST", body: registerForm });
       }
       toast.success("Upload complete");
       await load();

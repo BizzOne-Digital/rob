@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import {
   deleteStoredUploadByUrl,
+  inferMimeTypeFromFilename,
   isAllowedMimeType,
   MAX_UPLOAD_BYTES,
   saveStoredUpload,
@@ -24,8 +25,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "File must be 8MB or smaller" }, { status: 400 });
   }
 
-  const mimeType = file.type;
-  if (!isAllowedMimeType(mimeType)) {
+  const mimeType =
+    isAllowedMimeType(file.type) ? file.type : inferMimeTypeFromFilename(file.name);
+
+  if (!mimeType) {
     return NextResponse.json(
       { error: "Only JPEG, PNG, WebP, and GIF images are allowed" },
       { status: 400 },
